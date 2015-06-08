@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">BookMarked</string>
+
+
+    <string name="college_prompt">Choose a college</string>
+
+    <string-array name="college_arrays">
+        <item>Cascadia College</item>
+        <item>University of Washington - Bothell</item>
+        <item>University of Washington - Seattle</item>
+        <item>Western Washington University</item>
+        <item>Edmonds Community College</item>
+        <item>Everett Community College</item>
+        <item>Washington State University</item>
+        <item>Gonzaga University</item>
+        <item>Evergreen State University</item>
+        <item>Eastern Washington University</item>
+        <item>Central Washington University</item>
+        <item>Bellevue College</item>
+        <item>Seattle Pacific University</item>
+        <item>Seattle Central College</item>
+        <item>University of Puget Sound</item>
+
+    </string-array>
+</resources>
