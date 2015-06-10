@@ -4,7 +4,8 @@ package edu.cascadia.bookmarked;
  * Created by Hiromi on 6/10/2015.
  */
 
-import android.support.v7.app.ActionBarActivity;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +15,7 @@ import android.widget.EditText;
 //public class PostWantedAd {
 //}
 
-public class PostWantedAdActivity extends ActionBarActivity {
+public class PostWantedAdActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
