@@ -44,7 +44,7 @@
 
     </RelativeLayout>
 
-    <!--Toolbar-->
+    <!--Toolbar -->
    <!-- <RelativeLayout
         android:id="@+id/toolbar"
         android:background="@color/toolbar_background"
