@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostWantedAdActivity">
+
+    <!--Navigation Bar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/navbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentButtom="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/ScrollView01">
+
+        <ImageButton
+            android:id="@+id/imageButtonBuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/imageButtonSell"
+            android:layout_marginRight="20dp"/>
+
+        <ImageButton
+            android:id="@+id/imageButtonSell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="20dp"/>
+
+        <ImageButton
+            android:id="@+id/imageButtonBookWanted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageButtonSell"
+            android:layout_marginLeft="20dp"/>
+
+    </RelativeLayout>
+
+    <!--Toolbar -->
+   <!-- <RelativeLayout
+        android:id="@+id/toolbar"
+        android:background="@color/toolbar_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:text="ToggleButton"/>
+
+    </RelativeLayout>-->
+
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/navbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ScrollView01"
+            android:layout_alignTop="@+id/ScrollView01"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:id="@+id/textWantedAd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/post_ad"
+                android:textSize="10pt">
+            </TextView>
+
+            <EditText
+                android:id="@+id/editTextBookTitle"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/textWantedAd"
+                android:ems="14"
+                android:imeOptions="actionNext"
+                android:hint="@string/booktitle"
+                android:inputType="textMultiLine"
+                android:text="@string/bookauthor">
+            </EditText>
+
+            <EditText
+                android:id="@+id/editTextBookAuthor"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/editTextBookTitle"
+                android:ems="14"
+                android:imeOptions="actionNext"
+                android:hint="@string/bookauthor"
+                android:inputType="textMultiLine"
+                android:text="@string/bookauthor">
+            </EditText>
+
+            <EditText
+                android:id="@+id/editTextBookDetails"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/editTextBookAuthor"
+                android:ems="14"
+                android:imeOptions="actionNext"
+                android:hint="@string/bookdetails"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:layout_marginBottom="135dp"
+                android:text="@string/bookdetails">
+            </EditText>
+
+            <Button
+                android:id="@+id/buttonPostAd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_ad_button"
+                android:layout_marginBottom="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/editTextBookDetails"
+                android:layout_alignEnd="@+id/editTextBookDetails" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
