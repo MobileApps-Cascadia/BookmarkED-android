@@ -4,6 +4,13 @@
 
     <string name="college_prompt">Choose a college</string>
 
+    <string name="post_ad">Post Textbook Wanted Ad</string>
+    <string name="booktitle">Enter textbook title...</string>
+    <string name="bookauthor">Enter textbook author...</string>
+    <string name="bookdetails">Textbook Details...</string>
+    <string name="post_ad_button">Post Textbook Wanted Ad</string>
+    <string name="action_settings">Settings</string>
+
     <string-array name="college_arrays">
         <item>Cascadia College</item>
         <item>University of Washington - Bothell</item>

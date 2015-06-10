@@ -8,4 +8,5 @@
     <color name="custom_theme_color">#b0b0ff</color>
     <color name="lightpink">#ff8abe</color>
     <color name="lightgreen">#90EE90</color>
+    <color name="toolbar_background">#ffff00</color>
 </resources>
