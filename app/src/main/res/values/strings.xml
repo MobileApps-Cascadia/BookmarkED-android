@@ -3,6 +3,10 @@
 
 
     <string name="college_prompt">Choose a college</string>
+    <string name="edit_message">Enter the barcode number</string>
+    <string name="button_scanbarcode">Send</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
 
     <string-array name="college_arrays">
         <item>Cascadia College</item>
