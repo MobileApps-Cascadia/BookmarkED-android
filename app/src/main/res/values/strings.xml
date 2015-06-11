@@ -1,8 +1,27 @@
 <resources>
     <string name="app_name">BookMarked</string>
 
-
+   <!--Strings for CollegeSearch-->
     <string name="college_prompt">Choose a college</string>
+    <string name="edit_message">Enter the barcode number</string>
+    <string name="button_scanbarcode">Send</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!--Strings for BuySearchBook-->
+    <string name="search_book_title">Enter the title of the book you want</string>
+    <string name="search_book_author">Enter the name of the author</string>
+    <string name="search_book_isbn">Enter the ISBN number</string>
+    <string name="search_book_keyword">Enter keyword(s) here</string>
+
+    <!--Strings for PostedWantedAd-->
+    <string name="post_ad">Post Textbook Wanted Ad</string>
+    <string name="booktitle">Enter textbook title...</string>
+    <string name="bookauthor">Enter textbook author...</string>
+    <string name="bookdetails">Textbook Details...</string>
+    <string name="post_ad_button">Post Textbook Wanted Ad</string>
+
+
 
     <string-array name="college_arrays">
         <item>Cascadia College</item>
