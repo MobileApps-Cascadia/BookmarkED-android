@@ -39,19 +39,21 @@ public void addListenerOnButton() {
         @Override
         public void onClick(View v) {
             Toast.makeText(CollegeSearch.this, "Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
+            startActivity(intent);
+            setContentView(R.layout.activity_buy_search_book);
         }
     });
 }
 
-    private void initSubmitButton(){
+  /*  private void initSubmitButton(){
         Button submitButton = (Button) findViewById(R.id.btnSubmit);
         submitButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                I
             }
         });
-    }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }*/
 
 }
