@@ -9,15 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06e2f399-de09-4b07-8a6a-70a2f3488df6" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Shopping_basket_64.png" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Book_with_dollar_price_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/book_with_dollar_price_64.png" />
-      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Hanging_Sign_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/hanging_sign_64.png" />
-      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Shopping_basket_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shopping_basket_64.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BOOKMARKed.iml" afterPath="$PROJECT_DIR$/BOOKMARKed.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="06e2f399-de09-4b07-8a6a-70a2f3488df6" name="Default" comment="" />
     <ignored path="BOOKMARKed.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
