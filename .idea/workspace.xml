@@ -10,18 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06e2f399-de09-4b07-8a6a-70a2f3488df6" name="Default" comment="">
-<<<<<<< HEAD
-=======
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Book_with_dollar_price_64.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Hanging_Sign_64.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Shopping_basket_64.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_image_400x60.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml" />
+      <change type="DELETED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Shopping_basket_64.png" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Book_with_dollar_price_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/book_with_dollar_price_64.png" />
+      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Hanging_Sign_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/hanging_sign_64.png" />
+      <change type="MOVED" beforePath="C:\Users\Hiromi\Documents\Spring 2015\BIT 271\Textbook_Buy_Sell_App_Project\Repo\BOOKMARKed\app\src\main\res\drawable\Shopping_basket_64.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shopping_basket_64.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BOOKMARKed.iml" afterPath="$PROJECT_DIR$/BOOKMARKed.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
->>>>>>> origin/Hiromi
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BOOKMARKed.iws" />
@@ -50,10 +44,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="activity_post_wanted_ad.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_post_wanted_ad.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.24138">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
               <caret line="136" column="55" selection-start-line="136" selection-start-column="55" selection-end-line="136" selection-end-column="55" />
               <folding>
                 <element signature="e#3087#3104#0" expanded="true" />
@@ -67,12 +61,12 @@
               </folding>
             </state>
           </provider>
-          <provider editor-type-id="android-designer">
+          <provider selected="true" editor-type-id="android-designer">
             <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_buy_search_book.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="activity_buy_search_book.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml">
           <provider editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
@@ -94,9 +88,10 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+              <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <marker date="1433987911835" expanded="false" signature="1363:1367" placeholder="}" />
               </folding>
             </state>
           </provider>
@@ -1689,7 +1684,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1764,8 +1759,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="13" selection-start-line="31" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#971#1267#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1792,6 +1786,7 @@
           <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1433987911835" expanded="false" signature="1363:1367" placeholder="}" />
           </folding>
         </state>
       </provider>
@@ -1853,9 +1848,10 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
+            <marker date="1433987911835" expanded="false" signature="1363:1367" placeholder="}" />
           </folding>
         </state>
       </provider>
@@ -1865,8 +1861,7 @@
         <state vertical-scroll-proportion="0.6537678">
           <caret line="38" column="13" selection-start-line="31" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#971#1267#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1892,26 +1887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.24138">
-          <caret line="136" column="55" selection-start-line="136" selection-start-column="55" selection-end-line="136" selection-end-column="55" />
-          <folding>
-            <element signature="e#3087#3104#0" expanded="true" />
-            <element signature="e#3619#3638#0" expanded="true" />
-            <element signature="e#3718#3738#0" expanded="true" />
-            <element signature="e#4219#4239#0" expanded="true" />
-            <element signature="e#4319#4339#0" expanded="true" />
-            <element signature="e#4822#4843#0" expanded="true" />
-            <element signature="e#5009#5030#0" expanded="true" />
-            <element signature="e#5258#5282#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -1926,6 +1901,26 @@
             <element signature="e#3581#3610#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="136" column="55" selection-start-line="136" selection-start-column="55" selection-end-line="136" selection-end-column="55" />
+          <folding>
+            <element signature="e#3087#3104#0" expanded="true" />
+            <element signature="e#3619#3638#0" expanded="true" />
+            <element signature="e#3718#3738#0" expanded="true" />
+            <element signature="e#4219#4239#0" expanded="true" />
+            <element signature="e#4319#4339#0" expanded="true" />
+            <element signature="e#4822#4843#0" expanded="true" />
+            <element signature="e#5009#5030#0" expanded="true" />
+            <element signature="e#5258#5282#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
   </component>
