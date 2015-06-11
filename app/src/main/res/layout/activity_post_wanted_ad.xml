@@ -5,11 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".PostWantedAdActivity">
 
-    <!--Navigation Bar-->
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="match_parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/bg_image_400x60"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
+
+
+    <!--Navigation Bar-->
     <RelativeLayout
         android:id="@+id/navbar"
         android:layout_width="fill_parent"
@@ -23,15 +34,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/imageButtonSell"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:src="@drawable/Shopping_basket_64" />
 
         <ImageButton
             android:id="@+id/imageButtonSell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginRight="20dp"/>
+            android:src="@drawable/Book_with_dollar_price_64"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
         <ImageButton
             android:id="@+id/imageButtonBookWanted"
@@ -39,35 +51,17 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/imageButtonSell"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/Hanging_Sign_64" />
 
     </RelativeLayout>
-
-    <!--Toolbar -->
-   <!-- <RelativeLayout
-        android:id="@+id/toolbar"
-        android:background="@color/toolbar_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
-
-        <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:text="ToggleButton"/>
-
-    </RelativeLayout>-->
-
 
     <ScrollView
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/imageView2"
         android:layout_above="@+id/navbar">
 
         <RelativeLayout
@@ -139,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/post_ad_button"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="10dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignRight="@+id/editTextBookDetails"
                 android:layout_alignEnd="@+id/editTextBookDetails" />
