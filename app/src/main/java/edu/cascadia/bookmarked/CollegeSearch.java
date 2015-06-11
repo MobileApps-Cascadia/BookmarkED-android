@@ -1,6 +1,7 @@
 package edu.cascadia.bookmarked;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,10 +38,20 @@ public void addListenerOnButton() {
     btnSubmit.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(CollegeSearch.this,"Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(CollegeSearch.this, "Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
         }
     });
 }
 
+    private void initSubmitButton(){
+        Button submitButton = (Button) findViewById(R.id.btnSubmit);
+        submitButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
 
 }

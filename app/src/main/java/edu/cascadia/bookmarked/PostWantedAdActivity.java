@@ -11,9 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import static edu.cascadia.bookmarked.R.*;
 
-//public class PostWantedAd {
-//}
+
 
 public class PostWantedAdActivity extends Activity {
 

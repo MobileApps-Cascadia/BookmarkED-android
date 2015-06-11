@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText"
-                android:hint="Enter the title of the book you want" />
+                android:hint="@string/search_book_title" />
 
         </TableRow>
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText2"
-                android:hint="Enter the name of the author"/>
+                android:hint="@string/search_book_author"/>
         </TableRow>
 
         <TableRow
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText3"
                 android:layout_column="1"
-                android:hint="Enter the ISBN number"/>
+                android:hint="@string/search_book_isbn"/>
         </TableRow>
 
         <TableRow
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText4"
                 android:layout_column="1"
-                android:hint="Enter keyword(s) here"/>
+                android:hint="@string/search_book_keyword"/>
         </TableRow>
 
         <TableRow
