@@ -30,6 +30,8 @@ private Spinner spinner1;
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner1.setOnItemSelectedListener(new MyOnItemSelectedListener());
     }
+
+    //This method is created for the mouse click event which will take us to the next activity.
 public void addListenerOnButton() {
 
     spinner1 = (Spinner)findViewById(R.id.spinner1);
