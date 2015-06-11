@@ -19,6 +19,9 @@
         <activity
             android:name=".BuySearchBookActivity" >
         </activity>
+        <activity
+            android:name=".PostWantedAdActivity" >
+        </activity>
     </application>
 
 </manifest>

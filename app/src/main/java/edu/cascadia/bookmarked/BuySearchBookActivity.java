@@ -5,6 +5,7 @@ package edu.cascadia.bookmarked;
  */
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 
 public class BuySearchBookActivity extends Activity{
 
+   // private Button adButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_wanted_ad);
+        setContentView(R.layout.activity_buy_search_book);
+        initPostWantedAdButton();
     }
 
     @Override
@@ -33,10 +39,19 @@ public class BuySearchBookActivity extends Activity{
         Button adButton = (Button) findViewById(R.id.button2);
         adButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(BuySearchBookActivity.this, PostWantedAdActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                Intent i = new Intent(BuySearchBookActivity.this, PostWantedAdActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+
             }
         });
     }
+
+
+
+
+
+
+
+
 }
