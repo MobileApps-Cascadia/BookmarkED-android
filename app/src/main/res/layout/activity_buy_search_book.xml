@@ -8,7 +8,7 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        >
+        android:id="@+id/tableLayout">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText"
-                android:hint="Enter the title of the book you want" />
+                android:hint="@string/search_book_title" />
 
         </TableRow>
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editText2"
-                android:hint="Enter the name of the author"/>
+                android:hint="@string/search_book_author"/>
         </TableRow>
 
         <TableRow
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText3"
                 android:layout_column="1"
-                android:hint="Enter the ISBN number"/>
+                android:hint="@string/search_book_isbn"/>
         </TableRow>
 
         <TableRow
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editText4"
                 android:layout_column="1"
-                android:hint="Enter keyword(s) here"/>
+                android:hint="@string/search_book_keyword"/>
         </TableRow>
 
         <TableRow
@@ -187,16 +187,51 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView"
-                android:layout_column="0"
-                android:src="@drawable/border"
-                android:layout_span="2"
-                android:contentDescription="@string/app_name"/>
         </TableRow>
 
     </TableLayout>
+
+    <!--Navigation Bar-->
+    <RelativeLayout
+        android:id="@+id/navbar"
+        android:layout_width="68dp"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tableLayout">
+
+        <ImageButton
+            android:id="@+id/imageButtonBuy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/imageButtonSell"
+            android:layout_marginRight="20dp"
+
+            android:src="@drawable/shopping_basket_64" />
+
+
+        <ImageButton
+            android:id="@+id/imageButtonSell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:src="@drawable/book_with_dollar_price_64"
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:id="@+id/imageButtonBookWanted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageButtonSell"
+
+            android:src="@drawable/hanging_sign_64" />
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>
