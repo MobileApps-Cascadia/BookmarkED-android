@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ public class BuySearchBookActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_search_book);
         initPostWantedAdButton();
+      //  addListenerOnButtonTextbookList();
     }
 
     @Override
@@ -47,8 +49,22 @@ public class BuySearchBookActivity extends Activity{
         });
     }
 
+   /* public void addListenerOnButtonTextbookList() {
 
 
+        ImageView btnList1 = (ImageView)findViewById(R.id.imageButtonBookWanted1);
+
+        btnList1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentbooklist1 = new Intent(CollegeSearch.this, TextbookListActivity.class);
+                startActivity(intentbooklist);
+
+            }
+        });
+    }
+*/
 
 
 

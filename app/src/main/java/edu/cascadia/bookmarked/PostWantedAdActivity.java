@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import static edu.cascadia.bookmarked.R.*;
 
 
@@ -24,6 +26,8 @@ public class PostWantedAdActivity extends Activity {
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_post_wanted_ad);
         initTextbookListActivity();
+        addListenerOnButtonTextbookList();
+        addListenerOnButtonBuy();
     }
 
     @Override
@@ -73,4 +77,39 @@ public class PostWantedAdActivity extends Activity {
             }
         });
     }
+
+    public void addListenerOnButtonBuy() {
+
+
+        ImageView btnBuy2 = (ImageView)findViewById(R.id.imageButtonBuy);
+
+        btnBuy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentbuy2 = new Intent(PostWantedAdActivity.this, BuySearchBookActivity.class);
+                startActivity(intentbuy2);
+
+            }
+        });
+    }
+
+
+    public void addListenerOnButtonTextbookList() {
+
+
+        ImageView btnList2 = (ImageView)findViewById(R.id.imageButtonBookWanted);
+
+        btnList2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentbooklist2 = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
+                startActivity(intentbooklist2);
+
+            }
+        });
+    }
+
+
 }
