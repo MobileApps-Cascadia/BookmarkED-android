@@ -22,14 +22,14 @@ private Spinner spinner1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_college_search);
         addListenerOnButton();
-        addListenerOnSpinnerItemSelection();
+        //addListenerOnSpinnerItemSelection();
     }
 
 
-    public void addListenerOnSpinnerItemSelection() {
+   /* public void addListenerOnSpinnerItemSelection() {
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner1.setOnItemSelectedListener(new MyOnItemSelectedListener());
-    }
+    }*/
 
     //This method is created for the mouse click event which will take us to the next activity.
 public void addListenerOnButton() {
@@ -40,7 +40,7 @@ public void addListenerOnButton() {
     btnSubmit.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(CollegeSearch.this, "Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(CollegeSearch.this, "Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
             startActivity(intent);
 

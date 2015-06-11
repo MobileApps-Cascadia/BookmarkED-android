@@ -22,6 +22,9 @@
         <activity
             android:name=".PostWantedAdActivity" >
         </activity>
+        <activity
+            android:name=".TextbookListActivity" >
+        </activity>
     </application>
 
 </manifest>

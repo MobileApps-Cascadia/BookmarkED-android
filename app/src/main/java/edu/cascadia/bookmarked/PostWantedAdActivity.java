@@ -6,10 +6,12 @@ package edu.cascadia.bookmarked;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import static edu.cascadia.bookmarked.R.*;
 
@@ -21,6 +23,7 @@ public class PostWantedAdActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_post_wanted_ad);
+        initTextbookListActivity();
     }
 
     @Override
@@ -55,5 +58,19 @@ public class PostWantedAdActivity extends Activity {
 
         final EditText detailsField = (EditText) findViewById(R.id.editTextBookDetails);
         String bookdetails = detailsField.getText().toString();
+    }
+
+
+
+    private void initTextbookListActivity() {
+        Button adList = (Button) findViewById(R.id.buttonPostAd);
+        adList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent in = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(in);
+
+            }
+        });
     }
 }
