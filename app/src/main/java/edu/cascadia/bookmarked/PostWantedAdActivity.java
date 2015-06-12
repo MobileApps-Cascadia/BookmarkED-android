@@ -11,8 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import static edu.cascadia.bookmarked.R.*;
-
 
 
 public class PostWantedAdActivity extends Activity {
@@ -20,7 +18,7 @@ public class PostWantedAdActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_wanted_ad);
+       setContentView(R.layout.activity_post_wanted_ad);
     }
 
     @Override
@@ -53,7 +51,7 @@ public class PostWantedAdActivity extends Activity {
         final EditText authorField = (EditText) findViewById(R.id.editTextBookAuthor);
         String bookauthor = authorField.getText().toString();
 
-        final EditText detailsField = (EditText) findViewById(R.id.editTextBookDetails);
+        final EditText detailsField = (EditText) findViewById(R.id.editTextISBNSearch);
         String bookdetails = detailsField.getText().toString();
     }
 }

@@ -30,6 +30,8 @@ private Spinner spinner1;
         spinner1 = (Spinner) findViewById(R.id.spinner1);
         spinner1.setOnItemSelectedListener(new MyOnItemSelectedListener());
     }
+
+    //This method is created for the mouse click event which will take us to the next activity.
 public void addListenerOnButton() {
 
     spinner1 = (Spinner)findViewById(R.id.spinner1);
@@ -39,19 +41,12 @@ public void addListenerOnButton() {
         @Override
         public void onClick(View v) {
             Toast.makeText(CollegeSearch.this, "Result: " + "\nSpinner 1: " + String.valueOf(spinner1.getSelectedItem()), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
+            startActivity(intent);
+
         }
     });
 }
 
-    private void initSubmitButton(){
-        Button submitButton = (Button) findViewById(R.id.btnSubmit);
-        submitButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(CollegeSearch.this, BuySearchBookActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-    }
 
 }

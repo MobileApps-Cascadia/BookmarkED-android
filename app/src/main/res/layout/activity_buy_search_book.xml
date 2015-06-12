@@ -1,203 +1,140 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    tools:context=".PostWantedAdActivity">
 
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/tableLayout">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/bg_image_400x60"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Search for the book you want to buy:"
-                android:id="@+id/textView5"
-                android:layout_column="1"
-                android:textColor="#000000" />
-        </TableRow>
+        <EditText
+            android:id="@+id/editTextBookTitle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="14"
+            android:imeOptions="actionNext"
+            android:hint="@string/search_book_title"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/imageView2"
+            android:layout_centerHorizontal="true">
+        </EditText>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <EditText
+            android:id="@+id/editTextBookAuthor"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="14"
+            android:imeOptions="actionNext"
+            android:hint="@string/search_book_author"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/editTextBookTitle"
+            android:layout_centerHorizontal="true">
+        </EditText>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title:"
-                android:id="@+id/textView"
-                android:textColor="#000000" />
+        <EditText
+            android:id="@+id/editTextISBNSearch"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:ems="14"
+            android:imeOptions="actionNext"
+            android:hint="@string/search_book_isbn"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/editTextBookAuthor"
+            android:layout_centerHorizontal="true">
+        </EditText>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:hint="@string/search_book_title" />
+        <EditText
+            android:id="@+id/editTextKeywordSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="14"
+            android:imeOptions="actionNext"
+            android:hint="@string/search_book_keyword"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/editTextISBNSearch"
+            android:layout_centerHorizontal="true" />
 
-        </TableRow>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:src="@drawable/barcode"
+            android:layout_below="@+id/buttonSearch"
+            android:layout_alignRight="@+id/buttonSearch"
+            android:layout_alignEnd="@+id/buttonSearch" />
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR Scan Barcode"
+            android:id="@+id/textView2"
+            android:textColor="#ffffe640"
+            android:textIsSelectable="false"
+            android:textSize="20dp"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_alignLeft="@+id/editTextKeywordSearch"
+            android:layout_alignStart="@+id/editTextKeywordSearch" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Author"
-                android:id="@+id/textView2"
-                android:layout_column="0"
-                android:textColor="#000000" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageView3"
+            android:id="@+id/relativeLayout">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText2"
-                android:hint="@string/search_book_author"/>
-        </TableRow>
+        </RelativeLayout>
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <Button
+            android:id="@+id/buttonSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click to Search"
+            android:layout_below="@+id/editTextKeywordSearch"
+            android:layout_alignRight="@+id/editTextKeywordSearch"
+            android:layout_alignEnd="@+id/editTextKeywordSearch" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ISBN #"
-                android:id="@+id/textView3"
-                android:layout_column="0"
-                android:textColor="#000000" />
+        <Button
+            android:id="@+id/buttonPostAdSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post_ad_button"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_alignRight="@+id/imageView3"
+            android:layout_alignEnd="@+id/imageView3" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText3"
-                android:layout_column="1"
-                android:hint="@string/search_book_isbn"/>
-        </TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Can&apos;t Find Textbook?"
+            android:id="@+id/textView3"
+            android:textColor="#ffffe44f"
+            android:textSize="15dp"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_toLeftOf="@+id/buttonPostAdSearch"
+            android:layout_toStartOf="@+id/buttonPostAdSearch" />
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Keyword"
-                android:id="@+id/textView4"
-                android:layout_column="0"
-                android:textColor="#000000" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText4"
-                android:layout_column="1"
-                android:hint="@string/search_book_keyword"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search"
-                android:id="@+id/button"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="or"
-                android:id="@+id/textView6"
-                android:layout_column="1"
-                android:textAlignment="center"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scan Barcode to Search"
-                android:id="@+id/textView7"
-                android:layout_column="1"
-                android:textAlignment="center"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton"
-                android:src="@drawable/barcode"
-                android:layout_column="1" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Can't find a book?"
-                android:id="@+id/textView8"
-                android:layout_column="1"
-                android:textAlignment="center"
-                android:textColor="#000000" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Post a Wanted Book Ad"
-                android:id="@+id/button2"
-                android:layout_column="1"
-                android:onClick="jumpToPage"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-        </TableRow>
-
-    </TableLayout>
 
     <!--Navigation Bar-->
     <RelativeLayout
         android:id="@+id/navbar"
-        android:layout_width="68dp"
-        android:layout_height="38dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/tableLayout">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
         <ImageButton
             android:id="@+id/imageButtonBuy"
@@ -227,5 +164,4 @@
 
     </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>
