@@ -17,12 +17,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06e2f399-de09-4b07-8a6a-70a2f3488df6" name="Default" comment="">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+=======
+>>>>>>> origin/develop
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_post_wanted_ad.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BOOKMARKed.iws" />
@@ -66,9 +78,21 @@
       </file>
       <file leaf-file-name="activity_buy_search_book.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_buy_search_book.xml">
+<<<<<<< HEAD
           <provider editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+=======
+<<<<<<< HEAD
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.22848664">
+              <caret line="144" column="45" selection-start-line="144" selection-start-column="45" selection-end-line="144" selection-end-column="45" />
+=======
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
               <folding />
             </state>
           </provider>
@@ -105,8 +129,17 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding>
+<<<<<<< HEAD
                 <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
                 <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+                <element signature="imports" expanded="false" />
+=======
+                <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+                <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
               </folding>
             </state>
           </provider>
@@ -1370,8 +1403,18 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+<<<<<<< HEAD
       <pane id="Scratches" />
       <pane id="ProjectPane" />
+=======
+<<<<<<< HEAD
+      <pane id="ProjectPane" />
+      <pane id="Scratches" />
+=======
+      <pane id="Scratches" />
+      <pane id="ProjectPane" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1380,6 +1423,8 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+<<<<<<< HEAD
+=======
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="BOOKMARKed" />
@@ -1426,6 +1471,41 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+<<<<<<< HEAD
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOKMARKed" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOKMARKed" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+=======
+>>>>>>> origin/develop
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
@@ -1479,6 +1559,19 @@
               <option name="myItemId" value="bookmarked" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
+<<<<<<< HEAD
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BOOKMARKed" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+=======
+>>>>>>> origin/develop
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1490,6 +1583,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
+>>>>>>> origin/Hiromi
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -1715,14 +1809,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21088435" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+=======
+<<<<<<< HEAD
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32993197" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+=======
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21088435" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1789,8 +1891,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -1833,8 +1944,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -1877,8 +1997,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -1921,8 +2050,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -1965,8 +2103,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -2009,8 +2156,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -2071,8 +2227,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="49" column="56" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -2127,8 +2292,37 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
             <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+=======
+<<<<<<< HEAD
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6537678">
+          <caret line="38" column="13" selection-start-line="31" selection-start-column="4" selection-end-line="40" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13441955">
+          <caret line="39" column="46" selection-start-line="39" selection-start-column="46" selection-end-line="39" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="false" />
+=======
+            <marker date="1434070983125" expanded="false" signature="41:264" placeholder="..." />
+            <marker date="1434070983125" expanded="true" signature="2538:2539" placeholder="{...}" />
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           </folding>
         </state>
       </provider>
@@ -2157,6 +2351,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <state vertical-scroll-proportion="0.22848664">
+          <caret line="144" column="45" selection-start-line="144" selection-start-column="45" selection-end-line="144" selection-end-column="45" />
+=======
+>>>>>>> origin/develop
         <state vertical-scroll-proportion="0.0">
           <caret line="86" column="24" selection-start-line="86" selection-start-column="24" selection-end-line="86" selection-end-column="24" />
           <folding>
@@ -2169,6 +2370,10 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+<<<<<<< HEAD
+=======
+>>>>>>> origin/Hiromi
+>>>>>>> origin/develop
           <folding />
         </state>
       </provider>
