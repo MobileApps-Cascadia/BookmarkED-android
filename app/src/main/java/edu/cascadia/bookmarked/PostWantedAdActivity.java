@@ -6,11 +6,20 @@ package edu.cascadia.bookmarked;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+<<<<<<< HEAD
+=======
+import android.widget.ImageView;
+
+import static edu.cascadia.bookmarked.R.*;
+
+>>>>>>> origin/develop
 
 
 public class PostWantedAdActivity extends Activity {
@@ -19,6 +28,9 @@ public class PostWantedAdActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        setContentView(R.layout.activity_post_wanted_ad);
+        initTextbookListActivity();
+        addListenerOnButtonTextbookList();
+        addListenerOnButtonBuy();
     }
 
     @Override
@@ -54,4 +66,53 @@ public class PostWantedAdActivity extends Activity {
         final EditText detailsField = (EditText) findViewById(R.id.editTextISBNSearch);
         String bookdetails = detailsField.getText().toString();
     }
+
+
+
+    private void initTextbookListActivity() {
+        Button adList = (Button) findViewById(R.id.buttonPostAd);
+        adList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent in = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(in);
+
+            }
+        });
+    }
+
+    public void addListenerOnButtonBuy() {
+
+
+        ImageView btnBuy2 = (ImageView)findViewById(R.id.imageButtonBuy);
+
+        btnBuy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentbuy2 = new Intent(PostWantedAdActivity.this, BuySearchBookActivity.class);
+                startActivity(intentbuy2);
+
+            }
+        });
+    }
+
+
+    public void addListenerOnButtonTextbookList() {
+
+
+        ImageView btnList2 = (ImageView)findViewById(R.id.imageButtonBookWanted);
+
+        btnList2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentbooklist2 = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
+                startActivity(intentbooklist2);
+
+            }
+        });
+    }
+
+
 }
