@@ -44,7 +44,7 @@
         </EditText>
 
         <EditText
-            android:id="@+id/editTextISBNSearch"
+            android:id="@+id/editTextBookDetails"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:ems="14"
@@ -63,7 +63,7 @@
             android:imeOptions="actionNext"
             android:hint="@string/search_book_keyword"
             android:inputType="textMultiLine"
-            android:layout_below="@+id/editTextISBNSearch"
+            android:layout_below="@+id/editTextBookDetails"
             android:layout_centerHorizontal="true" />
 
         <ImageView
@@ -107,7 +107,7 @@
             android:layout_alignEnd="@+id/editTextKeywordSearch" />
 
         <Button
-            android:id="@+id/buttonPostAdSearch"
+            android:id="@+id/buttonPostAd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/post_ad_button"
@@ -123,8 +123,8 @@
             android:textColor="#ffffe44f"
             android:textSize="15dp"
             android:layout_below="@+id/relativeLayout"
-            android:layout_toLeftOf="@+id/buttonPostAdSearch"
-            android:layout_toStartOf="@+id/buttonPostAdSearch" />
+            android:layout_toLeftOf="@+id/buttonPostAd"
+            android:layout_toStartOf="@+id/buttonPostAd" />
 
     </RelativeLayout>
 

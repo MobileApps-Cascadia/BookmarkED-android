@@ -4,7 +4,6 @@ package edu.cascadia.bookmarked;
  * Created by Hiromi on 6/10/2015.
  */
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,21 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-<<<<<<< HEAD
-=======
 import android.widget.ImageView;
-
-import static edu.cascadia.bookmarked.R.*;
-
->>>>>>> origin/develop
-
 
 public class PostWantedAdActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_post_wanted_ad);
+        setContentView(R.layout.activity_post_wanted_ad);
         initTextbookListActivity();
         addListenerOnButtonTextbookList();
         addListenerOnButtonBuy();
@@ -55,7 +47,7 @@ public class PostWantedAdActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Adding postAd method to collect data from Post Wanted Ad form
+    // Adding postAd method to collect data from Post Wanted Ad form -- DB stuff:this is for next phase
     public void postAd(View button) {
         final EditText titleField = (EditText) findViewById(R.id.editTextBookTitle);
         String booktitle = titleField.getText().toString();
@@ -63,12 +55,12 @@ public class PostWantedAdActivity extends Activity {
         final EditText authorField = (EditText) findViewById(R.id.editTextBookAuthor);
         String bookauthor = authorField.getText().toString();
 
-        final EditText detailsField = (EditText) findViewById(R.id.editTextISBNSearch);
+        final EditText detailsField = (EditText) findViewById(R.id.editTextBookDetails);
         String bookdetails = detailsField.getText().toString();
     }
 
 
-
+    // Post Wanted Ad button navigates into TextbookListACtivity
     private void initTextbookListActivity() {
         Button adList = (Button) findViewById(R.id.buttonPostAd);
         adList.setOnClickListener(new View.OnClickListener() {
@@ -76,43 +68,31 @@ public class PostWantedAdActivity extends Activity {
                 Intent in = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(in);
-
             }
         });
     }
 
+    // Buy Book navigation button
     public void addListenerOnButtonBuy() {
-
-
         ImageView btnBuy2 = (ImageView)findViewById(R.id.imageButtonBuy);
-
         btnBuy2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intentbuy2 = new Intent(PostWantedAdActivity.this, BuySearchBookActivity.class);
                 startActivity(intentbuy2);
-
             }
         });
     }
 
-
+    // Wanted Book List navigation button
     public void addListenerOnButtonTextbookList() {
-
-
         ImageView btnList2 = (ImageView)findViewById(R.id.imageButtonBookWanted);
-
         btnList2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intentbooklist2 = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
                 startActivity(intentbooklist2);
-
             }
         });
     }
-
-
 }

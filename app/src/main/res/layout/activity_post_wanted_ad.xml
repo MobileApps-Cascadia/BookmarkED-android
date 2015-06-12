@@ -112,7 +112,7 @@
             </EditText>
 
             <EditText
-                android:id="@+id/editTextISBNSearch"
+                android:id="@+id/editTextBookDetails"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -128,7 +128,7 @@
             </EditText>
 
             <Button
-                android:id="@+id/buttonPostAdSearch"
+                android:id="@+id/buttonPostAd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/post_ad_button"
@@ -136,11 +136,16 @@
                 android:layout_marginBottom="63dp"
                 android:layout_alignParentBottom="true"
 <<<<<<< HEAD
+<<<<<<< HEAD
                 android:layout_alignRight="@+id/editTextISBNSearch"
                 android:layout_alignEnd="@+id/editTextISBNSearch" />
 =======
                 android:layout_centerHorizontal="true" />
 >>>>>>> pawanjit
+=======
+                android:layout_alignRight="@+id/editTextBookDetails"
+                android:layout_alignEnd="@+id/editTextBookDetails" />
+>>>>>>> origin/Hiromi
 
         </RelativeLayout>
     </ScrollView>
