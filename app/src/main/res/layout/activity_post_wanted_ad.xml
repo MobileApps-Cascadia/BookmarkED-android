@@ -137,11 +137,16 @@
                 android:layout_alignParentBottom="true"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 android:layout_alignRight="@+id/editTextISBNSearch"
                 android:layout_alignEnd="@+id/editTextISBNSearch" />
 =======
                 android:layout_centerHorizontal="true" />
 >>>>>>> pawanjit
+=======
+                android:layout_alignRight="@+id/editTextBookDetails"
+                android:layout_alignEnd="@+id/editTextBookDetails" />
+>>>>>>> origin/Hiromi
 =======
                 android:layout_alignRight="@+id/editTextBookDetails"
                 android:layout_alignEnd="@+id/editTextBookDetails" />
