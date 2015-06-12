@@ -36,7 +36,7 @@ public class BuySearchBookActivity extends Activity{
 
     // Method for Post a Wanted Ad button
     private void initPostWantedAdButton(){
-        Button adButton = (Button) findViewById(R.id.button2);
+        Button adButton = (Button) findViewById(R.id.buttonPostAdSearch);
         adButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent i = new Intent(BuySearchBookActivity.this, PostWantedAdActivity.class);
