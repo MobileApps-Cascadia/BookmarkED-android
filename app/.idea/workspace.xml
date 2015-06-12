@@ -18,11 +18,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01609ef9-2458-4eea-9bd3-4fce348aa914" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java" afterPath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java" afterPath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java" afterPath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/res/layout/simplerow.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java" afterPath="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="app.iws" />
@@ -49,7 +47,7 @@
       <file leaf-file-name="CollegeSearch.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="718" max-vertical-offset="1224">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="1564">
               <caret line="83" column="5" selection-start-line="52" selection-start-column="3" selection-end-line="83" selection-end-column="5" />
               <folding />
             </state>
@@ -58,9 +56,22 @@
       </file>
       <file leaf-file-name="activity_college_search.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.407408" vertical-offset="1079" max-vertical-offset="1649">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1079" max-vertical-offset="1649">
               <caret line="80" column="51" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_textbook_list.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.962963" vertical-offset="833" max-vertical-offset="1394">
+              <caret line="68" column="38" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -69,21 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuySearchBookActivity.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java">
+      <file leaf-file-name="simplerow.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/simplerow.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122">
-              <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_textbook_list.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.6296296" vertical-offset="2931" max-vertical-offset="3536">
-              <caret line="175" column="44" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="44" />
+            <state vertical-scroll-proportion="-1.2592592" vertical-offset="0" max-vertical-offset="238">
+              <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -95,19 +96,12 @@
       <file leaf-file-name="TextbookListActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5654102" vertical-offset="0" max-vertical-offset="952">
-              <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="color.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/res/values/color.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.6607539" vertical-offset="331" max-vertical-offset="1445">
+              <caret line="37" column="76" selection-start-line="37" selection-start-column="76" selection-end-line="37" selection-end-column="76" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1123#1131#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -865,11 +859,12 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_buy_search_book.xml" />
         <option value="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml" />
         <option value="$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml" />
         <option value="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/simplerow.xml" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml" />
         <option value="$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java" />
       </list>
     </option>
@@ -906,9 +901,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1015,6 +1008,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1208,7 +1203,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1230,7 +1225,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27155825" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.054462936" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1263,6 +1258,63 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564">
+          <caret line="83" column="5" selection-start-line="52" selection-start-column="3" selection-end-line="83" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1079" max-vertical-offset="1649">
+          <caret line="80" column="51" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1343">
+          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2931" max-vertical-offset="3536">
+          <caret line="175" column="44" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="952">
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1123#1131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/values/color.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
           <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
           <folding />
@@ -1273,7 +1325,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="663">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1308,7 +1359,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="731">
           <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1123#1131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1332,7 +1386,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="663">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1367,7 +1420,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="731">
           <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1123#1131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1550,7 +1606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1562,34 +1617,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.407408" vertical-offset="1079" max-vertical-offset="1649">
-          <caret line="80" column="51" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/CollegeSearch.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="718" max-vertical-offset="1224">
           <caret line="83" column="5" selection-start-line="52" selection-start-column="3" selection-end-line="83" selection-end-column="5" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_post_wanted_ad.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2001" max-vertical-offset="2533">
-          <caret line="131" column="45" selection-start-line="131" selection-start-column="33" selection-end-line="131" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/PostWantedAdActivity.java">
@@ -1611,6 +1644,17 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_post_wanted_ad.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2001" max-vertical-offset="2533">
+          <caret line="131" column="45" selection-start-line="131" selection-start-column="33" selection-end-line="131" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/BuySearchBookActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122">
@@ -1619,10 +1663,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_college_search.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1079" max-vertical-offset="1649">
+          <caret line="80" column="51" selection-start-line="80" selection-start-column="29" selection-end-line="80" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/simplerow.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.2592592" vertical-offset="0" max-vertical-offset="238">
+          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_textbook_list.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6296296" vertical-offset="2931" max-vertical-offset="3536">
-          <caret line="175" column="44" selection-start-line="175" selection-start-column="29" selection-end-line="175" selection-end-column="44" />
+        <state vertical-scroll-proportion="-11.962963" vertical-offset="833" max-vertical-offset="1394">
+          <caret line="68" column="38" selection-start-line="68" selection-start-column="38" selection-end-line="68" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -1632,9 +1698,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/cascadia/bookmarked/TextbookListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5654102" vertical-offset="0" max-vertical-offset="952">
-          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
-          <folding />
+        <state vertical-scroll-proportion="0.6607539" vertical-offset="331" max-vertical-offset="1445">
+          <caret line="37" column="76" selection-start-line="37" selection-start-column="76" selection-end-line="37" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1123#1131#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
