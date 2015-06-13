@@ -25,6 +25,9 @@
         <activity
             android:name=".TextbookListActivity" >
         </activity>
+        <activity
+            android:name=".TextbookDetail2Activity" >
+        </activity>
     </application>
 
 </manifest>

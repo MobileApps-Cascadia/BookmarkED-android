@@ -128,29 +128,16 @@
             </EditText>
 
             <Button
-                android:id="@+id/buttonPostAd"
+                android:id="@+id/buttonEditPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/post_ad_button"
                 android:layout_alignWithParentIfMissing="false"
                 android:layout_marginBottom="63dp"
                 android:layout_alignParentBottom="true"
-<<<<<<< HEAD
                 android:layout_alignRight="@+id/editTextBookDetails"
-                android:layout_alignEnd="@+id/editTextBookDetails" />
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:layout_alignRight="@+id/editTextISBNSearch"
-                android:layout_alignEnd="@+id/editTextISBNSearch" />
-=======
-                android:layout_centerHorizontal="true" />
->>>>>>> pawanjit
-=======
-                android:layout_alignRight="@+id/editTextBookDetails"
-                android:layout_alignEnd="@+id/editTextBookDetails" />
->>>>>>> origin/Hiromi
->>>>>>> origin/develop
+                android:layout_alignEnd="@+id/editTextBookDetails"
+                android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
     </ScrollView>

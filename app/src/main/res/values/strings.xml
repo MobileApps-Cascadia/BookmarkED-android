@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">BookMarked</string>
-
    <!--Strings for CollegeSearch-->
     <string name="college_prompt">Choose a college</string>
     <string name="edit_message">Enter the barcode number</string>
@@ -21,7 +20,13 @@
     <string name="bookdetails">Textbook Details...</string>
     <string name="post_ad_button">Post Textbook Wanted Ad</string>
 
-
+    <!--Strings for BookDetails-->
+    <string name="book_details">Textbook Wanted</string>
+    <string name="book_details_title">Title: Mobile Application Development</string>
+    <string name="book_details_author">Author: John Doe</string>
+    <string name="book_details_desc">Textbook Details: I need this textbook for my BIT 271 class. Older versions will be fine, too.</string>
+    <string name="book_edit_button">Edit</string>
+    <string name="book_delete_button">Delete</string>
 
     <string-array name="college_arrays">
         <item>Cascadia College</item>

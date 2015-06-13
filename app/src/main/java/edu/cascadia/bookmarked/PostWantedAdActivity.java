@@ -62,7 +62,7 @@ public class PostWantedAdActivity extends Activity {
 
     // Post Wanted Ad button navigates into TextbookListACtivity
     private void initTextbookListActivity() {
-        Button adList = (Button) findViewById(R.id.buttonPostAd);
+        Button adList = (Button) findViewById(R.id.buttonEditPost);
         adList.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent in = new Intent(PostWantedAdActivity.this, TextbookListActivity.class);
