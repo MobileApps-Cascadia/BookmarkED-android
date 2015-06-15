@@ -36,22 +36,25 @@
         >
 
         <ImageButton
-            android:id="@+id/imageButtonBuy2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imageButtonSell"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/shopping_basket_64" />
 
-        <ImageButton
+
+        android:id="@+id/imageButtonBuy2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shopping_basket_64"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@+id/imageButtonSell2"
+        android:layout_toStartOf="@+id/imageButtonSell2" />
+
+
+         <ImageButton
             android:id="@+id/imageButtonSell2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/book_with_dollar_price_64"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerHorizontal="true" />
 
         <ImageButton
             android:id="@+id/imageButtonBookWanted2"
@@ -59,7 +62,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/hanging_sign_64"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/imageButtonSell2"
+            android:layout_toEndOf="@+id/imageButtonSell2" />
+
+
+
 
     </RelativeLayout>
 
