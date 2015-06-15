@@ -58,16 +58,19 @@
         android:id="@+id/navbar1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/spinner1"
+        android:layout_alignEnd="@+id/spinner1">
 
         <ImageButton
             android:id="@+id/imageButtonBuy1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imageButtonSell"
+            android:src="@drawable/shopping_basket_64"
+            android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/shopping_basket_64" />
+            android:layout_toLeftOf="@+id/imageButtonSell1"
+            android:layout_toStartOf="@+id/imageButtonSell1" />
 
         <ImageButton
             android:id="@+id/imageButtonSell1"
@@ -83,8 +86,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/hanging_sign_64"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_toRightOf="@+id/imageButtonSell1"
+            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@+id/imageButtonSell1" />
 
     </RelativeLayout>
 
