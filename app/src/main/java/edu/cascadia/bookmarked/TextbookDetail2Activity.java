@@ -1,26 +1,26 @@
 package edu.cascadia.bookmarked;
 
-/**
- * Created by DebraW on 6/10/2015.
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
+/**
+ * Created by Hiromi on 6/12/2015.
+ */
 
-public class BuySearchBookActivity extends Activity{
-    
+public class TextbookDetail2Activity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy_search_book);
-        initPostWantedAdButton();
-      //  addListenerOnButtonTextbookList();
+        setContentView(R.layout.activity_textbook_detail2);
+        addListenerOnButtonTextbookList();
         addListenerOnButtonBuy();
     }
 
@@ -31,18 +31,22 @@ public class BuySearchBookActivity extends Activity{
         return true;
     }
 
-    // Method for Post a Wanted Ad button
-    private void initPostWantedAdButton(){
-        Button adButton = (Button) findViewById(R.id.buttonEditPost);
-        adButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(BuySearchBookActivity.this, PostWantedAdActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            }
-        });
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
+
+
 
     // Buy Book navigation button
     public void addListenerOnButtonBuy() {
@@ -50,7 +54,7 @@ public class BuySearchBookActivity extends Activity{
         btnBuy2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentbuy2 = new Intent(BuySearchBookActivity.this, BuySearchBookActivity.class);
+                Intent intentbuy2 = new Intent(TextbookDetail2Activity.this, BuySearchBookActivity.class);
                 startActivity(intentbuy2);
             }
         });
@@ -62,7 +66,7 @@ public class BuySearchBookActivity extends Activity{
         btnList2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentbooklist2 = new Intent(BuySearchBookActivity.this, TextbookListActivity.class);
+                Intent intentbooklist2 = new Intent(TextbookDetail2Activity.this, TextbookListActivity.class);
                 startActivity(intentbooklist2);
             }
         });

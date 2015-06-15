@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class TextbookListActivity extends Activity {
         setContentView(R.layout.activity_textbook_list);
         addListenerOnButtonBuy();
 
-
         mainListView = (ListView) findViewById( R.id.mainListView );
 
 
@@ -43,6 +43,17 @@ public class TextbookListActivity extends Activity {
         listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, bookList);
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter(listAdapter );
+
+       // Select the list item brings you to the Textbook Details page
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                Intent intent = new Intent(TextbookListActivity.this, TextbookDetail2Activity.class);
+
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -62,10 +73,8 @@ public class TextbookListActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    // Navigation button to Buy Textbook page
     public void addListenerOnButtonBuy() {
-
-
         ImageView btnBuy4 = (ImageView)findViewById(R.id.imageButtonBuy2);
 
         btnBuy4.setOnClickListener(new View.OnClickListener() {
