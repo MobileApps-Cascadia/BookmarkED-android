@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/action_login" android:title="@string/login"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_signup" android:title="@string/signup"
+        android:orderInCategory="100"  />
+    <item android:id="@+id/action_postABook" android:title="@string/post_a_book"
+        android:orderInCategory="100" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_scanBarcode" android:title="@string/scanBarcode"
+        android:orderInCategory="100"/>
+    <item android:id="@+id/action_mypostings" android:title="@string/myPostings"
+        android:orderInCategory="100"/>
+    <item android:id="@+id/action_logout" android:title="@string/logout"
+        android:orderInCategory="100"/>
+
+
+</menu>
