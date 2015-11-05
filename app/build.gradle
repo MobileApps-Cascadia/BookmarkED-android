@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "edu.cascadia.bookmarkedbit272"
+        applicationId "edu.cascadia.bookmarked"
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
