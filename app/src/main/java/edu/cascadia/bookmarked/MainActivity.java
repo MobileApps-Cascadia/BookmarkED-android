@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.action_logout:
-                Toast.makeText(MainActivity.this, "Log out", Toast.LENGTH_SHORT).show();
+            case R.id.action_setting:
+                Intent settingIntent = new Intent(this, SettingActivity.class);
+                startActivity(settingIntent);
                 return true;
 
             default:

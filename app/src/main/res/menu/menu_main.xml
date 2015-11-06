@@ -12,7 +12,7 @@
         android:orderInCategory="100"/>
     <item android:id="@+id/action_mypostings" android:title="@string/myPostings"
         android:orderInCategory="100"/>
-    <item android:id="@+id/action_logout" android:title="@string/logout"
+    <item android:id="@+id/action_setting" android:title="@string/setting"
         android:orderInCategory="100"/>
 
 
