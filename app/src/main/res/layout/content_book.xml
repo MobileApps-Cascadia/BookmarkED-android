@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_book" tools:context="edu.cascadia.bookmarked.BookActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="5dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip">
+
+            <!-- Name Label -->
+
+            <!-- ISBN -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/isbn" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bookIsbn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/isbn_hint"
+                android:layout_weight="1" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barcodeButton"
+                    android:background="@drawable/barcode_icon"
+                    android:onClick="onBarcodeButtonClicked" />
+
+            </LinearLayout>
+            <!-- Book title -->
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_title" />
+
+            <EditText
+                android:id="@+id/bookTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_title_hint"/>
+
+            <!-- Book author -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_author" />
+
+            <EditText
+                android:id="@+id/bookAuthor"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_author_hint"/>
+
+            <!-- Book edition -->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_edition" />
+
+            <EditText
+                android:id="@+id/bookEdition"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_edition_hint"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_description" />
+
+            <EditText
+                android:id="@+id/bookDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_description_hint"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/asking_price" />
+
+            <EditText
+                android:id="@+id/bookAskingPrice"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_asking_price_hint"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_condition" />
+
+            <EditText
+                android:id="@+id/bookCondition"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/book_condition_hint"/>
+
+            <!--Button
+                android:id="@+id/btnAddOrEdit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="#ff6347"
+                android:onClick="onAddEditClicked"
+                android:text="Add or Edit"
+                android:textColor="#fff" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:background="@null"
+                android:onClick="onCancelClicked"
+                android:text="Cancel"
+                android:textColor="#228b22"
+                android:textStyle="bold" /-->
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

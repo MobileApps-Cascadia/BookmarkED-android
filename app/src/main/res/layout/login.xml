@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dip"
             android:background="@null"
-            android:onClick="navigatetoRegisterActivity"
+            android:onClick="navigateToRegisterActivity"
             android:text="Register"
             android:textColor="@color/primary"
             android:textStyle="bold" />

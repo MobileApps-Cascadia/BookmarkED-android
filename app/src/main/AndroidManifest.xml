@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -29,11 +30,22 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".SettingActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <activity android:name=".SettingActivity" >
+        <!--activity android:name=".SettingActivity" >
+        </activity-->
+        <activity
+            android:name=".BookActivity"
+            android:label="@string/title_activity_book"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".MyPostingActivity"
+            android:label="@string/title_activity_my_posting"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
     </application>
 
 </manifest>
