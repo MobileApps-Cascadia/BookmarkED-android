@@ -1,5 +1,7 @@
 package edu.cascadia.bookmarked;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        insertBook4SaleListFragments();
+
+    }
+
+    private void insertBook4SaleListFragments() {
+
+        // insert book for sale list view
+        BookListFragment itemFragment = BookListFragment.newInstance("sell");
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.list_fragment_container, itemFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -60,5 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onMyPostingBookClicked(BookItem bookItem) {
+        Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
     }
 }
