@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <EditTextPreference
-        android:title="Preferred College"
-        android:key="prefs_college"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListPreference
+        android:entries="@array/colleges_list"
+        android:entryValues="@array/colleges_list"
+        android:key="pref_college"
         android:persistent="true"
-        />
+        android:summary="@string/preferred_college_desc"
+        android:title="@string/preferred_college"
+        android:defaultValue="@string/default_college"/>
 
 </PreferenceScreen>

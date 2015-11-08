@@ -3,7 +3,10 @@ package edu.cascadia.bookmarked;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private final int POST_A_BOOK_REQUEST =2;
 
     private boolean userLoggedIn = false;
+    private boolean preferencesChanged = false; // did preferences change?
 
     private BookListFragment bookListFragment;
     @Override
@@ -27,6 +31,15 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         setSupportActionBar(toolbar);
 
         insertBook4SaleListFragments();
+
+
+        // set default values in the app's SharedPreferences
+        PreferenceManager.setDefaultValues(this, R.xml.preference, false);
+
+        // register listener for SharedPreferences changes
+        PreferenceManager.getDefaultSharedPreferences(this).
+                registerOnSharedPreferenceChangeListener(
+                        preferenceChangeListener);
 
     }
 
@@ -121,4 +134,19 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
         startActivity(bookIntent);
     }
+
+    // listener for changes to the app's SharedPreferences
+    private OnSharedPreferenceChangeListener preferenceChangeListener =
+            new OnSharedPreferenceChangeListener()
+            {
+                // called when the user changes the app's preferences
+                @Override
+                public void onSharedPreferenceChanged(
+                        SharedPreferences sharedPreferences, String key)
+                {
+                    preferencesChanged = true; // user changed app settings
+                    Toast.makeText(MainActivity.this,
+                            "preference was changed", Toast.LENGTH_SHORT).show();
+                } // end method onSharedPreferenceChanged
+            }; // end anonymous inner class
 }
