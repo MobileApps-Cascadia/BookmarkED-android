@@ -32,6 +32,7 @@ public class Login extends AppCompatActivity {
     // Error Msg TextView Object
     private TextView errorMsgTextView;
 
+    private boolean loginOK = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +112,7 @@ public class Login extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
         String hostAddress = "http://" + Utility.getServerAddress(this) + "/";
 
-        client.get(hostAddress+loginURI, params ,new AsyncHttpResponseHandler() {
+        client.get(hostAddress + loginURI, params, new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
             public void onSuccess(String response) {
@@ -122,14 +123,15 @@ public class Login extends AppCompatActivity {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
-                    if(obj.getBoolean("status")){
+                    if (obj.getBoolean("status")) {
+                        loginOK = true;
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_SHORT).show();
 
                         // return to previous screen automatically
                         onBackPressed();
                     }
                     // Else display error message
-                    else{
+                    else {
                         errorMsgTextView.setText(obj.getString("error_msg"));
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
@@ -140,6 +142,7 @@ public class Login extends AppCompatActivity {
 
                 }
             }
+
             // When the response returned by REST has Http response code other than '200'
             @Override
             public void onFailure(int statusCode, Throwable error,
@@ -147,19 +150,27 @@ public class Login extends AppCompatActivity {
                 // Hide Progress Dialog
                 prgDialog.hide();
                 // When Http response code is '404'
-                if(statusCode == 404){
+                if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code is '500'
-                else if(statusCode == 500){
+                else if (statusCode == 500) {
                     Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code other than 404, 500
-                else{
+                else {
                     Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
+    @Override
+    public void finish() {
+        Intent data = new Intent();
+        data.putExtra("LoginResult", loginOK);
+        setResult(RESULT_OK, data);
+
+        super.finish();
+    }
 }

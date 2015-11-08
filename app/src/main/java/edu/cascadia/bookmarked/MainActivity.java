@@ -8,9 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
+    private final int LOG_IN_REQUEST = 1;
+    private final int POST_A_BOOK_REQUEST =2;
+
+    private boolean userLoggedIn = false;
+
+    private BookListFragment bookListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +33,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private void insertBook4SaleListFragments() {
 
         // insert book for sale list view
-        BookListFragment itemFragment = BookListFragment.newInstance("sell");
+        bookListFragment = BookListFragment.newInstance("sell");
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.list_fragment_container, itemFragment);
+        fragmentTransaction.replace(R.id.list_fragment_container, bookListFragment);
         fragmentTransaction.commit();
     }
 
@@ -48,8 +55,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_login:
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
+                doLogin();
                 return true;
 
             case R.id.action_register:
@@ -58,8 +64,14 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_postABook:
+                if (!userLoggedIn) {
+                    Utility.beep();
+                    Toast.makeText(this, getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+                    doLogin();
+                    return true;
+                }
                 Intent bookIntent = new Intent(this, BookDetailActivity.class);
-                startActivity(bookIntent);
+                startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
                 return true;
 
             case R.id.action_mypostings:
@@ -77,6 +89,28 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    private void doLogin() {
+        Intent intent = new Intent(this, Login.class);
+        startActivityForResult(intent, LOG_IN_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == LOG_IN_REQUEST) {
+                if (data.hasExtra("LoginResult")) {
+                    userLoggedIn = data.getExtras().getBoolean("LoginResult");
+                }
+            } else if (requestCode == POST_A_BOOK_REQUEST) {
+                if (data.hasExtra("NewPosting")) {
+                    if (data.getExtras().getBoolean("NewPosting")) {
+                        bookListFragment.refreshList();
+                    }
+                }
+            }
         }
     }
 

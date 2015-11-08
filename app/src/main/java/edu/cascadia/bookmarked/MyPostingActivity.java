@@ -2,6 +2,7 @@ package edu.cascadia.bookmarked;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,6 +55,10 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem) {
-        Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
+        Intent bookIntent = new Intent(this, BookDetailActivity.class);
+        // pass the book for sale information to detail activity
+        bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
+        startActivity(bookIntent);
     }
 }

@@ -42,6 +42,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     // flag to indicate screen mode
     private boolean readOnlyMode;
+    private boolean newPosting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,10 +217,9 @@ public class BookDetailActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
-                        // Set Default Values for Edit View controls
-                        //setDefaultValues();
-                        // Display successfully registered message using Toast
+                        // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), "Book was successfully posted!", Toast.LENGTH_SHORT).show();
+                        newPosting = true;
                         finish();
                     }
                     // Else display error message
@@ -260,12 +260,10 @@ public class BookDetailActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
-                        // Set Default Values for Edit View controls
-                        //setDefaultValues();
-                        // Display successfully registered message using Toast
+                        // Display book successfully added message using Toast
                         Toast.makeText(getApplicationContext(), "Book was successfully added!", Toast.LENGTH_SHORT).show();
+                        // now add the entry for sale
                         addBook4Sale();
-                        //finish();
                     }
                     // Else display error message
                     else {
@@ -322,5 +320,14 @@ public class BookDetailActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public void finish() {
+        Intent data = new Intent();
+        data.putExtra("NewPosting", newPosting);
+        setResult(RESULT_OK, data);
+
+        super.finish();
     }
 }

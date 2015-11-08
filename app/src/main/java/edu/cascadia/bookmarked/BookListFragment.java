@@ -266,4 +266,10 @@ public class BookListFragment extends ListFragment {
 
     }
 
+    public void refreshList() {
+        // for now, just reload the data from backend
+        // should be optimized later by adding only to the adapater
+        listAdapter.clear();
+        invokeWS();
+    }
 }
