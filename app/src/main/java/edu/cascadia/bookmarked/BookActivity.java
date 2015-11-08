@@ -48,9 +48,9 @@ public class BookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
-        String jsonString = getIntent().getStringExtra("bookInfo");
+        String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
 
-        readOnlyMode = (jsonString != null && jsonString.length() > 0);
+        readOnlyMode = Utility.isNotNull(jsonString);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,8 +116,33 @@ public class BookActivity extends AppCompatActivity {
 
     }
 
+    // set controls for viewing mode
+    private void disableControls() {
+        // also set edit text to readonly
+        isbnEditText.setEnabled(false);
+        titleEditText.setEnabled(false);
+        authorEditText.setEnabled(false);
+        editionEditText.setEnabled(false);
+        descEditText.setEnabled(false);
+        askingPriceEditText.setEnabled(false);
+        bookConditionEditText.setEnabled(false);
+
+        // don't let the controls to be focusable,
+        // so keyboard won't show up
+        isbnEditText.setFocusable(false);
+        titleEditText.setFocusable(false);
+        authorEditText.setFocusable(false);
+        editionEditText.setFocusable(false);
+        descEditText.setFocusable(false);
+        askingPriceEditText.setFocusable(false);
+        bookConditionEditText.setFocusable(false);
+
+    }
+
     private void populateFields(String jsonString) {
         try {
+            disableControls();
+
             JSONObject jsonObject = new JSONObject(jsonString);
 
             isbnEditText.setText(jsonObject.getString("isbn"));
@@ -128,18 +153,6 @@ public class BookActivity extends AppCompatActivity {
             askingPriceEditText.setText(jsonObject.getString("askingprice"));
             bookConditionEditText.setText(jsonObject.getString("bookcondition"));
 
-            // also set edit text to readonly
-            isbnEditText.setEnabled(false);
-            titleEditText.setEnabled(false);
-            authorEditText.setEnabled(false);
-            editionEditText.setEnabled(false);
-            descEditText.setEnabled(false);
-            askingPriceEditText.setEnabled(false);
-            bookConditionEditText.setEnabled(false);
-
-            // hide barcode button
-            Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
-            barcodeButton.setVisibility(View.GONE);
         } catch (JSONException e) {
             e.printStackTrace();
         }

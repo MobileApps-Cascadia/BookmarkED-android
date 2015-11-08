@@ -26,6 +26,9 @@
     <string name="book_asking_price_hint">Enter book asking price</string>
     <string name="book_condition_hint">Enter book condition</string>
 
+    <!-- Strings related to key for passing data between activities/fragments -->
+    <string name="book_info_param">bookInfo</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -115,11 +118,4 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
-    <!--Strings related to textbook details-->
-    <string name="Title">Title:</string>
-    <string name="author">Author:</string>
-    <string name="ISBN">ISBN:</string>
-    <string name="description">Description:</string>
-    <string name="edition">Edition:</string>
-    <string name="price">Price:</string>
-</resources>
+    </resources>

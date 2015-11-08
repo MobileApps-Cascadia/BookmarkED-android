@@ -83,10 +83,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem) {
-        //Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
-        //Intent bookIntent = new Intent(this, BookDetails.class);
         Intent bookIntent = new Intent(this, BookActivity.class);
-        bookIntent.putExtra("bookInfo", bookItem.jsonString);
+        // pass the book for sale information to detail activity
+        bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
         startActivity(bookIntent);
     }
 }
