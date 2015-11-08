@@ -15,6 +15,8 @@ import static android.R.color.holo_green_light;
 
 public class MyPostingActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        userID = getIntent().getStringExtra("UserID");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +40,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     private void insertBookListFragments() {
 
         // insert book for sale list view
-        BookListFragment itemFragment = BookListFragment.newInstance("sell");
+        BookListFragment itemFragment = BookListFragment.newInstance("sell", userID);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -45,7 +48,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         fragmentTransaction.commit();
 
         // insert book wanted list view
-        BookListFragment itemFragment2 = BookListFragment.newInstance("buy");
+        BookListFragment itemFragment2 = BookListFragment.newInstance("buy", userID);
 
         FragmentManager fm2 = getFragmentManager();
         FragmentTransaction fragmentTransaction2 = fm.beginTransaction();

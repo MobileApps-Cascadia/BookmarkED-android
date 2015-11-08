@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private boolean userLoggedIn = false;
 
     private BookListFragment bookListFragment;
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private void insertBook4SaleListFragments() {
 
         // insert book for sale list view
-        bookListFragment = BookListFragment.newInstance("sell");
+        bookListFragment = BookListFragment.newInstance("sell","");
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -64,18 +66,20 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_postABook:
-                if (!userLoggedIn) {
-                    Utility.beep();
-                    Toast.makeText(this, getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-                    doLogin();
+                if (userNotLoggedIn()) {
                     return true;
                 }
-                Intent bookIntent = new Intent(this, BookDetailActivity.class);
-                startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
+
+                postABookForSale();
                 return true;
 
             case R.id.action_mypostings:
+                if (userNotLoggedIn()) {
+                    return true;
+                }
+
                 Intent myPostingIntent = new Intent(this, MyPostingActivity.class);
+                myPostingIntent.putExtra("UserID", userID);
                 startActivity(myPostingIntent);
                 return true;
 
@@ -92,9 +96,28 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         }
     }
 
+    private boolean userNotLoggedIn()
+    {
+        if (!userLoggedIn) {
+            Utility.beep();
+            Toast.makeText(this, getString(R.string.must_login), Toast.LENGTH_SHORT).show();
+            doLogin();
+            return true;
+        }
+
+        return false;
+    }
+
     private void doLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivityForResult(intent, LOG_IN_REQUEST);
+    }
+
+    private void postABookForSale() {
+        Intent bookIntent = new Intent(this, BookDetailActivity.class);
+        // pass user id to detail
+        bookIntent.putExtra("UserID", userID);
+        startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
     }
 
     @Override
@@ -103,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             if (requestCode == LOG_IN_REQUEST) {
                 if (data.hasExtra("LoginResult")) {
                     userLoggedIn = data.getExtras().getBoolean("LoginResult");
+                    userID = data.getExtras().getString("LoginUser");
                 }
             } else if (requestCode == POST_A_BOOK_REQUEST) {
                 if (data.hasExtra("NewPosting")) {

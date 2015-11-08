@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.Comparator;
-import java.util.Iterator;
 
 
 /**
@@ -35,8 +34,11 @@ public class BookListFragment extends ListFragment {
     private final static String book4SaleURI = "bookmarked/book/getbooksforsale";
 
     private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "UserID";
 
-    private String mParam1;
+    private String listType;
+
+    private String userID="";
 
     private ArrayAdapter<BookItem> listAdapter;
 
@@ -47,10 +49,11 @@ public class BookListFragment extends ListFragment {
 
     private BookListItem bookListItem;
 
-    public static BookListFragment newInstance(String param1) {
+    public static BookListFragment newInstance(String param1, String param2) {
         BookListFragment fragment = new BookListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,7 +88,8 @@ public class BookListFragment extends ListFragment {
         // Set Cancelable as False
         prgDialog.setCancelable(false);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            listType = getArguments().getString(ARG_PARAM1);
+            userID = getArguments().getString(ARG_PARAM2);
         }
 
         bookListItem = new BookListItem();
@@ -140,7 +144,7 @@ public class BookListFragment extends ListFragment {
         String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
 
         String wsURL;
-        if (mParam1.equals("sell")) {
+        if (listType.equals("sell")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
             wsURL = hostAddress + bookURI;
@@ -152,7 +156,7 @@ public class BookListFragment extends ListFragment {
             @Override
             public void onSuccess(String response) {
                 String toastMsg;
-                if (mParam1.equals("sell")) {
+                if (listType.equals("sell")) {
                     toastMsg = "Books for sale quiried successfully";
                 } else {
                     toastMsg = "Books wanted quiried successfully";
@@ -248,6 +252,14 @@ public class BookListFragment extends ListFragment {
     private void addBookToAdapter(JSONObject jsonObject) throws ParseException {
 
         try {
+            // only filter on book for sale. We don't have infrastructure for book wanted yet.
+            if (listType.equals("sell") && Utility.isNotNull(userID)) {
+                // filter result. Only add book to adapter if the same name/id
+                if (jsonObject.getString("username").equals(userID) == false)
+                    return;
+            }
+
+
             String isbn = jsonObject.getString("isbn");
             String title = jsonObject.getString("title");
 //            String author = jsonObject.getString("author");

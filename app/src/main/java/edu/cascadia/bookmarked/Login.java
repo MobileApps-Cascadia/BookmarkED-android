@@ -128,7 +128,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_SHORT).show();
 
                         // return to previous screen automatically
-                        onBackPressed();
+                        finish();
                     }
                     // Else display error message
                     else {
@@ -169,6 +169,7 @@ public class Login extends AppCompatActivity {
     public void finish() {
         Intent data = new Intent();
         data.putExtra("LoginResult", loginOK);
+        data.putExtra("LoginUser", emailEditText.getText().toString());
         setResult(RESULT_OK, data);
 
         super.finish();

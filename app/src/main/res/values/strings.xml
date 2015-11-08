@@ -46,7 +46,7 @@
     <string name="email_hint">Enter email address</string>
     <string name="phone_hint">Enter phone number</string>
     <string name="btn_register">Register</string>
-    <string name="must_login">Please login or register before posting a book for sale</string>
+    <string name="must_login">Please login or register before doing this function</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

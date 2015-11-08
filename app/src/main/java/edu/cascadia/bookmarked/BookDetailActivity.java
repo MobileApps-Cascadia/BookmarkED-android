@@ -44,6 +44,8 @@ public class BookDetailActivity extends AppCompatActivity {
     private boolean readOnlyMode;
     private boolean newPosting = false;
 
+    private String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,10 @@ public class BookDetailActivity extends AppCompatActivity {
         String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
 
         readOnlyMode = Utility.isNotNull(jsonString);
+
+        if (!readOnlyMode) {
+            userID = getIntent().getStringExtra("UserID");
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -171,6 +177,13 @@ public class BookDetailActivity extends AppCompatActivity {
 //    }
 
     private void addABook() {
+
+        // verify that userID exist
+        if (!Utility.isNotNull(userID)) {
+            Utility.beep();
+            Toast.makeText(this,"User name is unknown. Cannot add book for sale", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String isbn = isbnEditText.getText().toString();
         String title = titleEditText.getText().toString();
         String author = authorEditText.getText().toString();
@@ -200,7 +213,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
         RequestParams params = new RequestParams();
         params.put("isbn", isbnEditText.getText().toString());
-        params.put("username", "admin@gmail.com");   // hard-coded for testing
+        params.put("username", userID);
         params.put("askingprice", askingPriceEditText.getText().toString());
         params.put("bookcondition", bookConditionEditText.getText().toString());
         params.put("note", "sample note");
