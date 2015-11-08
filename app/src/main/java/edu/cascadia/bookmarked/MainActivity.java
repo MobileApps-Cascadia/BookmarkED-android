@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_postABook:
-                Intent bookIntent = new Intent(this, BookActivity.class);
+                Intent bookIntent = new Intent(this, BookDetailActivity.class);
                 startActivity(bookIntent);
                 return true;
 
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem) {
-        Intent bookIntent = new Intent(this, BookActivity.class);
+        Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass the book for sale information to detail activity
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
         startActivity(bookIntent);

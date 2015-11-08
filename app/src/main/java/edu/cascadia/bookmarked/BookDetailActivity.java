@@ -23,7 +23,7 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class BookActivity extends AppCompatActivity {
+public class BookDetailActivity extends AppCompatActivity {
 
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
@@ -46,7 +46,7 @@ public class BookActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book);
+        setContentView(R.layout.activity_book_detail);
 
         String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
 
@@ -137,6 +137,9 @@ public class BookActivity extends AppCompatActivity {
         askingPriceEditText.setFocusable(false);
         bookConditionEditText.setFocusable(false);
 
+        // hide the barcode button
+        Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
+        barcodeButton.setVisibility(View.GONE);
     }
 
     private void populateFields(String jsonString) {
