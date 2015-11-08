@@ -49,9 +49,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_login:
-                //Toast.makeText(MainActivity.this, "You clicked login", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
+                return true;
+
+            case R.id.action_register:
+                Intent registerIntent = new Intent(this, RegisterActivity.class);
+                startActivity(registerIntent);
                 return true;
 
             case R.id.action_postABook:

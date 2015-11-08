@@ -1,6 +1,8 @@
 package edu.cascadia.bookmarked;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
@@ -43,5 +45,10 @@ public class Utility {
 
 	public static String getServerAddress(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context).getString("prefs_server", defServer);
+	}
+
+	public static void beep() {
+		final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+		tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
 }

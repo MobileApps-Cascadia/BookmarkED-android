@@ -3,12 +3,13 @@
     <string name="setting">Setting</string>
     <string name="post_a_book">Post A book</string>
     <string name="login">Log in</string>
-    <string name="signup">Sign Up</string>
+    <string name="register">Register</string>
     <string name="scanBarcode">Scan a barcode</string>
     <string name="myPostings">My Postings</string>
     <string name="logout">Logout</string>
     <string name="pwd">Password</string>
     <string name="title_activity_login">Log in</string>
+    <string name="title_register">Register</string>
 
     <string name="text_book_title">Text Book</string>
     <string name="isbn">ISBN</string>
@@ -35,6 +36,14 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone">Phone</string>
+    <string name="first_name_hint">Enter first name</string>
+    <string name="last_name_hint">Enter last name</string>
+    <string name="email_hint">Enter email address</string>
+    <string name="phone_hint">Enter phone number</string>
+    <string name="btn_register">Register</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -48,6 +57,7 @@
 
     <string name="title_activity_book">Book</string>
     <string name="title_activity_my_posting">My Postings</string>
+    <string name="title_activity_register">Register</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -105,4 +115,5 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
 </resources>

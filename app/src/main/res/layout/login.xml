@@ -74,7 +74,7 @@
             android:layout_marginTop="40dip"
             android:background="@null"
             android:onClick="navigateToRegisterActivity"
-            android:text="Register"
+            android:text="@string/btn_register"
             android:textColor="@color/primary"
             android:textStyle="bold" />
     </LinearLayout>
