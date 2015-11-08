@@ -250,7 +250,15 @@ public class BookListFragment extends ListFragment {
         try {
             String isbn = jsonObject.getString("isbn");
             String title = jsonObject.getString("title");
-            listAdapter.add(new BookItem(isbn, title));
+//            String author = jsonObject.getString("author");
+//            String edition = jsonObject.getString("edition");
+//            String desc = jsonObject.getString("description");
+
+            BookItem bookItem = new BookItem(isbn, title, jsonObject.toString());
+//            BookForSaleItem bookForSaleItem = new BookForSaleItem(bookItem, jsonObject.getString("username"),
+//                    jsonObject.getString("askingprice"), jsonObject.getString("bookcondition"), jsonObject.getString("note"));
+
+            listAdapter.add(bookItem);
         } catch (JSONException e) {
             System.out.println("Exception in addBookToAdapter. e:" + e.getMessage());
             e.printStackTrace();

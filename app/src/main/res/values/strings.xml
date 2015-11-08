@@ -9,7 +9,6 @@
     <string name="logout">Logout</string>
     <string name="pwd">Password</string>
     <string name="title_activity_login">Log in</string>
-    <string name="title_register">Register</string>
 
     <string name="text_book_title">Text Book</string>
     <string name="isbn">ISBN</string>
@@ -116,4 +115,11 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
+    <!--Strings related to textbook details-->
+    <string name="Title">Title:</string>
+    <string name="author">Author:</string>
+    <string name="ISBN">ISBN:</string>
+    <string name="description">Description:</string>
+    <string name="edition">Edition:</string>
+    <string name="price">Price:</string>
 </resources>

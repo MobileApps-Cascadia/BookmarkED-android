@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -39,15 +40,27 @@ public class BookActivity extends AppCompatActivity {
     // Progress Dialog Object
     private ProgressDialog prgDialog;
 
+    // flag to indicate screen mode
+    private boolean readOnlyMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+
+        String jsonString = getIntent().getStringExtra("bookInfo");
+
+        readOnlyMode = (jsonString != null && jsonString.length() > 0);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initActivity();
+        initComponents();
 
+        if (readOnlyMode) {
+            setTitle("Detail book for sale");
+            populateFields(jsonString);
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,22 +73,28 @@ public class BookActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (readOnlyMode)
+            return super.onCreateOptionsMenu(menu);
+
         getMenuInflater().inflate(R.menu.menu_book, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_save_post_book) {
-            addABook();
-        } else if (item.getItemId() == R.id.action_cancel) {
-            // To do: add confirmation to cancel and loose data
-            super.onBackPressed();
+        if (!readOnlyMode) {
+
+            if (item.getItemId() == R.id.action_save_post_book) {
+                addABook();
+            } else if (item.getItemId() == R.id.action_cancel) {
+                // To do: add confirmation to cancel and loose data
+                super.onBackPressed();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void initActivity() {
+    private void initComponents() {
         this.setTitle("Post book for sale");
 
         isbnEditText = (EditText) findViewById(R.id.bookIsbn);
@@ -95,6 +114,35 @@ public class BookActivity extends AppCompatActivity {
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
+    }
+
+    private void populateFields(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+
+            isbnEditText.setText(jsonObject.getString("isbn"));
+            titleEditText.setText(jsonObject.getString("title"));
+            authorEditText.setText(jsonObject.getString("author"));
+            editionEditText.setText(jsonObject.getString("edition"));
+            descEditText.setText(jsonObject.getString("description"));
+            askingPriceEditText.setText(jsonObject.getString("askingprice"));
+            bookConditionEditText.setText(jsonObject.getString("bookcondition"));
+
+            // also set edit text to readonly
+            isbnEditText.setEnabled(false);
+            titleEditText.setEnabled(false);
+            authorEditText.setEnabled(false);
+            editionEditText.setEnabled(false);
+            descEditText.setEnabled(false);
+            askingPriceEditText.setEnabled(false);
+            bookConditionEditText.setEnabled(false);
+
+            // hide barcode button
+            Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
+            barcodeButton.setVisibility(View.GONE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onCancelClicked(View view) {
@@ -127,7 +175,7 @@ public class BookActivity extends AppCompatActivity {
     }
 
     private void addBook4Sale() {
-        System.out.println("*** in addBook4Sale ***");
+        //System.out.println("*** in addBook4Sale ***");
         // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
