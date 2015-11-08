@@ -64,7 +64,6 @@ public class BookListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        System.out.println("*** in onListItemClick");
         super.onListItemClick(l, v, position, id);
 
         if (null != mListener) {
@@ -152,12 +151,18 @@ public class BookListFragment extends ListFragment {
             // When the response returned by REST has Http response code '200'
             @Override
             public void onSuccess(String response) {
+                String toastMsg;
+                if (mParam1.equals("sell")) {
+                    toastMsg = "Books for sale quiried successfully";
+                } else {
+                    toastMsg = "Books wanted quiried successfully";
+                }
                 // Hide Progress Dialog
                 prgDialog.hide();
                 try {
                     // JSON Object
                     JSONArray jsonArray = new JSONArray(response);
-                    System.out.println("GetBooksForSale returned: " + jsonArray.length() + " books");
+                    //System.out.println("GetBooksForSale returned: " + jsonArray.length() + " books");
                     // reset the listAdapter
                     listAdapter.clear();
                     try {
@@ -168,6 +173,7 @@ public class BookListFragment extends ListFragment {
                                 return bookItem.title.compareToIgnoreCase(t1.title);
                             }
                         });
+                        listAdapter.notifyDataSetChanged();
                     } catch (ParseException e) {
                         System.out.println("Exception e:" + e.getMessage());
                         e.printStackTrace();
@@ -176,7 +182,7 @@ public class BookListFragment extends ListFragment {
                     // When the JSON response has status boolean value assigned with true
                     if (response.length() > 0) {
                         // Display successfully registered message using Toast
-                        Toast.makeText(getActivity(), "You successfully queried all books for sale", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_SHORT).show();
                     }
                     // Else display error message
 					/* else {
@@ -213,12 +219,9 @@ public class BookListFragment extends ListFragment {
         });
     }
 
-    //private void getArray(Object object2) throws ParseException {
     private void getArray(JSONArray jsonArr) throws ParseException {
 
         try {
-            //JSONArray jsonArr = (JSONArray) object2;
-
             for (int k = 0; k < jsonArr.length(); k++) {
 
                 try {
@@ -247,7 +250,15 @@ public class BookListFragment extends ListFragment {
         try {
             String isbn = jsonObject.getString("isbn");
             String title = jsonObject.getString("title");
-            listAdapter.add(new BookItem(isbn, title));
+//            String author = jsonObject.getString("author");
+//            String edition = jsonObject.getString("edition");
+//            String desc = jsonObject.getString("description");
+
+            BookItem bookItem = new BookItem(isbn, title, jsonObject.toString());
+//            BookForSaleItem bookForSaleItem = new BookForSaleItem(bookItem, jsonObject.getString("username"),
+//                    jsonObject.getString("askingprice"), jsonObject.getString("bookcondition"), jsonObject.getString("note"));
+
+            listAdapter.add(bookItem);
         } catch (JSONException e) {
             System.out.println("Exception in addBookToAdapter. e:" + e.getMessage());
             e.printStackTrace();
@@ -255,4 +266,10 @@ public class BookListFragment extends ListFragment {
 
     }
 
+    public void refreshList() {
+        // for now, just reload the data from backend
+        // should be optimized later by adding only to the adapater
+        listAdapter.clear();
+        invokeWS();
+    }
 }

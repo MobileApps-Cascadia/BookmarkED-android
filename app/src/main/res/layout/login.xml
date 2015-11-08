@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="0dip" >
+        android:padding="@dimen/activity_vertical_margin" >
         <android.support.design.widget.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             android:layout_marginTop="40dip"
             android:background="@null"
             android:onClick="navigateToRegisterActivity"
-            android:text="Register"
+            android:text="@string/btn_register"
             android:textColor="@color/primary"
             android:textStyle="bold" />
     </LinearLayout>

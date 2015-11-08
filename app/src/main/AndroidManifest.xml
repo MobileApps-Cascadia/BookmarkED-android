@@ -17,6 +17,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,19 +34,22 @@
             android:name=".SettingActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <!--activity android:name=".SettingActivity" >
-        </activity-->
         <activity
-            android:name=".BookActivity"
+            android:name=".BookDetailActivity"
             android:label="@string/title_activity_book"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".MyPostingActivity"
             android:label="@string/title_activity_my_posting"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
