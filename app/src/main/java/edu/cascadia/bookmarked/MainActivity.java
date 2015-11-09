@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private final int LOG_IN_REQUEST = 1;
     private final int POST_A_BOOK_REQUEST =2;
 
-    private boolean userLoggedIn = false;
+    private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
 
     private BookListFragment bookListFragment;
