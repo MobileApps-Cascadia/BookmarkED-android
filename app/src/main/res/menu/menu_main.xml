@@ -6,7 +6,11 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_register" android:title="@string/register"
         android:orderInCategory="100"  />
+    <item android:id="@+id/action_sync_book" android:title="@string/sync_books"
+        android:icon="@drawable/sync"
+        android:orderInCategory="101" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_postABook" android:title="@string/post_a_book"
+        android:icon="@drawable/for_sale"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_scanBarcode" android:title="@string/scanBarcode"
         android:orderInCategory="100"/>

@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 startActivity(settingIntent);
                 return true;
 
+            case R.id.action_sync_book:
+                bookListFragment.refreshList();
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
