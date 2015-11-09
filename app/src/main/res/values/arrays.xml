@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="colleges_list">
+        <item>Cascadia Community College</item>
+        <item>Everett Community College</item>
+        <item>Bellevue College</item>
+        <item>University of Washington (Seattle)</item>
+    </string-array>
+
+</resources>
