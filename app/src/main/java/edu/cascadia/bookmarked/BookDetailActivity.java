@@ -20,6 +20,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +28,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
+
+    private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
     private EditText isbnEditText;
     private EditText titleEditText;
@@ -92,7 +95,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (!readOnlyMode) {
 
             if (item.getItemId() == R.id.action_save_post_book) {
-                addABook();
+                addABookForSale();
             } else if (item.getItemId() == R.id.action_cancel) {
                 // To do: add confirmation to cancel and loose data
                 super.onBackPressed();
@@ -149,6 +152,7 @@ public class BookDetailActivity extends AppCompatActivity {
         barcodeButton.setVisibility(View.GONE);
     }
 
+    // fill the fields only for read only mode
     private void populateFields(String jsonString) {
         try {
             disableControls();
@@ -168,15 +172,32 @@ public class BookDetailActivity extends AppCompatActivity {
         }
     }
 
+    // fill fields with data from isbn db
+    private void populateBookFields(JSONObject jsonBook) {
+        try {
+            titleEditText.setText(jsonBook.getString("title"));
+            JSONArray jsonAuthors = jsonBook.getJSONArray("author_data");
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = 0; i < jsonAuthors.length(); i++) {
+                stringBuffer.append(((JSONObject) jsonAuthors.get(i)).getString("name") + ", ");
+            }
+            // delete last 2 char (comma and space);
+            int lastComma = stringBuffer.lastIndexOf(", ");
+            stringBuffer.delete(lastComma, lastComma+1);
+            authorEditText.setText(stringBuffer);
+            editionEditText.setText(jsonBook.getString("edition_info"));
+            descEditText.setText(jsonBook.getString("summary"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void onCancelClicked(View view) {
         super.onBackPressed();
     }
 
-//    public void onAddEditClicked(View view) {
-//        addABook();
-//    }
-
-    private void addABook() {
+    private void addABookForSale() {
 
         // verify that userID exist
         if (!Utility.isNotNull(userID)) {
@@ -204,8 +225,8 @@ public class BookDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void addBook4Sale() {
-        //System.out.println("*** in addBook4Sale ***");
+    private void requestAddBook4Sale() {
+        //System.out.println("*** in requestAddBook4Sale ***");
         // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
@@ -241,7 +262,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -252,6 +273,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
     /**
      * Method that performs RESTful webservice invocations
+     *
+     * This is a 2-step process. First add the book to the table
+     * then add the book for sale table
      *
      * @param params
      */
@@ -274,9 +298,9 @@ public class BookDetailActivity extends AppCompatActivity {
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
                         // Display book successfully added message using Toast
-                        Toast.makeText(getApplicationContext(), "Book was successfully added!", Toast.LENGTH_SHORT).show();
-                        // now add the entry for sale
-                        addBook4Sale();
+                        // Toast.makeText(getApplicationContext(), "Book was successfully added!", Toast.LENGTH_SHORT).show();
+                        // now add the entry to the book for sale table
+                        requestAddBook4Sale();
                     }
                     // Else display error message
                     else {
@@ -284,7 +308,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -306,7 +330,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 }
                 // When Http response code other than 404, 500
                 else {
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcurred! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -328,11 +352,55 @@ public class BookDetailActivity extends AppCompatActivity {
             //String scanFormat = scanningResult.getFormatName();
             // display the info
             isbnEditText.setText(scanContent);
-            //contentTxt.setText("Content: " + scanContent);
+            // look up ISBN db for book info
+            lookUpIsbnDB(scanContent);
         } else {
             Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void lookUpIsbnDB(String isbn) {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+
+
+        String hostAddress = ISBNDB_URI + isbn;
+        System.out.println("***Querying isbn: " + hostAddress);
+        client.get(hostAddress, new RequestParams(), new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    JSONObject obj = new JSONObject(response);
+
+                    // When the JSON response has data, it has the book information
+                    if (obj.getString("data").length() > 0) {
+                        // Display book successfully added message using Toast
+                        Toast.makeText(getApplicationContext(), "Book found", Toast.LENGTH_SHORT).show();
+                        // System.out.println("data:" + obj.getString("data"));
+
+                        // get actual book info, which is stored as an array
+                        JSONArray jsonBook = obj.getJSONArray("data");
+                        // now populate the fields related to the book info
+                        populateBookFields(jsonBook.getJSONObject(0));
+                    }
+                    // Else display error message
+                    else {
+                        // error is found in the response
+                        Toast.makeText(getApplicationContext(), obj.getString("error"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+            }
+        });
     }
 
     @Override

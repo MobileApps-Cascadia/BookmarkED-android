@@ -2,6 +2,7 @@
     <string name="app_name">BookmarkEd</string>
     <string name="setting">Setting</string>
     <string name="post_a_book">Post A book</string>
+    <string name="sync_books">Sync</string>
     <string name="login">Log in</string>
     <string name="register">Register</string>
     <string name="scanBarcode">Scan a barcode</string>
