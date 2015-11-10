@@ -119,7 +119,6 @@ public class Login extends AppCompatActivity {
                 // Hide Progress Dialog
                 prgDialog.hide();
                 try {
-                    //System.out.println("in onSuccess. Response:" + response);
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
@@ -136,7 +135,6 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
 
@@ -159,7 +157,7 @@ public class Login extends AppCompatActivity {
                 }
                 // When Http response code other than 404, 500
                 else {
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -157,9 +157,9 @@ public class BookListFragment extends ListFragment {
             public void onSuccess(String response) {
                 String toastMsg;
                 if (listType.equals("sell")) {
-                    toastMsg = "Books for sale quiried successfully";
+                    toastMsg = "Books for sale queried successfully";
                 } else {
-                    toastMsg = "Books wanted quiried successfully";
+                    toastMsg = "Books wanted queried successfully";
                 }
                 // Hide Progress Dialog
                 prgDialog.hide();
@@ -194,7 +194,6 @@ public class BookListFragment extends ListFragment {
 						Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
 					} */
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     Toast.makeText(getActivity(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
@@ -217,6 +216,7 @@ public class BookListFragment extends ListFragment {
                 }
                 // When Http response code other than 404, 500
                 else {
+                    System.out.println("error:" + error.getMessage());
                     Toast.makeText(getActivity(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -231,13 +231,8 @@ public class BookListFragment extends ListFragment {
                 try {
                     if (jsonArr.getJSONObject(k) instanceof JSONObject) {
                         //System.out.println("BOOK " + k + ":");
-                        //parseJson((JSONObject) jsonArr.get(k));
                         addBookToAdapter(jsonArr.getJSONObject(k));
                     }
-//					else {
-//						System.out.println("BOOK " + k + ":");
-//						System.out.print(jsonArr.get(k));
-//					}
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -262,13 +257,8 @@ public class BookListFragment extends ListFragment {
 
             String isbn = jsonObject.getString("isbn");
             String title = jsonObject.getString("title");
-//            String author = jsonObject.getString("author");
-//            String edition = jsonObject.getString("edition");
-//            String desc = jsonObject.getString("description");
 
             BookItem bookItem = new BookItem(isbn, title, jsonObject.toString());
-//            BookForSaleItem bookForSaleItem = new BookForSaleItem(bookItem, jsonObject.getString("username"),
-//                    jsonObject.getString("askingprice"), jsonObject.getString("bookcondition"), jsonObject.getString("note"));
 
             listAdapter.add(bookItem);
         } catch (JSONException e) {
@@ -280,7 +270,7 @@ public class BookListFragment extends ListFragment {
 
     public void refreshList() {
         // for now, just reload the data from backend
-        // should be optimized later by adding only to the adapater
+        // should be optimized later by adding only to the adapter
         listAdapter.clear();
         invokeWS();
     }
