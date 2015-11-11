@@ -72,7 +72,7 @@ public class BookListFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onMyPostingBookClicked(bookListItem.ITEMS.get(position));
+            mListener.onMyPostingBookClicked(bookListItem.ITEMS.get(position), listType);
         }
 
     }
@@ -129,7 +129,7 @@ public class BookListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onMyPostingBookClicked(BookItem bookItem);
+        void onMyPostingBookClicked(BookItem bookItem, String listType);
     }
 
     /**
@@ -144,9 +144,10 @@ public class BookListFragment extends ListFragment {
         String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
 
         String wsURL;
-        if (listType.equals("sell")) {
+        if (listType.equals("sell-view")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
+            // this should be for book wanted. Use temporarily for demo
             wsURL = hostAddress + bookURI;
         }
         System.out.println("Getting " + wsURL);
@@ -156,7 +157,7 @@ public class BookListFragment extends ListFragment {
             @Override
             public void onSuccess(String response) {
                 String toastMsg;
-                if (listType.equals("sell")) {
+                if (listType.equals("sell-view")) {
                     toastMsg = "Books for sale queried successfully";
                 } else {
                     toastMsg = "Books wanted queried successfully";
@@ -248,7 +249,7 @@ public class BookListFragment extends ListFragment {
 
         try {
             // only filter on book for sale. We don't have infrastructure for book wanted yet.
-            if (listType.equals("sell") && Utility.isNotNull(userID)) {
+            if (listType.equals("sell-view") && Utility.isNotNull(userID)) {
                 // filter result. Only add book to adapter if the same name/id
                 if (jsonObject.getString("username").equals(userID) == false)
                     return;
