@@ -68,6 +68,10 @@
     <string name="default_college">Cascadia Community College</string>
     <string name="preferred_college_desc">Choose a college that you want to filter or post a book at</string>
 
+    <!-- String related to network/web service error -->
+    <string name="unexpected_network_error">Unexpected error occcured! [Most common error: Device might not be connected to Internet or remote server is down]</string>
+    <string name="http_500_error">Something went wrong at server end</string>
+    <string name="http_404_error">Requested resource not found</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
