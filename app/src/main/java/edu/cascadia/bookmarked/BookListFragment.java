@@ -1,7 +1,11 @@
 package edu.cascadia.bookmarked;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.View;
@@ -72,7 +76,7 @@ public class BookListFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onMyPostingBookClicked(bookListItem.ITEMS.get(position));
+            mListener.onMyPostingBookClicked(bookListItem.ITEMS.get(position), listType);
         }
 
     }
@@ -97,9 +101,45 @@ public class BookListFragment extends ListFragment {
         listAdapter = new ArrayAdapter<BookItem>(getActivity(), R.layout.book_list_item, R.id.listText, bookListItem.ITEMS);
 
         setListAdapter(listAdapter);
-        invokeWS();
+        if (isNetworkAvailable()) {
+            invokeWS();
+        } else {
+            Utility.beep();
+            showNoNetworkWarning();
+        }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void showNoNetworkWarning() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                getActivity());
+
+        // set title
+        alertDialogBuilder.setTitle("No network connection!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Please connect to the network and refresh the list")
+                .setCancelable(false)
+                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // do nothing
+                            }
+                        }
+                );
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -129,7 +169,7 @@ public class BookListFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onMyPostingBookClicked(BookItem bookItem);
+        void onMyPostingBookClicked(BookItem bookItem, String listType);
     }
 
     /**
@@ -144,9 +184,10 @@ public class BookListFragment extends ListFragment {
         String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
 
         String wsURL;
-        if (listType.equals("sell")) {
+        if (listType.equals("sell-view")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
+            // this should be for book wanted. Use temporarily for demo
             wsURL = hostAddress + bookURI;
         }
         System.out.println("Getting " + wsURL);
@@ -156,7 +197,7 @@ public class BookListFragment extends ListFragment {
             @Override
             public void onSuccess(String response) {
                 String toastMsg;
-                if (listType.equals("sell")) {
+                if (listType.equals("sell-view")) {
                     toastMsg = "Books for sale queried successfully";
                 } else {
                     toastMsg = "Books wanted queried successfully";
@@ -208,16 +249,16 @@ public class BookListFragment extends ListFragment {
                 prgDialog.hide();
                 // When Http response code is '404'
                 if (statusCode == 404) {
-                    Toast.makeText(getActivity(), "Requested resource not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.http_404_error), Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code is '500'
                 else if (statusCode == 500) {
-                    Toast.makeText(getActivity(), "Something went wrong at server end", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.http_500_error), Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code other than 404, 500
                 else {
                     System.out.println("error:" + error.getMessage());
-                    Toast.makeText(getActivity(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -248,7 +289,7 @@ public class BookListFragment extends ListFragment {
 
         try {
             // only filter on book for sale. We don't have infrastructure for book wanted yet.
-            if (listType.equals("sell") && Utility.isNotNull(userID)) {
+            if (listType.equals("sell-view") && Utility.isNotNull(userID)) {
                 // filter result. Only add book to adapter if the same name/id
                 if (jsonObject.getString("username").equals(userID) == false)
                     return;

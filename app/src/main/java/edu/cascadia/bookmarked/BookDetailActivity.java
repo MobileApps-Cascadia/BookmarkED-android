@@ -1,6 +1,8 @@
 package edu.cascadia.bookmarked;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/*
+    This activity can be called from the following:
+    1. main screen in view only mode
+    2. main screen via post a book for sale action
+    3. My posting where user can initially view and then edit or delete the posting
+ */
 public class BookDetailActivity extends AppCompatActivity {
 
     private final static String addABookURI = "bookmarked/book/addbook";
@@ -45,6 +53,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     // flag to indicate screen mode
     private boolean readOnlyMode;
+    private String bookAction;
     private boolean newPosting = false;
 
     private String userID;
@@ -56,7 +65,14 @@ public class BookDetailActivity extends AppCompatActivity {
 
         String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
 
+        // possible value for bookAction:
+        //  ViewExisting
+        //  AddNew
+        //  AllowEdit
+        bookAction = getIntent().getStringExtra("BookAction");
+
         readOnlyMode = Utility.isNotNull(jsonString);
+        //allowEdit = getIntent().getStringExtra("BookAction").equals("AllowEdit");
 
         if (!readOnlyMode) {
             userID = getIntent().getStringExtra("UserID");
@@ -83,23 +99,33 @@ public class BookDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (readOnlyMode)
-            return super.onCreateOptionsMenu(menu);
+        // 3 possibilities in the toolbar menu,
+        // edit & delete for existing book
+        // save & cancel for new entry
+        // nothing when viewing the book
+        if (Utility.isNotNull(bookAction)) {
+            if (bookAction.equals("AllowEdit")) {
+                getMenuInflater().inflate(R.menu.menu_book_edit, menu);
+            } else if (bookAction.equals("AddNew")) {
+                getMenuInflater().inflate(R.menu.menu_book, menu);
+            }
+        }
 
-        getMenuInflater().inflate(R.menu.menu_book, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!readOnlyMode) {
-
-            if (item.getItemId() == R.id.action_save_post_book) {
-                addABookForSale();
-            } else if (item.getItemId() == R.id.action_cancel) {
-                // To do: add confirmation to cancel and loose data
-                super.onBackPressed();
-            }
+        if (item.getItemId() == R.id.action_edit_posted_book) {
+            Toast.makeText(this, "To edit book", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.action_delete_posted_book) {
+            Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
+            confirmDeleteBook4Sale();
+        } else if (item.getItemId() == R.id.action_save_post_book) {
+            addABookForSale();
+        } else if (item.getItemId() == R.id.action_cancel) {
+            // To do: add confirmation to cancel and loose data
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -183,7 +209,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
             // delete last 2 char (comma and space);
             int lastComma = stringBuffer.lastIndexOf(", ");
-            stringBuffer.delete(lastComma, lastComma+1);
+            stringBuffer.delete(lastComma, lastComma + 1);
             authorEditText.setText(stringBuffer);
             editionEditText.setText(jsonBook.getString("edition_info"));
             descEditText.setText(jsonBook.getString("summary"));
@@ -226,7 +252,6 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void requestAddBook4Sale() {
-        //System.out.println("*** in requestAddBook4Sale ***");
         // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
@@ -322,15 +347,15 @@ public class BookDetailActivity extends AppCompatActivity {
                 prgDialog.hide();
                 // When Http response code is '404'
                 if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code is '500'
                 else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_SHORT).show();
                 }
                 // When Http response code other than 404, 500
                 else {
-                    Toast.makeText(getApplicationContext(), "Unexpected Error occcurred! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -401,6 +426,43 @@ public class BookDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void confirmDeleteBook4Sale() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title
+        alertDialogBuilder.setTitle("Delete book for sale?");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("Click yes to delete")
+                .setCancelable(false)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, perform actual delete
+                        doDeleteBook4Sale();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
+    private void doDeleteBook4Sale() {
+        Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

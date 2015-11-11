@@ -5,6 +5,8 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private void insertBook4SaleListFragments() {
 
         // insert book for sale list view
-        bookListFragment = BookListFragment.newInstance("sell","");
+        bookListFragment = BookListFragment.newInstance("sell-view","");
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -132,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass user id to detail
         bookIntent.putExtra("UserID", userID);
+        bookIntent.putExtra("BookAction", "AddNew");
+
         startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
     }
 
@@ -154,10 +158,15 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     }
 
     @Override
-    public void onMyPostingBookClicked(BookItem bookItem) {
+    public void onMyPostingBookClicked(BookItem bookItem, String listType) {
         Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass the book for sale information to detail activity
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
+        if (listType.equals("sell-view")) {
+            bookIntent.putExtra("BookAction", "ViewExisting");
+        } else {
+            bookIntent.putExtra("BookAction", "AllowEdit");
+        }
         startActivity(bookIntent);
     }
 
