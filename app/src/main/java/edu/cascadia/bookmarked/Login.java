@@ -2,9 +2,11 @@ package edu.cascadia.bookmarked;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -33,6 +35,7 @@ public class Login extends AppCompatActivity {
     private TextView errorMsgTextView;
 
     private boolean loginOK = false;
+    private String lastUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,13 @@ public class Login extends AppCompatActivity {
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
+        // populate the email field with the last successful user
+        lastUsername = PreferenceManager.getDefaultSharedPreferences(this).getString(getResources().getString(R.string.pref_username), "");
+
+        if (Utility.isNotNull(lastUsername)) {
+            emailEditText.setText(lastUsername);
+            pwdEditText.requestFocus();
+        }
 
     }
 
@@ -126,6 +136,11 @@ public class Login extends AppCompatActivity {
                         loginOK = true;
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_SHORT).show();
 
+                        // update preferred user if necessary
+                        if ( !lastUsername.equals(emailEditText.getText().toString()) ) {
+                            updateUsernamePref();
+                        }
+
                         // return to previous screen automatically
                         finish();
                     }
@@ -161,6 +176,12 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void updateUsernamePref() {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString(getResources().getString(R.string.pref_username), emailEditText.getText().toString());
+        editor.commit();
     }
 
     @Override
