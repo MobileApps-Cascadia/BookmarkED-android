@@ -125,7 +125,10 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
     protected void sendEmail() {
+
+
         Log.i("Send email", "");
+
         String[] TO = {""};
         //String[] TO = thisUser.getEmail();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -134,7 +137,7 @@ public class BookDetailActivity extends AppCompatActivity {
         emailIntent.setType("text/plain");
         //emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Interested in buying the book");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "Interested in buying the book");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
 
         try {
