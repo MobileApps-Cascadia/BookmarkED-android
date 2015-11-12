@@ -93,10 +93,14 @@ public class RegisterActivity extends AppCompatActivity {
             if(Utility.validate(email)){
                 // clear error message, in case there was a message previously
                 errorMsgTextView.setText("");
-                // Put Http parameter name with value of Name Edit View control
-                params.put("name", firstname + lastname);
+                // Put Http parameter firstname with value of first name Edit View control
+                params.put("firstname", firstname);
+                // Put Http parameter lastname with value of last name Edit View control
+                params.put("lastname", lastname);
                 // Put Http parameter username with value of Email Edit View control
                 params.put("username", email);
+                // Put Http parameter phone with value of phone Edit View control
+                params.put("phone", phone);
                 // Put Http parameter password with value of Password Edit View control
                 params.put("password", password);
                 // Invoke RESTful Web Service with Http parameters
