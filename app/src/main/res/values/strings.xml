@@ -9,6 +9,7 @@
     <string name="myPostings">My Postings</string>
     <string name="logout">Logout</string>
     <string name="pwd">Password</string>
+    <string name="zipcode">Zipcode</string>
     <string name="title_activity_login">Log in</string>
 
     <string name="text_book_title">Text Book</string>
