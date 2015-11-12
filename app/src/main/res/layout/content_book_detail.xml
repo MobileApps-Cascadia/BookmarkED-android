@@ -37,7 +37,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/isbn_hint"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:inputType="number" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
