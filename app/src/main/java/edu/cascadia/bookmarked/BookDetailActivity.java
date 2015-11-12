@@ -66,6 +66,7 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_detail);
 
         String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
+        final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
 
         // possible value for bookAction:
         //  ViewExisting
@@ -101,11 +102,10 @@ public class BookDetailActivity extends AppCompatActivity {
         Button startBtn = (Button) findViewById(R.id.button);
         startBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                sendEmail();
+                sendEmail(jsonStr);
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 3 possibilities in the toolbar menu,
@@ -122,22 +122,21 @@ public class BookDetailActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+    protected void sendEmail(String jsonStr) {
 
+ //String[] TO = {""};
+        try{
+            Log.i("Send email", "");
+            JSONObject jsonObj = new JSONObject(jsonStr);
+           // String TO = jsonObj.getString("username");
+            String[] TO = new String[] { jsonObj.getString("username") };
 
-    protected void sendEmail() {
-
-
-        Log.i("Send email", "");
-
-        String[] TO = {""};
-        //String[] TO = thisUser.getEmail();
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
-        //emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "Interested in buying the book");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "I am interested in buying the book with ISBN: " + jsonObj.getString("isbn"));
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
 
         try {
@@ -147,6 +146,10 @@ public class BookDetailActivity extends AppCompatActivity {
         }
         catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(BookDetailActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
