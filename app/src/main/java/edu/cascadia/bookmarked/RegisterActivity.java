@@ -154,17 +154,21 @@ public class RegisterActivity extends AppCompatActivity {
                 Utility.isNotNull(email) && Utility.isNotNull(password)){
             // When Email entered is Valid
             if(Utility.validate(email)){
-                // clear error message, in case there was a message previously
-                errorMsgTextView.setText("");
-                // Put Http parameter name with value of Name Edit View control
-                params.put("name", firstname + lastname);
-                // Put Http parameter username with value of Email Edit View control
-                params.put("username", email);
-                // Put Http parameter password with value of Password Edit View control
-                params.put("password", password);
-                params.put("zipcode", zipcode);
-                // Invoke RESTful Web Service with Http parameters
-                invokeWS(params);
+                if(Utility.validateZipcode(zipcode)){
+                    // clear error message, in case there was a message previously
+                    errorMsgTextView.setText("");
+                    // Put Http parameter name with value of Name Edit View control
+                    params.put("name", firstname + lastname);
+                    // Put Http parameter username with value of Email Edit View control
+                    params.put("username", email);
+                    // Put Http parameter password with value of Password Edit View control
+                    params.put("password", password);
+                    params.put("zipcode", zipcode);
+                    // Invoke RESTful Web Service with Http parameters
+                    invokeWS(params);
+                } else {
+                    errorMsgTextView.setText("Please enter a valid zipcode");
+                }
             }
             // When Email is invalid
             else{

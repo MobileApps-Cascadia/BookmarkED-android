@@ -32,6 +32,13 @@ public class Utility {
 		return matcher.matches();
  
 	}
+
+	//user can enter a 5-digit zipcode
+	//or 9-digit or 10-digit (when using a dash)
+	public static boolean validateZipcode(String zipcode) {
+		int size = zipcode.length();
+		return (size==5 || size == 9 || size == 10);
+	}
 	/**
 	 * Checks for Null String object
 	 * 

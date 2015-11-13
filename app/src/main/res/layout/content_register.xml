@@ -110,15 +110,15 @@
             android:layout_height="wrap_content"
             android:hint="Enter Zipcode"
             android:inputType="text" />
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fetch Zipcode"
-            android:id="@+id/button"
-            android:layout_gravity="right"
-            android:onClick="fetchZipcode"
-            />
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Fetch Zipcode"-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:onClick="fetchZipcode"-->
+            <!--/>-->
 
     </LinearLayout>
 
