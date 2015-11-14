@@ -184,13 +184,14 @@ public class BookListFragment extends ListFragment {
         String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
 
         String wsURL;
-        if (listType.equals("sell-view")) {
-            wsURL = hostAddress + book4SaleURI;
-        } else {
-            // this should be for book wanted. Use temporarily for demo
-            wsURL = hostAddress + bookURI;
-        }
-        System.out.println("Getting " + wsURL);
+        wsURL = hostAddress + book4SaleURI;
+//        if (listType.equals("sell-view")) {
+//            wsURL = hostAddress + book4SaleURI;
+//        } else {
+//            // this should be for book wanted. Use temporarily for demo
+//            wsURL = hostAddress + bookURI;
+//        }
+//        System.out.println("Getting " + wsURL);
 
         client.get(wsURL, new RequestParams(), new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
