@@ -1,10 +1,14 @@
 package edu.cascadia.bookmarked;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ import org.json.JSONObject;
 public class RegisterActivity extends AppCompatActivity {
 
     private final static String registerURI = "bookmarked/register/doregister";
+    private final static String verificationURI = "bookmarked/register/verifyregistration";
 
     // Progress Dialog Object
     private ProgressDialog prgDialog;
@@ -119,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Put Http parameter zipcode with value of zip code View control
             params.put("zipcode", zipcode);
             // Invoke RESTful Web Service with Http parameters
-            invokeWS(params);
+            sendRegistrationRequest(params);
         }
         // When Email is invalid
         else {
@@ -133,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
      *
      * @param params
      */
-    private void invokeWS(RequestParams params){
+    private void sendRegistrationRequest(RequestParams params){
         // Show Progress Dialog
         prgDialog.show();
         String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
@@ -151,12 +156,73 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getBoolean("status")){
+                        // Display successfully registered message using Toast
+                        Toast.makeText(getApplicationContext(), "You are successfully registered!", Toast.LENGTH_SHORT).show();
+
+                        // now validate the registration by entering the code sent
+                        // from the web service.
+                        validateRegistrationCode();
+                    }
+                    // Else display error message
+                    else {
+                        errorMsgTextView.setText(obj.getString("error_msg"));
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+            }
+            // When the response returned by REST has Http response code other than '200'
+            @Override
+            public void onFailure(int statusCode, Throwable error,
+                                  String content) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                // When Http response code is '404'
+                if(statusCode == 404){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_LONG).show();
+                }
+                // When Http response code is '500'
+                else if(statusCode == 500){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_LONG).show();
+                }
+                // When Http response code other than 404, 500
+                else{
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Method that performs RESTful webservice invocations
+     *
+     * @param params
+     */
+    private void sendVerificationRequest(RequestParams params){
+        // Show Progress Dialog
+        prgDialog.show();
+        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
+
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(hostAddress + verificationURI, params ,new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    // JSON Object
+                    JSONObject obj = new JSONObject(response);
+                    // When the JSON response has status boolean value assigned with true
+                    if(obj.getBoolean("status")){
                         // Set Default Values for Edit View controls
                         setDefaultValues();
                         // Display successfully registered message using Toast
-                        Toast.makeText(getApplicationContext(), "You are successfully registered!", Toast.LENGTH_SHORT).show();
-                        // return to previous screen
-                        onBackPressed();
+                        Toast.makeText(getApplicationContext(), "You are successfully verified!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     // Else display error message
                     else {
@@ -200,6 +266,72 @@ public class RegisterActivity extends AppCompatActivity {
         phoneEditText.setText("");
         pwdEditText.setText("");
         zipcodeEditText.setText("");
+    }
+
+    private void validateRegistrationCode() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title
+        alertDialogBuilder.setTitle("Verification code");
+
+        alertDialogBuilder.setMessage("Please check your email for the registration confirmation and enter the verification code");
+        // Set an EditText view to get user input
+        final EditText input = new EditText(getApplicationContext());
+        input.setTextColor(Color.BLACK);
+
+        alertDialogBuilder.setView(input);
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton("Verify", null);
+
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // if this button is clicked, perform actual delete
+//                        doDeleteBook4Sale();
+//                    }
+//                })
+//
+//        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                // if this button is clicked, just close
+//                // the dialog box and do nothing
+//                dialog.cancel();
+//            }
+//        });
+
+        // create alert dialog
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        if (input.getText().length() > 0) {
+                            //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                            RequestParams requestParams = new RequestParams();
+                            requestParams.add("username", emailEditText.getText().toString());
+                            requestParams.add("password", pwdEditText.getText().toString());
+                            requestParams.add("verificationcode", input.getText().toString());
+                            // send request to web service
+                            sendVerificationRequest(requestParams);
+                        } else {
+                            Utility.beep();
+                            Toast.makeText(getApplicationContext(), "Please enter verification code", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
+        });
+
+        // show it
+        alertDialog.show();
     }
 
 }
