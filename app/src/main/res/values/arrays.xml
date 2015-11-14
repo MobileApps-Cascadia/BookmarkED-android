@@ -6,5 +6,13 @@
         <item>Bellevue College</item>
         <item>University of Washington (Seattle)</item>
     </string-array>
+    <string-array name="delete_book4sale_reasons">
+        <item>Sold via BookmarkEd</item>
+        <item>Sold elsewhere</item>
+        <item>Nobody interested</item>
+        <item>Too many annoying inquiries</item>
+        <item>Decided to keep</item>
+        <item>Other reason</item>
+    </string-array>
 
 </resources>

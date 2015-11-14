@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,6 +37,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
+    private final static String deleteBook4SaleURI = "bookmarked/book/deletebookforsale";
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
@@ -57,6 +59,8 @@ public class BookDetailActivity extends AppCompatActivity {
     private boolean newPosting = false;
 
     private String userID;
+
+    private String book4SaleID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +188,7 @@ public class BookDetailActivity extends AppCompatActivity {
             disableControls();
 
             JSONObject jsonObject = new JSONObject(jsonString);
+            book4SaleID = jsonObject.getString("id");
 
             isbnEditText.setText(jsonObject.getString("isbn"));
             titleEditText.setText(jsonObject.getString("title"));
@@ -429,39 +434,118 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void confirmDeleteBook4Sale() {
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
         // set title
-        alertDialogBuilder.setTitle("Delete book for sale?");
+        alertDialogBuilder.setTitle("Are you sure to delete?\nSelect reason to delete posting.");
 
         // set dialog message
-        alertDialogBuilder
-                .setMessage("Click yes to delete")
-                .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, perform actual delete
-                        doDeleteBook4Sale();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
-                        dialog.cancel();
-                    }
-                });
+        final String[] reasons = getResources().getStringArray(R.array.delete_book4sale_reasons);
+
+        final int[] selectedItem = new int[1];
+        selectedItem[0] = -1;
+        alertDialogBuilder.setSingleChoiceItems(reasons, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selectedItem[0] = i;
+            }
+        });
+
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setPositiveButton("Yes", null);
+
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        // if this button is clicked, perform actual delete
+//                        doDeleteBook4Sale();
+//                    }
+//                })
+//
+       alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+           public void onClick(DialogInterface dialog, int id) {
+               // if this button is clicked, just close
+               // the dialog box and do nothing
+               dialog.cancel();
+           }
+       });
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        if (selectedItem[0] >= 0) {
+                            //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                            // status in the table starts 1 as being active
+                            doDeleteBook4Sale(selectedItem[0] + 2);
+                        } else {
+                            Utility.beep();
+                            Toast.makeText(getApplicationContext(), "Please select a reason", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
+        });
 
         // show it
         alertDialog.show();
     }
 
-    private void doDeleteBook4Sale() {
-        Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
+    private void requestDeleteBook4Sale(int status) {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams params = new RequestParams();
+        params.put("id", book4SaleID);
+        params.put("status", status+"");
+
+        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
+        client.get(hostAddress + deleteBook4SaleURI, params, new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    // JSON Object
+                    JSONObject obj = new JSONObject(response);
+                    // When the JSON response has status boolean value assigned with true
+                    if (obj.getBoolean("status")) {
+                        // Display book for sale successfully posted using Toast
+                        Toast.makeText(getApplicationContext(), "Posted book was successfully removed!", Toast.LENGTH_SHORT).show();
+                        newPosting = true;
+                        finish();
+                    }
+                    // Else display error message
+                    else {
+                        //errorMsg.setText(obj.getString("error_msg"));
+                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+
+            }
+        });
+    }
+
+    private void doDeleteBook4Sale(int status) {
+        Toast.makeText(this, "To delete book - ID:" + book4SaleID, Toast.LENGTH_SHORT).show();
+        requestDeleteBook4Sale(status);
         finish();
     }
 

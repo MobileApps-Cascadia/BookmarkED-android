@@ -61,6 +61,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         //Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
         Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass the book for sale information to detail activity
+        System.out.println("onMyPostingBookClicked. book ID:" + bookItem.jsonString);
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
         bookIntent.putExtra("BookAction", "AllowEdit");
 
