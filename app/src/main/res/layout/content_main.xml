@@ -1,24 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/forSaleButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:hint="Click to view book for sale"
+            android:onClick="onForSaleButtonClicked"
+            android:text="For Sale"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/wantedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:hint="Click to view book wanted to buy"
+            android:onClick="onWantedButtonClicked"
+            android:text="Wanted"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <TextView
+        android:id="@+id/bookForSaleTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_light"
+        android:clickable="false"
+        android:focusable="false"
         android:text="@string/title_bookforsale"
-        android:id="@+id/bookForSaleTextView"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bookWantedTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_light"
+        android:clickable="false"
+        android:focusable="false"
+        android:text="Book wanted"
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
-        android:textAlignment="center"
-        android:background="@android:color/holo_green_light" />
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/list_fragment_container"

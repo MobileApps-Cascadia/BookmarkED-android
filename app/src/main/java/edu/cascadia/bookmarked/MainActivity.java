@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         insertBook4SaleListFragments();
 
+        // disable the for sale button initially
+        findViewById(R.id.forSaleButton).setEnabled(false);
+
 
         // set default values in the app's SharedPreferences
         PreferenceManager.setDefaultValues(this, R.xml.preference, false);
@@ -58,6 +61,17 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         // insert book for sale list view
         bookListFragment = BookListFragment.newInstance("sell-view","");
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.list_fragment_container, bookListFragment);
+        fragmentTransaction.commit();
+    }
+
+    private void insertBookWantedListFragments() {
+
+        // insert book for sale list view
+        bookListFragment = BookListFragment.newInstance("buy", userID);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -193,7 +207,21 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             }; // end anonymous inner class
 
 
+    public void onForSaleButtonClicked(View view) {
+        view.setEnabled(false);
+        findViewById(R.id.wantedButton).setEnabled(true);
+        findViewById(R.id.bookWantedTextView).setVisibility(View.GONE);
+        findViewById(R.id.bookForSaleTextView).setVisibility(View.VISIBLE);
+        insertBookWantedListFragments();
+    }
 
+    public void onWantedButtonClicked(View view) {
+        view.setEnabled(false);
+        findViewById(R.id.forSaleButton).setEnabled(true);
+        findViewById(R.id.bookForSaleTextView).setVisibility(View.GONE);
+        findViewById(R.id.bookWantedTextView).setVisibility(View.VISIBLE);
+        insertBookWantedListFragments();
+    }
 
 
 }
