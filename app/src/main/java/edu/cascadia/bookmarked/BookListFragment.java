@@ -302,7 +302,6 @@ public class BookListFragment extends ListFragment {
 
             BookItem bookItem = new BookItem(isbn, title, jsonObject.toString());
 
-            System.out.println("jsonObject:" + jsonObject.toString());
             listAdapter.add(bookItem);
         } catch (JSONException e) {
             System.out.println("Exception in addBookToAdapter. e:" + e.getMessage());
