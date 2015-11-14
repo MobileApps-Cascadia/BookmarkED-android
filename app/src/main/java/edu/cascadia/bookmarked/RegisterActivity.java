@@ -1,6 +1,14 @@
 package edu.cascadia.bookmarked;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText phoneEditText;
     // Passwprd Edit View Object
     private EditText pwdEditText;
+    private EditText zipcodeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +67,18 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initComponents() {
         // Find Error Msg Text View control by ID
-        errorMsgTextView = (TextView)findViewById(R.id.register_error);
+        errorMsgTextView = (TextView) findViewById(R.id.register_error);
         // Find Name Edit View control by ID
-        firstnameEditText = (EditText)findViewById(R.id.registerFirstName);
+        firstnameEditText = (EditText) findViewById(R.id.registerFirstName);
         // Find Name Edit View control by ID
-        lastnameEditText = (EditText)findViewById(R.id.registerLastName);
+        lastnameEditText = (EditText) findViewById(R.id.registerLastName);
         // Find Email Edit View control by ID
-        emailEditText = (EditText)findViewById(R.id.registerEmail);
+        emailEditText = (EditText) findViewById(R.id.registerEmail);
         // Find phone Edit View control by ID
-        phoneEditText = (EditText)findViewById(R.id.registerPhone);
+        phoneEditText = (EditText) findViewById(R.id.registerPhone);
         // Find Password Edit View control by ID
-        pwdEditText = (EditText)findViewById(R.id.registerPassword);
+        pwdEditText = (EditText) findViewById(R.id.registerPassword);
+        zipcodeEditText = (EditText) findViewById(R.id.registerZipcode);
 
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -78,12 +88,65 @@ public class RegisterActivity extends AppCompatActivity {
         prgDialog.setCancelable(false);
     }
 
+    //retrieve user current zipcode
+    @TargetApi(Build.VERSION_CODES.M)
+    public void fetchZipcode(View view) {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+                String message = String.format(
+                        "New working Location \n Longitude: %1$s \n Latitude: %2$s",
+                        location.getLongitude(), location.getLatitude()
+                );
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
+            }
+        };
+
+
+        try {
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
+            // Or use LocationManager.GPS_PROVIDER
+
+//            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+//            } else {
+//                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+//                String message = String.format(
+//                        "New Location \n Longitude: %1$s \n Latitude: %2$s",
+//                        lastKnownLocation.getLongitude(), lastKnownLocation.getLatitude()
+//                );
+//                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+//            }
+
+                //
+
+         } catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Location permission not enabled", Toast.LENGTH_SHORT).show();
+        }
+
+        //zipcodeEditText.setText("98012");
+    }
+
+
     public void registerUser(View view) {
         String firstname = firstnameEditText.getText().toString();
         String lastname = lastnameEditText.getText().toString();
         String email = emailEditText.getText().toString();
         String phone = phoneEditText.getText().toString();
         String password = pwdEditText.getText().toString();
+        String zipcode = zipcodeEditText.getText().toString();
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         // When Name Edit View, Email Edit View and Password Edit View have values other than Null
@@ -91,16 +154,21 @@ public class RegisterActivity extends AppCompatActivity {
                 Utility.isNotNull(email) && Utility.isNotNull(password)){
             // When Email entered is Valid
             if(Utility.validate(email)){
-                // clear error message, in case there was a message previously
-                errorMsgTextView.setText("");
-                // Put Http parameter name with value of Name Edit View control
-                params.put("name", firstname + lastname);
-                // Put Http parameter username with value of Email Edit View control
-                params.put("username", email);
-                // Put Http parameter password with value of Password Edit View control
-                params.put("password", password);
-                // Invoke RESTful Web Service with Http parameters
-                invokeWS(params);
+                if(Utility.validateZipcode(zipcode)){
+                    // clear error message, in case there was a message previously
+                    errorMsgTextView.setText("");
+                    // Put Http parameter name with value of Name Edit View control
+                    params.put("name", firstname + lastname);
+                    // Put Http parameter username with value of Email Edit View control
+                    params.put("username", email);
+                    // Put Http parameter password with value of Password Edit View control
+                    params.put("password", password);
+                    params.put("zipcode", zipcode);
+                    // Invoke RESTful Web Service with Http parameters
+                    invokeWS(params);
+                } else {
+                    errorMsgTextView.setText("Please enter a valid zipcode");
+                }
             }
             // When Email is invalid
             else{
@@ -187,6 +255,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText.setText("");
         phoneEditText.setText("");
         pwdEditText.setText("");
+        zipcodeEditText.setText("");
     }
 
 }

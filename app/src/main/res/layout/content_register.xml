@@ -11,7 +11,6 @@
         android:padding="@dimen/activity_vertical_margin">
 
         <!-- View Title Label -->
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -92,8 +91,38 @@
             android:hint="Enter Password"
             android:inputType="textPassword" />
 
-        <!-- Error message -->
+        <!-- Zipcode TextField -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:text="@string/zipcode" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_vertical_margin">
+
+        <EditText
+            android:id="@+id/registerZipcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Zipcode"
+            android:inputType="text" />
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Fetch Zipcode"-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:onClick="fetchZipcode"-->
+            <!--/>-->
+
+    </LinearLayout>
+
+        <!-- Error message -->
         <TextView
             android:id="@+id/register_error"
             android:layout_width="fill_parent"
