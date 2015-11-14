@@ -2,8 +2,6 @@ package edu.cascadia.bookmarked;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -36,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText phoneEditText;
     // Passwprd Edit View Object
     private EditText pwdEditText;
+    private EditText zipcodeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         phoneEditText = (EditText)findViewById(R.id.registerPhone);
         // Find Password Edit View control by ID
         pwdEditText = (EditText)findViewById(R.id.registerPassword);
-
+        zipcodeEditText = (EditText) findViewById(R.id.registerZipcode);
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
         // Set Progress Dialog Text
@@ -84,40 +83,49 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String phone = phoneEditText.getText().toString();
         String password = pwdEditText.getText().toString();
+        String zipcode = zipcodeEditText.getText().toString();
+        if (!Utility.validateEmail(email)) {
+            Toast.makeText(this, "Invalide email address", Toast.LENGTH_SHORT).show();
+            Utility.beep();
+            emailEditText.requestFocus();
+            return;
+        }
+
+        // zipcode can either be blank or 5 digit long.
+        if (Utility.isNotNull(zipcode) && !Utility.validateZipcode(zipcode)) {
+            Toast.makeText(this, "Zipcode must be 5 digit long", Toast.LENGTH_SHORT).show();
+            Utility.beep();
+            zipcodeEditText.requestFocus();
+            return;
+        }
+
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         // When Name Edit View, Email Edit View and Password Edit View have values other than Null
-        if(Utility.isNotNull(firstname) && Utility.isNotNull(firstname) &&
-                Utility.isNotNull(email) && Utility.isNotNull(password)){
-            // When Email entered is Valid
-            if(Utility.validate(email)){
-                // clear error message, in case there was a message previously
-                errorMsgTextView.setText("");
-                // Put Http parameter firstname with value of first name Edit View control
-                params.put("firstname", firstname);
-                // Put Http parameter lastname with value of last name Edit View control
-                params.put("lastname", lastname);
-                // Put Http parameter username with value of Email Edit View control
-                params.put("username", email);
-                // Put Http parameter phone with value of phone Edit View control
-                params.put("phone", phone);
-                // Put Http parameter password with value of Password Edit View control
-                params.put("password", password);
-                // Invoke RESTful Web Service with Http parameters
-                invokeWS(params);
-            }
-            // When Email is invalid
-            else{
-                Utility.beep();
-                errorMsgTextView.setText("Please enter valid email");
-            }
+        if (Utility.isNotNull(firstname) && Utility.isNotNull(firstname) &&
+                Utility.isNotNull(email) && Utility.isNotNull(password)) {
+            // clear error message, in case there was a message previously
+            errorMsgTextView.setText("");
+            // Put Http parameter firstname with value of First Name Edit View control
+            params.put("firstname", firstname);
+            // Put Http parameter lastname with value of Last Name Edit View control
+            params.put("lastname", lastname);
+            // Put Http parameter email with value of Email Edit View control
+            params.put("username", email);
+            // Put Http parameter phone with value of phone Edit View control
+            params.put("phone", phone);
+            // Put Http parameter password with value of Password Edit View control
+            params.put("password", password);
+            // Put Http parameter zipcode with value of zip code View control
+            params.put("zipcode", zipcode);
+            // Invoke RESTful Web Service with Http parameters
+            invokeWS(params);
         }
-        // When any of the Edit View control left blank
-        else{
+        // When Email is invalid
+        else {
             Utility.beep();
             Toast.makeText(getApplicationContext(), "Please fill in required fields", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -191,6 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText.setText("");
         phoneEditText.setText("");
         pwdEditText.setText("");
+        zipcodeEditText.setText("");
     }
 
 }

@@ -26,18 +26,17 @@ public class Utility {
 	 * @param email
 	 * @return true for Valid Email and false for Invalid Email
 	 */
-	public static boolean validate(String email) {
+	public static boolean validateEmail(String email) {
 		pattern = Pattern.compile(EMAIL_PATTERN);
 		matcher = pattern.matcher(email);
 		return matcher.matches();
  
 	}
 
-	//user can enter a 5-digit zipcode
-	//or 9-digit or 10-digit (when using a dash)
+	// user can enter a 5-digit zipcode
+	// just do simple validation for now
 	public static boolean validateZipcode(String zipcode) {
-		int size = zipcode.length();
-		return (size==5 || size == 9 || size == 10);
+		return (zipcode.length() == 5);
 	}
 	/**
 	 * Checks for Null String object
