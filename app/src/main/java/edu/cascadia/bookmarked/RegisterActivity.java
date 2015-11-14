@@ -1,15 +1,7 @@
 package edu.cascadia.bookmarked;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -92,8 +84,9 @@ public class RegisterActivity extends AppCompatActivity {
         String phone = phoneEditText.getText().toString();
         String password = pwdEditText.getText().toString();
         String zipcode = zipcodeEditText.getText().toString();
-        if (!Utility.validate(email)) {
+        if (!Utility.validateEmail(email)) {
             Toast.makeText(this, "Invalide email address", Toast.LENGTH_SHORT).show();
+            Utility.beep();
             emailEditText.requestFocus();
             return;
         }
@@ -101,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         // zipcode can either be blank or 5 digit long.
         if (Utility.isNotNull(zipcode) && !Utility.validateZipcode(zipcode)) {
             Toast.makeText(this, "Zipcode must be 5 digit long", Toast.LENGTH_SHORT).show();
+            Utility.beep();
             zipcodeEditText.requestFocus();
             return;
         }

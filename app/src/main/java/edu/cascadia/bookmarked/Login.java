@@ -3,8 +3,6 @@ package edu.cascadia.bookmarked;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -83,7 +81,7 @@ public class Login extends AppCompatActivity {
         // When Email Edit View and Password Edit View have values other than Null
         if(Utility.isNotNull(email) && Utility.isNotNull(password)){
             // When Email entered is Valid
-            if(Utility.validate(email)){
+            if(Utility.validateEmail(email)){
                 // Put Http parameter username with value of Email Edit View control
                 params.put("username", email);
                 // Put Http parameter password with value of Password Edit Value control
