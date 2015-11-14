@@ -2,6 +2,7 @@
     <string name="app_name">BookmarkEd</string>
     <string name="setting">Setting</string>
     <string name="post_a_book">Post A book</string>
+    <string name="post_a_book_wanted">Post A book</string>
     <string name="sync_books">Sync</string>
     <string name="login">Log in</string>
     <string name="register">Register</string>
@@ -27,6 +28,9 @@
     <string name="book_description_hint">Enter book description</string>
     <string name="book_asking_price_hint">Enter book asking price</string>
     <string name="book_condition_hint">Enter book condition</string>
+
+    <string name="wanted">Wanted</string>
+    <string name="for_sale">For sale</string>
 
     <!-- Strings related to key for passing data between activities/fragments -->
     <string name="book_info_param">bookInfo</string>
@@ -132,4 +136,7 @@
 
     <string name="pref_username">pref_username</string>
     <string name="title_activity_register2">Register2Activity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
     </resources>

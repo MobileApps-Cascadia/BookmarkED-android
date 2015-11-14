@@ -150,6 +150,7 @@
             android:layout_marginTop="16dip"
             android:background="@color/primary_dark"
             android:onClick="registerUser"
+            android:textAllCaps="false"
             android:text="@string/btn_register"
             android:textColor="#fff" />
 
