@@ -7,12 +7,16 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         PreferenceManager.getDefaultSharedPreferences(this).
                 registerOnSharedPreferenceChangeListener(
                         preferenceChangeListener);
+
+
+
 
     }
 
@@ -184,4 +191,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                             "preference was changed", Toast.LENGTH_SHORT).show();
                 } // end method onSharedPreferenceChanged
             }; // end anonymous inner class
+
+
+
+
+
 }
