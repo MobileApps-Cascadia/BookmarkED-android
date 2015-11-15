@@ -159,9 +159,9 @@ public class BookDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_edit_posted_book) {
-            Toast.makeText(this, "To edit book", Toast.LENGTH_SHORT).show();
+            editBook4Sale();
         } else if (item.getItemId() == R.id.action_delete_posted_book) {
-            Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
             confirmDeleteBook4Sale();
         } else if (item.getItemId() == R.id.action_save_post_book) {
             addABookForSale();
@@ -436,7 +436,6 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
         String hostAddress = ISBNDB_URI + isbn;
-        System.out.println("***Querying isbn: " + hostAddress);
         client.get(hostAddress, new RequestParams(), new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
@@ -471,6 +470,13 @@ public class BookDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void editBook4Sale() {
+        //Toast.makeText(this, "To edit book", Toast.LENGTH_SHORT).show();
+        // enable the edit controls related to the book for sale only
+        askingPriceEditText.setEnabled(true);
+        bookConditionEditText.setEnabled(true);
+    }
+
     private void confirmDeleteBook4Sale() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -494,13 +500,6 @@ public class BookDetailActivity extends AppCompatActivity {
         alertDialogBuilder.setCancelable(true);
         alertDialogBuilder.setPositiveButton("Yes", null);
 
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // if this button is clicked, perform actual delete
-//                        doDeleteBook4Sale();
-//                    }
-//                })
-//
        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
            public void onClick(DialogInterface dialog, int id) {
                // if this button is clicked, just close
@@ -582,7 +581,7 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void doDeleteBook4Sale(int status) {
-        Toast.makeText(this, "To delete book - ID:" + book4SaleID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "To delete book - ID:" + book4SaleID, Toast.LENGTH_SHORT).show();
         requestDeleteBook4Sale(status);
         finish();
     }

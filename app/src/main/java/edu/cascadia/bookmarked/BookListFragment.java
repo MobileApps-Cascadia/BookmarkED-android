@@ -85,6 +85,10 @@ public class BookListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println("In BookListFragment.onCreate " + listType);
+
+        if (savedInstanceState != null) return;
+
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(getActivity());
         // Set Progress Dialog Text
@@ -177,21 +181,27 @@ public class BookListFragment extends ListFragment {
      *
      */
     private void invokeWS(){
-        // Show Progress Dialog
+        if (listType.equals("buy")) {
+            // temporarily do nothing for book wanted. Work in progress
+            return;
+        }
+            // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
 
         String wsURL;
-        wsURL = hostAddress + book4SaleURI;
-//        if (listType.equals("sell-view")) {
-//            wsURL = hostAddress + book4SaleURI;
-//        } else {
-//            // this should be for book wanted. Use temporarily for demo
-//            wsURL = hostAddress + bookURI;
-//        }
-//        System.out.println("Getting " + wsURL);
+        //wsURL = hostAddress + book4SaleURI;
+        if (listType.equals("sell-view")) {
+            wsURL = hostAddress + book4SaleURI;
+        } else {
+            // this should be for book wanted. Do nothing and exit,
+            // actually code does not reach here
+            wsURL = hostAddress + bookURI;
+            //return;
+        }
+        System.out.println("Getting " + wsURL);
 
         client.get(wsURL, new RequestParams(), new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
