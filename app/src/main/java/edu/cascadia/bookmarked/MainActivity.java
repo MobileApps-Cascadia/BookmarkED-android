@@ -5,18 +5,13 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
@@ -27,7 +22,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
 
-    private BookListFragment bookListFragment;
+    private BookListFragment book4SaleListFragment;
+    private BookListFragment bookWantedListFragment;
+
     private String userID;
 
     @Override
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        insertBook4SaleListFragments();
+        showBook4SaleListFragments();
 
         // disable the for sale button initially
         findViewById(R.id.forSaleButton).setEnabled(false);
@@ -57,25 +54,28 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     }
 
-    private void insertBook4SaleListFragments() {
+    private void showBook4SaleListFragments() {
 
         // insert book for sale list view
-        bookListFragment = BookListFragment.newInstance("sell-view","");
-
+        if (book4SaleListFragment == null) {
+            book4SaleListFragment = BookListFragment.newInstance("sell-view", "");
+        }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.list_fragment_container, bookListFragment);
+        fragmentTransaction.replace(R.id.list_fragment_container, book4SaleListFragment);
         fragmentTransaction.commit();
     }
 
-    private void insertBookWantedListFragments() {
+    private void showBookWantedListFragments() {
 
-        // insert book for sale list view
-        bookListFragment = BookListFragment.newInstance("buy", userID);
+        // insert book wanted list view
+        if (bookWantedListFragment == null) {
+            bookWantedListFragment = BookListFragment.newInstance("buy", userID);
+        }
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.list_fragment_container, bookListFragment);
+        fragmentTransaction.replace(R.id.list_fragment_container, bookWantedListFragment);
         fragmentTransaction.commit();
     }
 
@@ -125,7 +125,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_sync_book:
-                bookListFragment.refreshList();
+                // currently only handle refresh for book for sale only
+                if (!findViewById(R.id.forSaleButton).isEnabled()) {
+                    book4SaleListFragment.refreshList();
+                } else {
+                    // do nothing
+                }
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -171,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             } else if (requestCode == POST_A_BOOK_REQUEST) {
                 if (data.hasExtra("NewPosting")) {
                     if (data.getExtras().getBoolean("NewPosting")) {
-                        bookListFragment.refreshList();
+                        book4SaleListFragment.refreshList();
                     }
                 }
             }
@@ -212,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         findViewById(R.id.wantedButton).setEnabled(true);
         findViewById(R.id.bookWantedTextView).setVisibility(View.GONE);
         findViewById(R.id.bookForSaleTextView).setVisibility(View.VISIBLE);
-        insertBookWantedListFragments();
+        showBook4SaleListFragments();
     }
 
     public void onWantedButtonClicked(View view) {
@@ -220,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         findViewById(R.id.forSaleButton).setEnabled(true);
         findViewById(R.id.bookForSaleTextView).setVisibility(View.GONE);
         findViewById(R.id.bookWantedTextView).setVisibility(View.VISIBLE);
-        insertBookWantedListFragments();
+        showBookWantedListFragments();
     }
 
 
