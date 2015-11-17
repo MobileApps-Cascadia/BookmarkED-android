@@ -250,9 +250,12 @@ public class BookDetailActivity extends AppCompatActivity {
             for (int i = 0; i < jsonAuthors.length(); i++) {
                 stringBuffer.append(((JSONObject) jsonAuthors.get(i)).getString("name") + ", ");
             }
-            // delete last 2 char (comma and space);
-            int lastComma = stringBuffer.lastIndexOf(", ");
-            stringBuffer.delete(lastComma, lastComma + 1);
+            if (stringBuffer.length() > 2) {
+                // delete last 2 char (comma and space);
+                // it is possible that the book has no author, like dictionary
+                int lastComma = stringBuffer.lastIndexOf(", ");
+                stringBuffer.delete(lastComma, lastComma + 1);
+            }
             authorEditText.setText(stringBuffer);
             editionEditText.setText(jsonBook.getString("edition_info"));
             descEditText.setText(jsonBook.getString("summary"));

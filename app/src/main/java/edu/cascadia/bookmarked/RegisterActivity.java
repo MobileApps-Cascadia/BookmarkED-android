@@ -2,14 +2,19 @@ package edu.cascadia.bookmarked;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = pwdEditText.getText().toString();
         String zipcode = zipcodeEditText.getText().toString();
         if (!Utility.validateEmail(email)) {
-            Toast.makeText(this, "Invalide email address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
             Utility.beep();
             emailEditText.requestFocus();
             return;
@@ -107,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         // When Name Edit View, Email Edit View and Password Edit View have values other than Null
-        if (Utility.isNotNull(firstname) && Utility.isNotNull(firstname) &&
+        if (Utility.isNotNull(firstname) && Utility.isNotNull(lastname) &&
                 Utility.isNotNull(email) && Utility.isNotNull(password)) {
             // clear error message, in case there was a message previously
             errorMsgTextView.setText("");
@@ -229,7 +234,7 @@ public class RegisterActivity extends AppCompatActivity {
                         errorMsgTextView.setText(obj.getString("error_msg"));
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -276,12 +281,17 @@ public class RegisterActivity extends AppCompatActivity {
         // set title
         alertDialogBuilder.setTitle("Verification code");
 
+        alertDialogBuilder.setIcon(R.drawable.ic_lock_open_black_24dp);
+
         alertDialogBuilder.setMessage("Please check your email for the registration confirmation and enter the verification code");
         // Set an EditText view to get user input
-        final EditText input = new EditText(getApplicationContext());
-        input.setTextColor(Color.BLACK);
+        final EditText codeEditText = new EditText(getApplicationContext());
 
-        alertDialogBuilder.setView(input);
+        codeEditText.setTextColor(Color.BLACK);
+        codeEditText.setPadding(20,0,20,0);
+        codeEditText.requestFocus();
+
+        alertDialogBuilder.setView(codeEditText);
         alertDialogBuilder.setCancelable(false);
         alertDialogBuilder.setPositiveButton("Verify", null);
 
@@ -311,13 +321,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view) {
-                        if (input.getText().length() > 0) {
+                        if (codeEditText.getText().length() > 0) {
                             //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                             RequestParams requestParams = new RequestParams();
                             requestParams.add("username", emailEditText.getText().toString());
                             requestParams.add("password", pwdEditText.getText().toString());
-                            requestParams.add("verificationcode", input.getText().toString());
+                            requestParams.add("verificationcode", codeEditText.getText().toString());
                             // send request to web service
                             sendVerificationRequest(requestParams);
                         } else {
