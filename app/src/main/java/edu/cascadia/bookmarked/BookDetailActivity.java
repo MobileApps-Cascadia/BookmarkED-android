@@ -339,7 +339,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -385,7 +385,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -480,7 +480,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
@@ -549,7 +549,7 @@ public class BookDetailActivity extends AppCompatActivity {
                             doDeleteBook4Sale(selectedItem[0] + 2);
                         } else {
                             Utility.beep();
-                            Toast.makeText(getApplicationContext(), "Please select a reason", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.select_delete_reason), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -584,7 +584,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
-                        Toast.makeText(getApplicationContext(), "Posted book was successfully removed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
                         newPosting = true;
                         finish();
                     }
@@ -594,7 +594,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }
