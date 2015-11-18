@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/bookCoverimageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/sample_book_cover" />
+
+    <TextView
+        android:id="@+id/bookTitletextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/bookCoverimageView"
+        android:text="Book Title"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/bookPricetextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bookCoverimageView"
+        android:layout_alignLeft="@+id/bookTitletextView"
+        android:text="Book Price" />
+
+</RelativeLayout>
