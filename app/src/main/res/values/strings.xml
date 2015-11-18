@@ -65,6 +65,9 @@
     <string name="title_bookforsale">Book for sale</string>
     <string name="title_bookwanted">Book wanted to buy</string>
 
+    <string name="select_delete_reason">Please select a reason</string>
+    <string name="posted_book_deleted">Posted book was successfully removed</string>
+
     <string name="title_activity_book">Book</string>
     <string name="title_activity_my_posting">My Postings</string>
     <string name="title_activity_register">Register</string>
@@ -74,9 +77,11 @@
     <string name="preferred_college_desc">Choose a college that you want to filter or post a book at</string>
 
     <!-- String related to network/web service error -->
-    <string name="unexpected_network_error">Unexpected error occcured! [Most common error: Device might not be connected to Internet or remote server is down]</string>
+    <string name="unexpected_network_error">Unexpected error occurred! [Most common error: Device might not be connected to Internet or remote server is down]</string>
     <string name="http_500_error">Something went wrong at server end</string>
     <string name="http_404_error">Requested resource not found</string>
+
+    <string name="json_exception">Error Occurred [Server\'s JSON response might be invalid]!</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
@@ -135,8 +140,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="pref_username">pref_username</string>
-    <string name="title_activity_register2">Register2Activity</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    </resources>
+
+</resources>

@@ -149,7 +149,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contact Seller"
-        android:id="@+id/button"
+        android:id="@+id/contactSellerButton"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/scrollView" />
 </RelativeLayout>
