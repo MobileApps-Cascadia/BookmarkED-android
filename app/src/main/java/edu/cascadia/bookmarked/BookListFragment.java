@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 
@@ -44,7 +45,7 @@ public class BookListFragment extends ListFragment {
 
     private String userID="";
 
-    private ArrayAdapter<BookItem> listAdapter;
+    private BooksAdapter listAdapter;
 
     private OnFragmentInteractionListener mListener;
     // Progress Dialog Object
@@ -102,7 +103,7 @@ public class BookListFragment extends ListFragment {
 
         bookListItem = new BookListItem();
 
-        listAdapter = new ArrayAdapter<BookItem>(getActivity(), R.layout.book_list_item, R.id.listText, bookListItem.ITEMS);
+        listAdapter = new BooksAdapter(getActivity(), (ArrayList<BookItem>) bookListItem.ITEMS);
 
         setListAdapter(listAdapter);
         if (isNetworkAvailable()) {
