@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -42,6 +40,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
+    private final static int EDIT_REQUEST_CODE = 2;
+
     private EditText isbnEditText;
     private EditText titleEditText;
     private EditText authorEditText;
@@ -60,7 +60,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private boolean newPosting = false;
 
     private String userID;
-
+    private String jsonString;
     private String book4SaleID;
 
     @Override
@@ -68,11 +68,12 @@ public class BookDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
-        String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
+        jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
         final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
 
         // possible value for bookAction:
         //  ViewExisting
+        //  EditExisting
         //  AddNew
         //  AllowEdit
         bookAction = getIntent().getStringExtra("BookAction");
@@ -109,7 +110,7 @@ public class BookDetailActivity extends AppCompatActivity {
             }
         });
 
-        if (bookAction.equals("AddNew") || bookAction.equals("AllowEdit")) {
+        if (!bookAction.equals("ViewExisting")) {
             contactSellerBtn.setVisibility(View.GONE);
         }
     }
@@ -123,16 +124,15 @@ public class BookDetailActivity extends AppCompatActivity {
         if (Utility.isNotNull(bookAction)) {
             if (bookAction.equals("AllowEdit")) {
                 getMenuInflater().inflate(R.menu.menu_book_edit, menu);
-            } else if (bookAction.equals("AddNew")) {
+            } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
             }
         }
 
         return super.onCreateOptionsMenu(menu);
     }
-    protected void sendEmail(String jsonStr) {
 
- //String[] TO = {""};
+    protected void sendEmail(String jsonStr) {
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -225,7 +225,8 @@ public class BookDetailActivity extends AppCompatActivity {
         barcodeButton.setVisibility(View.GONE);
     }
 
-    // fill the fields only for read only mode
+    // fill the fields only for read-only mode
+    // data coming from the BookmarkEd web service
     private void populateFields(String jsonString) {
         try {
             disableControls();
@@ -246,7 +247,7 @@ public class BookDetailActivity extends AppCompatActivity {
         }
     }
 
-    // fill fields with data from isbn db
+    // fill fields with data from isbn db web service
     private void populateBookFields(JSONObject jsonBook) {
         try {
             titleEditText.setText(jsonBook.getString("title"));
@@ -420,6 +421,15 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == EDIT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK)
+            {
+                // update current screen - just close for now
+                finish();
+            }
+            return;
+        }
+
         //retrieve scan result
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
@@ -481,9 +491,14 @@ public class BookDetailActivity extends AppCompatActivity {
     private void editBook4Sale() {
         //Toast.makeText(this, "To edit book", Toast.LENGTH_SHORT).show();
         // enable the edit controls related to the book for sale only
-        askingPriceEditText.setEnabled(true);
-        bookConditionEditText.setEnabled(true);
+        //askingPriceEditText.setEnabled(true);
+        //bookConditionEditText.setEnabled(true);
+        Intent editIntent = new Intent(this, BookDetailActivity.class);
+        editIntent.putExtra("BookAction", "EditExisting");
+        editIntent.putExtra(getString(R.string.book_info_param), jsonString);
+        startActivityForResult(editIntent, EDIT_REQUEST_CODE);
     }
+
 
     private void confirmDeleteBook4Sale() {
 
