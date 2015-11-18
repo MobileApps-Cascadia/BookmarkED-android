@@ -102,13 +102,18 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        Button startBtn = (Button) findViewById(R.id.button);
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
+        contactSellerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 sendEmail(jsonStr);
             }
         });
+
+        if (bookAction.equals("AddNew") || bookAction.equals("AllowEdit")) {
+            contactSellerBtn.setVisibility(View.GONE);
+        }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 3 possibilities in the toolbar menu,
