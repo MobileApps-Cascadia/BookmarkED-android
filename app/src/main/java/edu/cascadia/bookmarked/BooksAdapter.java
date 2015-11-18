@@ -29,9 +29,10 @@ public class BooksAdapter extends ArrayAdapter<BookItem> {
         }
         // Lookup view for data population
         TextView bookTitle = (TextView) convertView.findViewById(R.id.bookTitletextView);
-        TextView bookPrice = (TextView) convertView.findViewById(R.id.bookTitletextView);
+        TextView bookPrice = (TextView) convertView.findViewById(R.id.bookPricetextView);
         // Populate the data into the template view using the data object
         bookTitle.setText(bookItem.title);
+        bookPrice.setText("Price: $" + bookItem.askingPrice);
         //tvHome.setText(user.hometown);
         // Return the completed view to render on screen
         return convertView;
