@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -37,6 +39,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
     private final static String deleteBook4SaleURI = "bookmarked/book/deletebookforsale";
+    private final static String updateBook4SaleURI = "bookmarked/book/updatebookforsale";
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
@@ -52,21 +55,22 @@ public class BookDetailActivity extends AppCompatActivity {
     private EditText noteEditText;
 
     // Progress Dialog Object
-    private ProgressDialog prgDialog;
+    protected ProgressDialog prgDialog;
 
     // flag to indicate screen mode
     private boolean readOnlyMode;
-    private String bookAction;
+    protected String bookAction;
     private boolean newPosting = false;
 
     private String userID;
-    private String jsonString;
+    protected String jsonString;
     private String book4SaleID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
+        System.out.println("***in BookDetailActivity.onCreate() ***");
 
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
         final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
@@ -93,6 +97,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (readOnlyMode) {
             setTitle("Detail book for sale");
             populateFields(jsonString);
+            disableBook4SaleControls();
         }
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +116,7 @@ public class BookDetailActivity extends AppCompatActivity {
         });
 
         if (!bookAction.equals("ViewExisting")) {
-            contactSellerBtn.setVisibility(View.GONE);
+            hideContactSellerButton();
         }
     }
 
@@ -130,6 +135,10 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    protected void hideContactSellerButton() {
+        findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
     }
 
     protected void sendEmail(String jsonStr) {
@@ -177,7 +186,7 @@ public class BookDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         this.setTitle("Post book for sale");
 
         isbnEditText = (EditText) findViewById(R.id.bookIsbn);
@@ -187,8 +196,17 @@ public class BookDetailActivity extends AppCompatActivity {
         descEditText = (EditText) findViewById(R.id.bookDescription);
 
         askingPriceEditText = (EditText) findViewById(R.id.bookAskingPrice);
-        bookConditionEditText = (EditText) findViewById(R.id.bookCondition);
+        //bookConditionEditText = (EditText) findViewById(R.id.bookCondition);
         //noteEditText = (EditText) findViewById(R.id.note)
+
+        Spinner spinner = (Spinner) findViewById(R.id.bookConditionSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.book_conditions, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
 
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -207,8 +225,8 @@ public class BookDetailActivity extends AppCompatActivity {
         authorEditText.setEnabled(false);
         editionEditText.setEnabled(false);
         descEditText.setEnabled(false);
-        askingPriceEditText.setEnabled(false);
-        bookConditionEditText.setEnabled(false);
+        //askingPriceEditText.setEnabled(false);
+        //bookConditionEditText.setEnabled(false);
 
         // don't let the controls to be focusable,
         // so keyboard won't show up
@@ -217,17 +235,26 @@ public class BookDetailActivity extends AppCompatActivity {
         authorEditText.setFocusable(false);
         editionEditText.setFocusable(false);
         descEditText.setFocusable(false);
-        askingPriceEditText.setFocusable(false);
-        bookConditionEditText.setFocusable(false);
+        //askingPriceEditText.setFocusable(false);
+        //bookConditionEditText.setFocusable(false);
 
         // hide the barcode button
         Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
         barcodeButton.setVisibility(View.GONE);
     }
 
+    protected void disableBook4SaleControls() {
+        askingPriceEditText.setEnabled(false);
+        //bookConditionEditText.setEnabled(false);
+
+        askingPriceEditText.setFocusable(false);
+        //bookConditionEditText.setFocusable(false);
+
+    }
+
     // fill the fields only for read-only mode
     // data coming from the BookmarkEd web service
-    private void populateFields(String jsonString) {
+    protected void populateFields(String jsonString) {
         try {
             disableControls();
 
@@ -240,7 +267,7 @@ public class BookDetailActivity extends AppCompatActivity {
             editionEditText.setText(jsonObject.getString("edition"));
             descEditText.setText(jsonObject.getString("description"));
             askingPriceEditText.setText(jsonObject.getString("askingprice"));
-            bookConditionEditText.setText(jsonObject.getString("bookcondition"));
+            //bookConditionEditText.setText(jsonObject.getString("bookcondition"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -424,6 +451,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (requestCode == EDIT_REQUEST_CODE) {
             if (resultCode == RESULT_OK)
             {
+                System.out.println("***Received Edit Request Code with OK result");
                 // update current screen - just close for now
                 finish();
             }
@@ -493,10 +521,18 @@ public class BookDetailActivity extends AppCompatActivity {
         // enable the edit controls related to the book for sale only
         //askingPriceEditText.setEnabled(true);
         //bookConditionEditText.setEnabled(true);
+        /*
         Intent editIntent = new Intent(this, BookDetailActivity.class);
         editIntent.putExtra("BookAction", "EditExisting");
         editIntent.putExtra(getString(R.string.book_info_param), jsonString);
         startActivityForResult(editIntent, EDIT_REQUEST_CODE);
+        */
+
+        Intent editIntent = new Intent(this, EditBook4SaleActivity.class);
+        editIntent.putExtra("BookAction", "EditExisting");
+        editIntent.putExtra(getString(R.string.book_info_param), jsonString);
+        startActivityForResult(editIntent, EDIT_REQUEST_CODE);
+
     }
 
 
@@ -569,7 +605,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
         RequestParams params = new RequestParams();
         params.put("id", book4SaleID);
-        params.put("status", status+"");
+        params.put("status", status + "");
 
         String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
         client.get(hostAddress + deleteBook4SaleURI, params, new AsyncHttpResponseHandler() {
@@ -607,6 +643,51 @@ public class BookDetailActivity extends AppCompatActivity {
         //Toast.makeText(this, "To delete book - ID:" + book4SaleID, Toast.LENGTH_SHORT).show();
         requestDeleteBook4Sale(status);
         finish();
+    }
+
+    protected void requestUpdateBook4Sale() {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams params = new RequestParams();
+        params.put("id", book4SaleID);
+        params.put("askingprice", askingPriceEditText.getText().toString());
+        params.put("bookcondition", bookConditionEditText.getText().toString());
+        params.put("note", "sample note");   // noteEditText.getText().toString());
+
+        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
+        client.get(hostAddress + updateBook4SaleURI, params, new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+
+                try {
+                    // JSON Object
+                    JSONObject obj = new JSONObject(response);
+                    // When the JSON response has status boolean value assigned with true
+                    if (obj.getBoolean("status")) {
+                        // Display book for sale successfully posted using Toast
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
+                        newPosting = true;
+                        finish();
+                    }
+                    // Else display error message
+                    else {
+                        //errorMsg.setText(obj.getString("error_msg"));
+                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+
+            }
+        });
     }
 
     @Override

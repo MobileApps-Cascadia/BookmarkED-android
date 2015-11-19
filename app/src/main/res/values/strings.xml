@@ -67,6 +67,7 @@
 
     <string name="select_delete_reason">Please select a reason</string>
     <string name="posted_book_deleted">Posted book was successfully removed</string>
+    <string name="posted_book_updated">Posted book was successfully updated</string>
 
     <string name="title_activity_book">Book</string>
     <string name="title_activity_my_posting">My Postings</string>

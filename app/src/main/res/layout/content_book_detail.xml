@@ -114,11 +114,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/book_condition" />
 
-            <EditText
+            <!--EditText
                 android:id="@+id/bookCondition"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_condition_hint"/>
+                android:hint="@string/book_condition_hint"/-->
+            <Spinner
+                android:id="@+id/bookConditionSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></Spinner>
 
             <!--Button
                 android:id="@+id/btnAddOrEdit"
