@@ -131,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                     // do nothing
                 }
                 return true;
+            case R.id.action_logout:
+                doLogout();
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -150,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         return false;
     }
 
-    private boolean userLogout() {
+    private void doLogout() {
+        // perform logout only if user was logged in
         if (userLoggedIn) {
-            new Logout();
-            return false;
+            userLoggedIn = !userLoggedIn;
+            Toast.makeText(this, "You're logged out", Toast.LENGTH_SHORT).show();
         }
-        return false;
     }
 
 

@@ -194,7 +194,7 @@ public class BookListFragment extends ListFragment {
 
         String wsURL;
         //wsURL = hostAddress + book4SaleURI;
-        if (listType.equals("sell-view")) {
+        if (listType.equals("sell-view") || listType.equals("sell")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
             // this should be for book wanted. Do nothing and exit,
