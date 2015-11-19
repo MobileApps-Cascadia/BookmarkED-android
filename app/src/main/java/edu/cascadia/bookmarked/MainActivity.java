@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
     private final int LOG_IN_REQUEST = 1;
-    private final int POST_A_BOOK_REQUEST =2;
+    private final int POST_A_BOOK_REQUEST = 2;
 
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         // disable the for sale button initially
         findViewById(R.id.forSaleButton).setEnabled(false);
-
 
         // set default values in the app's SharedPreferences
         PreferenceManager.setDefaultValues(this, R.xml.preference, false);
@@ -140,8 +139,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         }
     }
 
-    private boolean userNotLoggedIn()
-    {
+    private boolean userNotLoggedIn() {
         if (!userLoggedIn) {
             Utility.beep();
             Toast.makeText(this, getString(R.string.must_login), Toast.LENGTH_SHORT).show();
@@ -151,6 +149,15 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         return false;
     }
+
+    private boolean userLogout() {
+        if (userLoggedIn) {
+            new Logout();
+            return false;
+        }
+        return false;
+    }
+
 
     private void doLogin() {
         Intent intent = new Intent(this, Login.class);

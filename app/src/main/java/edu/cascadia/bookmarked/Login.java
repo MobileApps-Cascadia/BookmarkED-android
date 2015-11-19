@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity {
     private ProgressDialog prgDialog;
     // Email Edit View Object
     private EditText emailEditText;
-    // Passwprd Edit View Object
+    // Password Edit View Object
     private EditText pwdEditText;
     // Error Msg TextView Object
     private TextView errorMsgTextView;
