@@ -45,6 +45,11 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
+            android:name=".EditBook4SaleActivity"
+            android:label="@string/title_activity_book"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name=".MyPostingActivity"
             android:label="@string/title_activity_my_posting"
             android:screenOrientation="portrait"

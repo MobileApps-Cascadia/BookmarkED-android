@@ -9,25 +9,42 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/sample_book_cover_48" />
+        android:src="@drawable/sample_book_cover" />
 
     <TextView
-        android:id="@+id/bookTitletextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/bookTitleTextView"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/bookCoverimageView"
         android:text="Book Title"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:singleLine="true" />
+    <TextView
+        android:id="@+id/bookAuthorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:textSize="12sp"
+        android:layout_alignBottom="@+id/bookCoverimageView"
+        android:layout_toRightOf="@+id/bookCoverimageView"
+        android:text="Author"
+        android:singleLine="false"
+        android:maxLength="50"
+        android:maxWidth="210dp" />
 
     <TextView
-        android:id="@+id/bookPricetextView"
+        android:id="@+id/bookPriceTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/bookCoverimageView"
-        android:layout_alignLeft="@+id/bookTitletextView"
+        android:layout_alignRight="@+id/bookTitleTextView"
         android:textSize="12sp"
-        android:text="Book Price" />
-
+        android:text="Book Price"
+        android:gravity="end|right"
+        android:textAlignment="textEnd"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

@@ -14,5 +14,11 @@
         <item>Decided to keep</item>
         <item>Other reason</item>
     </string-array>
+    <string-array name="book_conditions">
+        <item>Exellent</item>
+        <item>Good</item>
+        <item>Fair</item>
+        <item>Poor</item>
+    </string-array>
 
 </resources>

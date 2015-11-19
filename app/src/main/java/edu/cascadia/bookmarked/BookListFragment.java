@@ -224,12 +224,14 @@ public class BookListFragment extends ListFragment {
                     listAdapter.clear();
                     try {
                         getArray(jsonArray);
-                        listAdapter.sort(new Comparator<BookItem>() {
-                            @Override
-                            public int compare(BookItem bookItem, BookItem t1) {
-                                return bookItem.title.compareToIgnoreCase(t1.title);
-                            }
-                        });
+                        // result should be ordered by add_timestamp descending order
+                        // no need to sort
+//                        listAdapter.sort(new Comparator<BookItem>() {
+//                            @Override
+//                            public int compare(BookItem bookItem, BookItem t1) {
+//                                return bookItem.title.compareToIgnoreCase(t1.title);
+//                            }
+//                        });
                         listAdapter.notifyDataSetChanged();
                     } catch (ParseException e) {
                         System.out.println("Exception e:" + e.getMessage());
