@@ -40,6 +40,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
     private final static String deleteBook4SaleURI = "bookmarked/book/deletebookforsale";
     private final static String updateBook4SaleURI = "bookmarked/book/updatebookforsale";
+    private final static String getABook4SaleByIdURI = "bookmarked/book/getabookforsalebyid";
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
@@ -51,8 +52,10 @@ public class BookDetailActivity extends AppCompatActivity {
     private EditText editionEditText;
     private EditText descEditText;
     private EditText askingPriceEditText;
-    private EditText bookConditionEditText;
-    private EditText noteEditText;
+    //private EditText bookConditionEditText;
+    private EditText commentEditText;
+
+    private Spinner bookConditionSpinner;
 
     // Progress Dialog Object
     protected ProgressDialog prgDialog;
@@ -199,14 +202,16 @@ public class BookDetailActivity extends AppCompatActivity {
         //bookConditionEditText = (EditText) findViewById(R.id.bookCondition);
         //noteEditText = (EditText) findViewById(R.id.note)
 
-        Spinner spinner = (Spinner) findViewById(R.id.bookConditionSpinner);
+        commentEditText = (EditText) findViewById(R.id.book4SaleComment);
+
+        bookConditionSpinner = (Spinner) findViewById(R.id.bookConditionSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.book_conditions, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        bookConditionSpinner.setAdapter(adapter);
 
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -245,9 +250,13 @@ public class BookDetailActivity extends AppCompatActivity {
 
     protected void disableBook4SaleControls() {
         askingPriceEditText.setEnabled(false);
+        bookConditionSpinner.setEnabled(false);
+        commentEditText.setEnabled(false);
         //bookConditionEditText.setEnabled(false);
 
         askingPriceEditText.setFocusable(false);
+        bookConditionSpinner.setFocusable(false);
+        commentEditText.setFocusable(false);
         //bookConditionEditText.setFocusable(false);
 
     }
@@ -268,6 +277,16 @@ public class BookDetailActivity extends AppCompatActivity {
             descEditText.setText(jsonObject.getString("description"));
             askingPriceEditText.setText(jsonObject.getString("askingprice"));
             //bookConditionEditText.setText(jsonObject.getString("bookcondition"));
+            String bookCondStr = jsonObject.getString("bookcondition");
+            if (Utility.isNotNull(bookCondStr)) {
+                ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) bookConditionSpinner.getAdapter();
+                int index = adapter.getPosition(bookCondStr);
+                bookConditionSpinner.setSelection(index);
+            } else {
+                // do nothing set to Unknown
+            }
+
+            commentEditText.setText(jsonObject.getString("comment"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -340,8 +359,9 @@ public class BookDetailActivity extends AppCompatActivity {
         params.put("isbn", isbnEditText.getText().toString());
         params.put("username", userID);
         params.put("askingprice", askingPriceEditText.getText().toString());
-        params.put("bookcondition", bookConditionEditText.getText().toString());
-        params.put("note", "sample note");
+        //params.put("bookcondition", bookConditionEditText.getText().toString());
+        params.put("bookcondition", getBookConditionFromSpinner());
+        params.put("comment", commentEditText.getText().toString());
 
         String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
         client.get(hostAddress + addABookForSaleURI, params, new AsyncHttpResponseHandler() {
@@ -654,8 +674,8 @@ public class BookDetailActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("id", book4SaleID);
         params.put("askingprice", askingPriceEditText.getText().toString());
-        params.put("bookcondition", bookConditionEditText.getText().toString());
-        params.put("note", "sample note");   // noteEditText.getText().toString());
+        params.put("bookcondition", getBookConditionFromSpinner());
+        params.put("comment", commentEditText.getText().toString());
 
         String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
         client.get(hostAddress + updateBook4SaleURI, params, new AsyncHttpResponseHandler() {
@@ -672,8 +692,60 @@ public class BookDetailActivity extends AppCompatActivity {
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
+                        //reloadBook4Sale();
                         newPosting = true;
                         finish();
+                    }
+                    // Else display error message
+                    else {
+                        //errorMsg.setText(obj.getString("error_msg"));
+                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+
+            }
+        });
+    }
+
+    private String getBookConditionFromSpinner() {
+        if (bookConditionSpinner.getSelectedItemPosition() == 0) return "";
+
+        return (String) bookConditionSpinner.getSelectedItem();
+    }
+
+    // To be later to update the list adapter
+    private void reloadBook4Sale() {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams params = new RequestParams();
+        params.put("id", book4SaleID);
+
+        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
+        client.get(hostAddress + getABook4SaleByIdURI, params, new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+
+                try {
+                    // JSON Object
+                    JSONObject obj = new JSONObject(response);
+                    // When the JSON response has status boolean value assigned with true
+                    if (!Utility.isNotNull(obj.getString("error_msg"))) {
+                        // Display book for sale successfully posted using Toast
+                        //Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
+                        // apply new json, to be passed back to calling activity
+                        jsonString = response;
+                        newPosting = true;
+                        //finish();
                     }
                     // Else display error message
                     else {
@@ -694,6 +766,7 @@ public class BookDetailActivity extends AppCompatActivity {
     public void finish() {
         Intent data = new Intent();
         data.putExtra("NewPosting", newPosting);
+
         setResult(RESULT_OK, data);
 
         super.finish();

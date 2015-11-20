@@ -34,7 +34,8 @@ public class BooksAdapter extends ArrayAdapter<BookItem> {
         bookTitle.setText(bookItem.title);
         TextView bookAuthor = (TextView) convertView.findViewById(R.id.bookAuthorTextView);
         bookAuthor.setText(bookItem.author);
-        bookPrice.setText("Price: $" + bookItem.askingPrice);
+
+        bookPrice.setText("Price:" + bookItem.askingPrice);
         //tvHome.setText(user.hometown);
         // Return the completed view to render on screen
         return convertView;

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_book" tools:context="edu.cascadia.bookmarked.BookDetailActivity">
+    tools:context="edu.cascadia.bookmarked.BookDetailActivity"
+    tools:showIn="@layout/activity_book_detail">
+
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView">
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="5dip"
             android:paddingLeft="5dip"
-            android:paddingRight="5dip">
+            android:paddingRight="5dip"
+            >
 
             <!-- Name Label -->
 
@@ -33,19 +37,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/bookIsbn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="@string/isbn_hint"
-                android:layout_weight="1"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/bookIsbn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/isbn_hint"
+                    android:inputType="number"
+                    android:maxLength="15" />
 
                 <Button
+                    android:id="@+id/barcodeButton"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/barcodeButton"
                     android:background="@drawable/barcode_icon"
                     android:onClick="onBarcodeButtonClicked" />
 
@@ -61,7 +66,8 @@
                 android:id="@+id/bookTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_title_hint"/>
+                android:hint="@string/book_title_hint"
+                android:maxLength="50" />
 
             <!-- Book author -->
             <TextView
@@ -73,7 +79,8 @@
                 android:id="@+id/bookAuthor"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_author_hint"/>
+                android:hint="@string/book_author_hint"
+                android:maxLength="50" />
 
             <!-- Book edition -->
             <TextView
@@ -85,7 +92,8 @@
                 android:id="@+id/bookEdition"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_edition_hint"/>
+                android:hint="@string/book_edition_hint"
+                android:maxLength="50" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -96,7 +104,8 @@
                 android:id="@+id/bookDescription"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_description_hint"/>
+                android:hint="@string/book_description_hint"
+                android:maxLength="500" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -107,53 +116,42 @@
                 android:id="@+id/bookAskingPrice"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/book_asking_price_hint"/>
+                android:hint="@string/book_asking_price_hint"
+                android:inputType="numberDecimal" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/book_condition" />
 
-            <!--EditText
-                android:id="@+id/bookCondition"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/book_condition_hint"/-->
             <Spinner
                 android:id="@+id/bookConditionSpinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></Spinner>
+                android:layout_height="wrap_content" />
 
-            <!--Button
-                android:id="@+id/btnAddOrEdit"
+
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:background="#ff6347"
-                android:onClick="onAddEditClicked"
-                android:text="Add or Edit"
-                android:textColor="#fff" />
+                android:text="@string/comment" />
 
-            <Button
-                android:id="@+id/cancelButton"
+            <EditText
+                android:id="@+id/book4SaleComment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
-                android:background="@null"
-                android:onClick="onCancelClicked"
-                android:text="Cancel"
-                android:textColor="#228b22"
-                android:textStyle="bold" /-->
+                android:hint="@string/comment_hint"
+                android:maxLength="250" />
 
         </LinearLayout>
 
     </ScrollView>
 
     <Button
+        android:id="@+id/contactSellerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact Seller"
-        android:id="@+id/contactSellerButton"
+        android:layout_alignEnd="@+id/scrollView"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/scrollView" />
+        android:text="Contact Seller" />
+
 </RelativeLayout>

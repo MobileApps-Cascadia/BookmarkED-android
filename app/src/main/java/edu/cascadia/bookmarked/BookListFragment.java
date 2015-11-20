@@ -182,7 +182,7 @@ public class BookListFragment extends ListFragment {
      *
      */
     private void invokeWS(){
-        if (listType.equals("buy")) {
+        if (listType.equals("my-buy-list")) {
             // temporarily do nothing for book wanted. Work in progress
             return;
         }
@@ -194,7 +194,7 @@ public class BookListFragment extends ListFragment {
 
         String wsURL;
         //wsURL = hostAddress + book4SaleURI;
-        if (listType.equals("sell-view") || listType.equals("sell")) {
+        if (listType.equals("sell-view") || listType.equals("my-sell-list")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
             // this should be for book wanted. Do nothing and exit,
@@ -303,7 +303,7 @@ public class BookListFragment extends ListFragment {
 
         try {
             // only filter on book for sale. We don't have infrastructure for book wanted yet.
-            if (listType.equals("sell-view") && Utility.isNotNull(userID)) {
+            if (listType.equals("my-sell-list") && Utility.isNotNull(userID)) {
                 // filter result. Only add book to adapter if the same name/id
                 if (jsonObject.getString("username").equals(userID) == false)
                     return;

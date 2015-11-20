@@ -40,7 +40,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     private void insertBookListFragments() {
 
         // insert book for sale list view
-        BookListFragment itemFragment = BookListFragment.newInstance("sell", userID);
+        BookListFragment itemFragment = BookListFragment.newInstance("my-sell-list", userID);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -48,7 +48,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         fragmentTransaction.commit();
 
         // insert book wanted list view
-        BookListFragment itemFragment2 = BookListFragment.newInstance("buy", userID);
+        BookListFragment itemFragment2 = BookListFragment.newInstance("my-buy-list", userID);
 
         FragmentManager fm2 = getFragmentManager();
         FragmentTransaction fragmentTransaction2 = fm.beginTransaction();

@@ -15,7 +15,8 @@
         <item>Other reason</item>
     </string-array>
     <string-array name="book_conditions">
-        <item>Exellent</item>
+        <item>Unknown</item>
+        <item>Excellent</item>
         <item>Good</item>
         <item>Fair</item>
         <item>Poor</item>
