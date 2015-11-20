@@ -68,6 +68,8 @@ public class EditBook4SaleActivity extends BookDetailActivity {
     public void finish() {
         Intent data = new Intent();
         data.putExtra("NewPosting", newUpdate);
+        data.putExtra("updateJson", jsonString);
+
         setResult(RESULT_OK, data);
 
         super.finish();

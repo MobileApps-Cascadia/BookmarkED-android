@@ -3,6 +3,10 @@ package edu.cascadia.bookmarked;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 /**
  * Created by seanchung on 11/6/15.
  */
@@ -24,7 +28,11 @@ public class BookItem {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             author = jsonObject.getString("author");
-            askingPrice = jsonObject.getString("askingprice");
+
+            NumberFormat numberFormat =
+                    NumberFormat.getCurrencyInstance(Locale.US);
+            askingPrice = numberFormat.format(jsonObject.getDouble("askingprice"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

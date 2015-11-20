@@ -20,14 +20,16 @@
     <string name="book_edition">Edition</string>
     <string name="book_description">Description</string>
     <string name="asking_price">Asking price</string>
-    <string name="book_condition">Condition</string>
+    <string name="book_condition">Book condition</string>
+    <string name="comment">Comment</string>
     <string name="isbn_hint">Enter book ISBN</string>
     <string name="book_title_hint">Enter book title</string>
     <string name="book_author_hint">Enter book author</string>
     <string name="book_edition_hint">Enter book edition</string>
     <string name="book_description_hint">Enter book description</string>
     <string name="book_asking_price_hint">Enter book asking price</string>
-    <string name="book_condition_hint">Enter book condition</string>
+    <!--string name="book_condition_hint">Enter book condition</string -->
+    <string name="comment_hint">Enter additional comment</string>
 
     <string name="wanted">Wanted</string>
     <string name="for_sale">For sale</string>
