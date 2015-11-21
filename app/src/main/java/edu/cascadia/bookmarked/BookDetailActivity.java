@@ -98,7 +98,7 @@ public class BookDetailActivity extends AppCompatActivity {
         initComponents();
 
         if (readOnlyMode) {
-            setTitle("Detail book for sale");
+            setTitle(getString(R.string.title_detail_book_for_sale));
             populateFields(jsonString);
             disableBook4SaleControls();
         }
@@ -190,7 +190,7 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     protected void initComponents() {
-        this.setTitle("Post book for sale");
+        setTitle(getString(R.string.title_post_book_for_sale));
 
         isbnEditText = (EditText) findViewById(R.id.bookIsbn);
         titleEditText = (EditText) findViewById(R.id.bookTitle);
@@ -471,7 +471,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (requestCode == EDIT_REQUEST_CODE) {
             if (resultCode == RESULT_OK)
             {
-                System.out.println("***Received Edit Request Code with OK result");
+                //System.out.println("***Received Edit Request Code with OK result");
                 // update current screen - just close for now
                 finish();
             }
@@ -562,7 +562,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 this);
 
         // set title
-        alertDialogBuilder.setTitle("Are you sure to delete?\nSelect reason to delete posting.");
+        alertDialogBuilder.setTitle(getString(R.string.title_delete_book4sale_reason));
 
         // set dialog message
         final String[] reasons = getResources().getStringArray(R.array.delete_book4sale_reasons);

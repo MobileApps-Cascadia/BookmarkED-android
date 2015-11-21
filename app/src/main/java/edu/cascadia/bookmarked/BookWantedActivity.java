@@ -66,7 +66,7 @@ public class BookWantedActivity extends AppCompatActivity {
 
         initComponents();
         if (bookAction.equals("ViewExisting") || bookAction.equals("AllowEdit")) {
-            setTitle("Detail book wanted");
+            setTitle(getString(R.string.title_detail_book_wanted));
             populateFields(jsonString);
             disableBookWantedControls();
         }
@@ -97,7 +97,7 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
     protected void initComponents() {
-        this.setTitle("Post book wanted");
+        setTitle(getString(R.string.title_post_book_wanted));
 
         isbnEditText = (EditText) findViewById(R.id.bookIsbn);
         titleEditText = (EditText) findViewById(R.id.bookTitle);
