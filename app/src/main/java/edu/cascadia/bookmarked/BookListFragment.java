@@ -35,8 +35,9 @@ import java.util.Comparator;
  */
 public class BookListFragment extends ListFragment {
 
-    private final static String bookURI = "bookmarked/book/getallbooks";
+    //private final static String bookURI = "bookmarked/book/getallbooks";
     private final static String book4SaleURI = "bookmarked/book/getbooksforsale";
+    private final static String bookWantedURI = "bookmarked/book/getbookswanted";
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "UserID";
@@ -101,17 +102,27 @@ public class BookListFragment extends ListFragment {
             userID = getArguments().getString(ARG_PARAM2);
         }
 
-        bookListItem = new BookListItem();
-
-        listAdapter = new BooksAdapter(getActivity(), (ArrayList<BookItem>) bookListItem.ITEMS);
-
-        setListAdapter(listAdapter);
-        if (isNetworkAvailable()) {
-            invokeWS();
-        } else {
+        if (!isNetworkAvailable()) {
             Utility.beep();
             showNoNetworkWarning();
+            return;
         }
+
+        // load data and call web service if first time get here
+        if (listAdapter == null) {
+            bookListItem = new BookListItem();
+
+            listAdapter = new BooksAdapter(getActivity(), (ArrayList<BookItem>) bookListItem.ITEMS);
+
+            setListAdapter(listAdapter);
+            invokeWS();
+        }
+//        if (isNetworkAvailable()) {
+//            invokeWS();
+//        } else {
+//            Utility.beep();
+//            showNoNetworkWarning();
+//        }
     }
 
     private boolean isNetworkAvailable() {
@@ -182,11 +193,11 @@ public class BookListFragment extends ListFragment {
      *
      */
     private void invokeWS(){
-        if (listType.equals("my-buy-list")) {
-            // temporarily do nothing for book wanted. Work in progress
-            return;
-        }
-            // Show Progress Dialog
+//        if (listType.equals("my-buy-list")) {
+//            // temporarily do nothing for book wanted. Work in progress
+//            return;
+//        }
+//            // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
@@ -199,7 +210,7 @@ public class BookListFragment extends ListFragment {
         } else {
             // this should be for book wanted. Do nothing and exit,
             // actually code does not reach here
-            wsURL = hostAddress + bookURI;
+            wsURL = hostAddress + bookWantedURI;
             //return;
         }
         System.out.println("Getting " + wsURL);
@@ -209,7 +220,7 @@ public class BookListFragment extends ListFragment {
             @Override
             public void onSuccess(String response) {
                 String toastMsg;
-                if (listType.equals("sell-view")) {
+                if (listType.equals("sell-view")  || listType.equals("my-sell-list")) {
                     toastMsg = "Books for sale queried successfully";
                 } else {
                     toastMsg = "Books wanted queried successfully";
@@ -224,14 +235,6 @@ public class BookListFragment extends ListFragment {
                     listAdapter.clear();
                     try {
                         getArray(jsonArray);
-                        // result should be ordered by add_timestamp descending order
-                        // no need to sort
-//                        listAdapter.sort(new Comparator<BookItem>() {
-//                            @Override
-//                            public int compare(BookItem bookItem, BookItem t1) {
-//                                return bookItem.title.compareToIgnoreCase(t1.title);
-//                            }
-//                        });
                         listAdapter.notifyDataSetChanged();
                     } catch (ParseException e) {
                         System.out.println("Exception e:" + e.getMessage());
@@ -249,7 +252,7 @@ public class BookListFragment extends ListFragment {
 						Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
 					} */
                 } catch (JSONException e) {
-                    Toast.makeText(getActivity(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
 
                 }

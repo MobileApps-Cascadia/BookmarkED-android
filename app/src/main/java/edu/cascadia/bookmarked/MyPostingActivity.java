@@ -58,8 +58,14 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem, String listType) {
-        //Toast.makeText(this,"To display book:" + bookItem.isbn,Toast.LENGTH_SHORT).show();
-        Intent bookIntent = new Intent(this, BookDetailActivity.class);
+        Intent bookIntent;
+        if (listType.contains("sell")) {
+            bookIntent = new Intent(this, BookDetailActivity.class);
+
+        } else {
+            // wanted book
+            bookIntent = new Intent(this, BookWantedActivity.class);
+        }
         // pass the book for sale information to detail activity
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
         bookIntent.putExtra("BookAction", "AllowEdit");

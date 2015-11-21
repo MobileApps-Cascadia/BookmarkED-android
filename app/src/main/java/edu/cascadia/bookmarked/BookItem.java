@@ -29,10 +29,13 @@ public class BookItem {
             JSONObject jsonObject = new JSONObject(jsonString);
             author = jsonObject.getString("author");
 
-            NumberFormat numberFormat =
-                    NumberFormat.getCurrencyInstance(Locale.US);
-            askingPrice = numberFormat.format(jsonObject.getDouble("askingprice"));
-
+            if (jsonObject.has("askingprice")) {
+                NumberFormat numberFormat =
+                        NumberFormat.getCurrencyInstance(Locale.US);
+                askingPrice = numberFormat.format(jsonObject.getDouble("askingprice"));
+            } else {
+                askingPrice = "";
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
