@@ -139,7 +139,7 @@
                 android:id="@+id/book4SaleComment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/comment_hint"
+                android:hint="@string/user_comment_hint"
                 android:maxLength="250" />
 
         </LinearLayout>

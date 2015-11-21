@@ -28,8 +28,7 @@
     <string name="book_edition_hint">Enter book edition</string>
     <string name="book_description_hint">Enter book description</string>
     <string name="book_asking_price_hint">Enter book asking price</string>
-    <!--string name="book_condition_hint">Enter book condition</string -->
-    <string name="comment_hint">Enter additional comment</string>
+    <string name="user_comment_hint">Enter additional user comment</string>
 
     <string name="wanted">Wanted</string>
     <string name="for_sale">For sale</string>
@@ -143,5 +142,12 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="pref_username">pref_username</string>
+    <string name="title_detail_book_for_sale">Detail book for sale</string>
+    <string name="title_post_book_for_sale">Post book for sale</string>
+    <string name="title_activity_book_wanted">Book Wanted</string>
+    <string name="title_detail_book_wanted">Detail book Wanted</string>
+    <string name="title_post_book_wanted">Post book Wanted</string>
+    <string name="title_delete_book4sale_reason">Are you sure to delete?\nSelect reason to delete posting.</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

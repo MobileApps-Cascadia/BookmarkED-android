@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     private final int LOG_IN_REQUEST = 1;
     private final int POST_A_BOOK_REQUEST = 2;
+    private final int POST_BOOK_WANTED_REQUEST = 3;
 
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         // insert book wanted list view
         if (bookWantedListFragment == null) {
-            bookWantedListFragment = BookListFragment.newInstance("buy", userID);
+            bookWantedListFragment = BookListFragment.newInstance("buy-view", userID);
         }
 
         FragmentManager fm = getFragmentManager();
@@ -128,11 +129,17 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 if (!findViewById(R.id.forSaleButton).isEnabled()) {
                     book4SaleListFragment.refreshList();
                 } else {
-                    // do nothing
+                    bookWantedListFragment.refreshList();
                 }
                 return true;
             case R.id.action_logout:
                 doLogout();
+                return true;
+            case R.id.action_post_book_wanted:
+                Intent bookWantedIntent = new Intent(this, BookWantedActivity.class);
+                bookWantedIntent.putExtra("BookAction", "AddNew");
+                bookWantedIntent.putExtra("UserID", userID);
+                startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -190,21 +197,45 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                         book4SaleListFragment.refreshList();
                     }
                 }
+            } else if (requestCode == POST_BOOK_WANTED_REQUEST) {
+                if (data.hasExtra("NewPosting")) {
+                    if (data.getExtras().getBoolean("NewPosting")) {
+                        if (bookWantedListFragment != null) {
+                            bookWantedListFragment.refreshList();
+                        }
+                    }
+                }
             }
         }
     }
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem, String listType) {
-        Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass the book for sale information to detail activity
-        bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
-        if (listType.equals("sell-view")) {
-            bookIntent.putExtra("BookAction", "ViewExisting");
+        if (listType.contains("sell")) {
+            Intent bookIntent = new Intent(this, BookDetailActivity.class);
+            bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
+
+            if (listType.equals("sell-view")) {
+                bookIntent.putExtra("BookAction", "ViewExisting");
+            } else if (listType.equals("my-sell-list")) {
+                bookIntent.putExtra("BookAction", "AllowEdit");
+            }
+
+            startActivity(bookIntent);
         } else {
-            bookIntent.putExtra("BookAction", "AllowEdit");
+            // "buy-view" or "my-buy-list"
+            Intent bookIntent = new Intent(this, BookWantedActivity.class);
+            bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
+
+            if (listType.equals("buy-view")) {
+                bookIntent.putExtra("BookAction", "ViewExisting");
+            } else if (listType.equals("my-buy-list")) {
+                bookIntent.putExtra("BookAction", "AllowEdit");
+            }
+
+            startActivity(bookIntent);
         }
-        startActivity(bookIntent);
     }
 
     // listener for changes to the app's SharedPreferences
