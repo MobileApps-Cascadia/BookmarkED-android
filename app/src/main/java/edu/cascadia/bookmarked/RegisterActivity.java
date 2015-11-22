@@ -27,8 +27,8 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private final static String registerURI = "bookmarked/register/doregister";
-    private final static String verificationURI = "bookmarked/register/verifyregistration";
+    private final static String registerURI = "bookmarked/user/doregister";
+    private final static String verificationURI = "bookmarked/user/verifyregistration";
 
     // Progress Dialog Object
     private ProgressDialog prgDialog;
