@@ -27,7 +27,7 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        bookAction = getIntent().getStringExtra("BookAction");
+        bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
 
         initComponents();

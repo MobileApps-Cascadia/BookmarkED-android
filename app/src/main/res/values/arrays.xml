@@ -14,6 +14,14 @@
         <item>Decided to keep</item>
         <item>Other reason</item>
     </string-array>
+    <string-array name="delete_book_wanted_reasons">
+        <item>Bought via BookmarkEd</item>
+        <item>Bought elsewhere</item>
+        <item>No response</item>
+        <item>Too many annoying inquiries</item>
+        <item>Decided to go without</item>
+        <item>Other reason</item>
+    </string-array>
     <string-array name="book_conditions">
         <item>Unknown</item>
         <item>Excellent</item>

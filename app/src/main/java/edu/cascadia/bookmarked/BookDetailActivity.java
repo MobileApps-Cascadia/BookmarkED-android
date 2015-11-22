@@ -89,7 +89,7 @@ public class BookDetailActivity extends AppCompatActivity {
         //allowEdit = getIntent().getStringExtra("BookAction").equals("AllowEdit");
 
         if (!readOnlyMode) {
-            userID = getIntent().getStringExtra("UserID");
+            userID = getIntent().getStringExtra(getString(R.string.user_id_param));
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -179,7 +179,7 @@ public class BookDetailActivity extends AppCompatActivity {
             editBook4Sale();
         } else if (item.getItemId() == R.id.action_delete_posted_book) {
             //Toast.makeText(this, "To delete book", Toast.LENGTH_SHORT).show();
-            confirmDeleteBook4Sale();
+            deleteABook4Sale();
         } else if (item.getItemId() == R.id.action_save_post_book) {
             addABookForSale();
         } else if (item.getItemId() == R.id.action_cancel) {
@@ -537,32 +537,21 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void editBook4Sale() {
-        //Toast.makeText(this, "To edit book", Toast.LENGTH_SHORT).show();
-        // enable the edit controls related to the book for sale only
-        //askingPriceEditText.setEnabled(true);
-        //bookConditionEditText.setEnabled(true);
-        /*
-        Intent editIntent = new Intent(this, BookDetailActivity.class);
-        editIntent.putExtra("BookAction", "EditExisting");
-        editIntent.putExtra(getString(R.string.book_info_param), jsonString);
-        startActivityForResult(editIntent, EDIT_REQUEST_CODE);
-        */
-
         Intent editIntent = new Intent(this, EditBook4SaleActivity.class);
-        editIntent.putExtra("BookAction", "EditExisting");
+        editIntent.putExtra(getString(R.string.book_action_param), "EditExisting");
         editIntent.putExtra(getString(R.string.book_info_param), jsonString);
         startActivityForResult(editIntent, EDIT_REQUEST_CODE);
 
     }
 
 
-    private void confirmDeleteBook4Sale() {
+    private void deleteABook4Sale() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
         // set title
-        alertDialogBuilder.setTitle(getString(R.string.title_delete_book4sale_reason));
+        alertDialogBuilder.setTitle(getString(R.string.title_delete_book_posting_reason));
 
         // set dialog message
         final String[] reasons = getResources().getStringArray(R.array.delete_book4sale_reasons);

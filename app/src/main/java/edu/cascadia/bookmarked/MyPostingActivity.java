@@ -24,7 +24,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        userID = getIntent().getStringExtra("UserID");
+        userID = getIntent().getStringExtra(getString(R.string.user_id_param));
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -68,7 +68,8 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         }
         // pass the book for sale information to detail activity
         bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
-        bookIntent.putExtra("BookAction", "AllowEdit");
+        bookIntent.putExtra(getString(R.string.book_action_param), "AllowEdit");
+        bookIntent.putExtra(getString(R.string.user_id_param), userID);
 
         startActivity(bookIntent);
     }

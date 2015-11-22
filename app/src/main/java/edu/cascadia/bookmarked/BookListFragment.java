@@ -117,12 +117,6 @@ public class BookListFragment extends ListFragment {
             setListAdapter(listAdapter);
             invokeWS();
         }
-//        if (isNetworkAvailable()) {
-//            invokeWS();
-//        } else {
-//            Utility.beep();
-//            showNoNetworkWarning();
-//        }
     }
 
     private boolean isNetworkAvailable() {
@@ -193,11 +187,6 @@ public class BookListFragment extends ListFragment {
      *
      */
     private void invokeWS(){
-//        if (listType.equals("my-buy-list")) {
-//            // temporarily do nothing for book wanted. Work in progress
-//            return;
-//        }
-//            // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
@@ -208,10 +197,7 @@ public class BookListFragment extends ListFragment {
         if (listType.equals("sell-view") || listType.equals("my-sell-list")) {
             wsURL = hostAddress + book4SaleURI;
         } else {
-            // this should be for book wanted. Do nothing and exit,
-            // actually code does not reach here
             wsURL = hostAddress + bookWantedURI;
-            //return;
         }
         System.out.println("Getting " + wsURL);
 
@@ -305,8 +291,9 @@ public class BookListFragment extends ListFragment {
     private void addBookToAdapter(JSONObject jsonObject) throws ParseException {
 
         try {
-            // only filter on book for sale. We don't have infrastructure for book wanted yet.
-            if (listType.equals("my-sell-list") && Utility.isNotNull(userID)) {
+            // if list type starts with "my-" (for my-sell-list and my-buy-list), add
+            // only books with matching owner
+            if (listType.startsWith("my-") && Utility.isNotNull(userID)) {
                 // filter result. Only add book to adapter if the same name/id
                 if (jsonObject.getString("username").equals(userID) == false)
                     return;

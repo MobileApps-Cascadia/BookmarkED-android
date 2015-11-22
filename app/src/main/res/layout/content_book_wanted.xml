@@ -115,7 +115,8 @@
             android:id="@+id/searchBookButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search book by title"/>
+            android:text="Search book by title"
+            android:visibility="gone" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
