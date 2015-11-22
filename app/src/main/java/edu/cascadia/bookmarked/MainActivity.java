@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 }
 
                 Intent myPostingIntent = new Intent(this, MyPostingActivity.class);
-                myPostingIntent.putExtra("UserID", userID);
+                myPostingIntent.putExtra(getString(R.string.user_id_param), userID);
                 startActivity(myPostingIntent);
                 return true;
 
@@ -136,9 +136,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 doLogout();
                 return true;
             case R.id.action_post_book_wanted:
+                if (userNotLoggedIn()) {
+                    return true;
+                }
+
                 Intent bookWantedIntent = new Intent(this, BookWantedActivity.class);
-                bookWantedIntent.putExtra("BookAction", "AddNew");
-                bookWantedIntent.putExtra("UserID", userID);
+                bookWantedIntent.putExtra(getString(R.string.book_action_param), "AddNew");
+                bookWantedIntent.putExtra(getString(R.string.user_id_param), userID);
                 startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
                 return true;
             case R.id.action_share:
@@ -187,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private void postABookForSale() {
         Intent bookIntent = new Intent(this, BookDetailActivity.class);
         // pass user id to detail
-        bookIntent.putExtra("UserID", userID);
-        bookIntent.putExtra("BookAction", "AddNew");
+        bookIntent.putExtra(getString(R.string.user_id_param), userID);
+        bookIntent.putExtra(getString(R.string.book_action_param), "AddNew");
 
         startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
     }

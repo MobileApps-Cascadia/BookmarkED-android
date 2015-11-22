@@ -34,7 +34,9 @@
     <string name="for_sale">For sale</string>
 
     <!-- Strings related to key for passing data between activities/fragments -->
-    <string name="book_info_param">bookInfo</string>
+    <string name="book_info_param">BookInfo</string>
+    <string name="book_action_param">BookAction</string>
+    <string name="user_id_param">UserID</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -144,10 +146,10 @@
     <string name="pref_username">pref_username</string>
     <string name="title_detail_book_for_sale">Detail book for sale</string>
     <string name="title_post_book_for_sale">Post book for sale</string>
-    <string name="title_activity_book_wanted">Book Wanted</string>
-    <string name="title_detail_book_wanted">Detail book Wanted</string>
-    <string name="title_post_book_wanted">Post book Wanted</string>
-    <string name="title_delete_book4sale_reason">Are you sure to delete?\nSelect reason to delete posting.</string>
+    <string name="title_activity_book_wanted">Book wanted</string>
+    <string name="title_detail_book_wanted">Detail book wanted</string>
+    <string name="title_post_book_wanted">Post book wanted</string>
+    <string name="title_delete_book_posting_reason">Are you sure to delete?\nSelect reason to delete posting.</string>
     <string name="action_settings">Settings</string>
 
 </resources>
