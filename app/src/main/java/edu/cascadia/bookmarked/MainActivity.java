@@ -141,12 +141,22 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 bookWantedIntent.putExtra("UserID", userID);
                 startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
                 return true;
+            case R.id.action_share:
+                setShareIntent();
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    private void setShareIntent() {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "http://bookmarked.com/download");
+        startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
     private boolean userNotLoggedIn() {
