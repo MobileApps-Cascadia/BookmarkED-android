@@ -43,6 +43,7 @@ public class BookWantedActivity extends AppCompatActivity {
     protected String bookAction;
     private String userID;
     protected String jsonString;
+    private String bookID;
     private String bookWantedID;
 
     private boolean newPosting = false;
@@ -148,6 +149,7 @@ public class BookWantedActivity extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             bookWantedID = jsonObject.getString("id");
+            bookID = jsonObject.getString("book_id");
 
             isbnEditText.setText(jsonObject.getString("isbn"));
             titleEditText.setText(jsonObject.getString("title"));
@@ -221,18 +223,16 @@ public class BookWantedActivity extends AppCompatActivity {
 
     private void editABookWanted() {
 
-        //Toast.makeText(this, "To edit book wanted", Toast.LENGTH_SHORT).show();
         Intent editIntent = new Intent(this, BookWantedActivity.class);
         editIntent.putExtra(getString(R.string.book_action_param), "EditExisting");
         editIntent.putExtra(getString(R.string.book_info_param), jsonString);
         editIntent.putExtra(getString(R.string.user_id_param), userID);
+
         startActivityForResult(editIntent, EDIT_REQUEST_CODE);
 
     }
 
     private void deleteABookWanted() {
-
-        Toast.makeText(this, "To delete book wanted", Toast.LENGTH_SHORT).show();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
@@ -446,7 +446,6 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
     private void saveBookWantedChanges() {
-        Toast.makeText(this, "To save changes to backend", Toast.LENGTH_SHORT).show();
         String isbn = isbnEditText.getText().toString();
         String title = titleEditText.getText().toString();
         String author = authorEditText.getText().toString();
@@ -458,7 +457,7 @@ public class BookWantedActivity extends AppCompatActivity {
 
         // at the minimum book title cannot be empty
         if (Utility.isNotNull(title)) {
-            params.put("bookid", bookWantedID);
+            params.put("bookid", bookID);
             params.put("isbn", isbn);
             params.put("title", title);
             params.put("author", author);
@@ -532,6 +531,17 @@ public class BookWantedActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == EDIT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                //System.out.println("***Received Edit Request Code with OK result");
+                // update current screen - just close for now
+                finish();
+            }
+            return;
+        }
     }
 
     @Override
