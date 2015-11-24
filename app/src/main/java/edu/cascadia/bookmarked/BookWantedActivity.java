@@ -46,7 +46,7 @@ public class BookWantedActivity extends AppCompatActivity {
     private String bookID;
     private String bookWantedID;
 
-    private boolean newPosting = false;
+    private boolean needsUpdating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -317,7 +317,7 @@ public class BookWantedActivity extends AppCompatActivity {
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
-                        newPosting = true;
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -365,7 +365,7 @@ public class BookWantedActivity extends AppCompatActivity {
                     if (obj.getBoolean("status")) {
                         // Display book wanted successfully posted using Toast
                         Toast.makeText(getApplicationContext(), "Book wanted was successfully posted!", Toast.LENGTH_SHORT).show();
-                        newPosting = true;
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -496,7 +496,7 @@ public class BookWantedActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
-                        // need a way to flag changes have been made.
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -537,7 +537,9 @@ public class BookWantedActivity extends AppCompatActivity {
         if (requestCode == EDIT_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 //System.out.println("***Received Edit Request Code with OK result");
-                // update current screen - just close for now
+                // update current screen - just close for now, but
+                // pass info to update the list
+                needsUpdating = true;
                 finish();
             }
             return;
@@ -547,7 +549,9 @@ public class BookWantedActivity extends AppCompatActivity {
     @Override
     public void finish() {
         Intent data = new Intent();
-        data.putExtra("NewPosting", newPosting);
+        if (needsUpdating) {
+            data.putExtra("ListType", "BookWanted");
+        }
 
         setResult(RESULT_OK, data);
 
