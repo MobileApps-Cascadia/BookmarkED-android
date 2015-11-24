@@ -337,8 +337,8 @@ public class BookDetailActivity extends AppCompatActivity {
 
         RequestParams params = new RequestParams();
 
-        // When isbn Edit View, title Edit View and author Edit View have values other than Null
-        if (Utility.isNotNull(isbn) && Utility.isNotNull(title) && Utility.isNotNull(author)) {
+        // When isbn Edit View, title Edit View have values other than Null
+        if (Utility.isNotNull(isbn) && Utility.isNotNull(title)) {
             params.put("isbn", isbn);
             params.put("title", title);
             params.put("author", author);
@@ -754,12 +754,13 @@ public class BookDetailActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Intent data = new Intent();
-        data.putExtra("NewPosting", needsUpdating);
+        if (needsUpdating) {
+            Intent data = new Intent();
+            data.putExtra("NewPosting", needsUpdating);
 
-        System.out.println("===signal parent activity to refesh===");
-        setResult(RESULT_OK, data);
-
+            System.out.println("===signal parent activity to refesh===");
+            setResult(RESULT_OK, data);
+        }
         super.finish();
     }
 }
