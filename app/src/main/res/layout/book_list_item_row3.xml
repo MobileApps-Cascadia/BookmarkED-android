@@ -43,7 +43,7 @@
         android:layout_alignBottom="@+id/bookCoverimageView"
         android:layout_alignRight="@+id/bookTitleTextView"
         android:textSize="16sp"
-        android:text="Book Price"
+        android:text=""
         android:gravity="end|right"
         android:textAlignment="textEnd"
         android:layout_alignParentEnd="true"
