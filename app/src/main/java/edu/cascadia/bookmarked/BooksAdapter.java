@@ -36,7 +36,7 @@ public class BooksAdapter extends ArrayAdapter<BookItem> {
         bookAuthor.setText(bookItem.author);
 
         if (Utility.isNotNull(bookItem.askingPrice)) {
-            bookPrice.setText("Price:" + bookItem.askingPrice);
+            bookPrice.setText(bookItem.askingPrice);
         }
 
         //tvHome.setText(user.hometown);
