@@ -17,8 +17,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
     private final int LOG_IN_REQUEST = 1;
-    private final int POST_A_BOOK_REQUEST = 2;
+    private final int POST_BOOK4SALE_REQUEST = 2;
     private final int POST_BOOK_WANTED_REQUEST = 3;
+    private final int MY_POSTINGS_REQUEST = 4;
 
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //System.out.println("Main onCreate and savedInstanceState is not null");
+            return;
+        }
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         PreferenceManager.getDefaultSharedPreferences(this).
                 registerOnSharedPreferenceChangeListener(
                         preferenceChangeListener);
-
-
 
 
     }
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         // insert book wanted list view
         if (bookWantedListFragment == null) {
-            bookWantedListFragment = BookListFragment.newInstance("buy-view", userID);
+            bookWantedListFragment = BookListFragment.newInstance("wanted-view", userID);
         }
 
         FragmentManager fm = getFragmentManager();
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
                 Intent myPostingIntent = new Intent(this, MyPostingActivity.class);
                 myPostingIntent.putExtra(getString(R.string.user_id_param), userID);
-                startActivity(myPostingIntent);
+                startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
                 return true;
 
             case R.id.action_setting:
@@ -132,9 +136,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                     bookWantedListFragment.refreshList();
                 }
                 return true;
+
             case R.id.action_logout:
                 doLogout();
                 return true;
+
             case R.id.action_post_book_wanted:
                 if (userNotLoggedIn()) {
                     return true;
@@ -145,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 bookWantedIntent.putExtra(getString(R.string.user_id_param), userID);
                 startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
                 return true;
+
             case R.id.action_share:
                 setShareIntent();
             default:
@@ -194,24 +201,31 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         bookIntent.putExtra(getString(R.string.user_id_param), userID);
         bookIntent.putExtra(getString(R.string.book_action_param), "AddNew");
 
-        startActivityForResult(bookIntent, POST_A_BOOK_REQUEST);
+        startActivityForResult(bookIntent, POST_BOOK4SALE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == LOG_IN_REQUEST) {
+
+        if (resultCode != RESULT_OK) return;
+
+        switch (requestCode) {
+            case LOG_IN_REQUEST:
                 if (data.hasExtra("LoginResult")) {
                     userLoggedIn = data.getExtras().getBoolean("LoginResult");
                     userID = data.getExtras().getString("LoginUser");
                 }
-            } else if (requestCode == POST_A_BOOK_REQUEST) {
+                break;
+
+            case POST_BOOK4SALE_REQUEST:
                 if (data.hasExtra("NewPosting")) {
                     if (data.getExtras().getBoolean("NewPosting")) {
                         book4SaleListFragment.refreshList();
                     }
                 }
-            } else if (requestCode == POST_BOOK_WANTED_REQUEST) {
+                break;
+
+            case POST_BOOK_WANTED_REQUEST:
                 if (data.hasExtra("NewPosting")) {
                     if (data.getExtras().getBoolean("NewPosting")) {
                         if (bookWantedListFragment != null) {
@@ -219,9 +233,25 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                         }
                     }
                 }
-            }
+                break;
+
+            case MY_POSTINGS_REQUEST:
+                System.out.println("===refreshing book list as a result of MY_POSTING_REQUEST===");
+
+                if (data.hasExtra("NewPosting")) {
+                    if (data.getExtras().getBoolean("NewPosting")) {
+                        book4SaleListFragment.refreshList();
+                        if (bookWantedListFragment != null) {
+                            bookWantedListFragment.refreshList();
+                        }
+                    }
+                }
+                break;
         }
+
     }
+
+
 
     @Override
     public void onMyPostingBookClicked(BookItem bookItem, String listType) {
@@ -238,13 +268,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
             startActivity(bookIntent);
         } else {
-            // "buy-view" or "my-buy-list"
+            // "wanted-view" or "my-wanted-list"
             Intent bookIntent = new Intent(this, BookWantedActivity.class);
             bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
 
-            if (listType.equals("buy-view")) {
+            if (listType.equals("wanted-view")) {
                 bookIntent.putExtra("BookAction", "ViewExisting");
-            } else if (listType.equals("my-buy-list")) {
+            } else if (listType.equals("my-wanted-list")) {
                 bookIntent.putExtra("BookAction", "AllowEdit");
             }
 

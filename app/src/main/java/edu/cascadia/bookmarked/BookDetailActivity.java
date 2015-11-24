@@ -63,7 +63,7 @@ public class BookDetailActivity extends AppCompatActivity {
     // flag to indicate screen mode
     private boolean readOnlyMode;
     protected String bookAction;
-    private boolean newPosting = false;
+    private boolean needsUpdating = false;
 
     private String userID;
     protected String jsonString;
@@ -73,7 +73,7 @@ public class BookDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-        System.out.println("***in BookDetailActivity.onCreate() ***");
+        //System.out.println("***in BookDetailActivity.onCreate() ***");
 
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
         final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
@@ -377,7 +377,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), "Book was successfully posted!", Toast.LENGTH_SHORT).show();
-                        newPosting = true;
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -473,6 +473,7 @@ public class BookDetailActivity extends AppCompatActivity {
             {
                 //System.out.println("***Received Edit Request Code with OK result");
                 // update current screen - just close for now
+                needsUpdating = true;
                 finish();
             }
             return;
@@ -630,7 +631,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
-                        newPosting = true;
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -682,7 +683,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         // Display book for sale successfully posted using Toast
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
                         //reloadBook4Sale();
-                        newPosting = true;
+                        needsUpdating = true;
                         finish();
                     }
                     // Else display error message
@@ -707,55 +708,56 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     // To be later to update the list adapter
-    private void reloadBook4Sale() {
-        // Show Progress Dialog
-        prgDialog.show();
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        RequestParams params = new RequestParams();
-        params.put("id", book4SaleID);
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + getABook4SaleByIdURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (!Utility.isNotNull(obj.getString("error_msg"))) {
-                        // Display book for sale successfully posted using Toast
-                        //Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
-                        // apply new json, to be passed back to calling activity
-                        jsonString = response;
-                        newPosting = true;
-                        //finish();
-                    }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-
-            }
-        });
-    }
+//    private void reloadBook4Sale() {
+//        // Show Progress Dialog
+//        prgDialog.show();
+//        // Make RESTful webservice call using AsyncHttpClient object
+//        AsyncHttpClient client = new AsyncHttpClient();
+//
+//        RequestParams params = new RequestParams();
+//        params.put("id", book4SaleID);
+//
+//        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
+//        client.get(hostAddress + getABook4SaleByIdURI, params, new AsyncHttpResponseHandler() {
+//            // When the response returned by REST has Http response code '200'
+//            @Override
+//            public void onSuccess(String response) {
+//                // Hide Progress Dialog
+//                prgDialog.hide();
+//
+//                try {
+//                    // JSON Object
+//                    JSONObject obj = new JSONObject(response);
+//                    // When the JSON response has status boolean value assigned with true
+//                    if (!Utility.isNotNull(obj.getString("error_msg"))) {
+//                        // Display book for sale successfully posted using Toast
+//                        //Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_updated), Toast.LENGTH_SHORT).show();
+//                        // apply new json, to be passed back to calling activity
+//                        jsonString = response;
+//                        needsUpdating = true;
+//                        //finish();
+//                    }
+//                    // Else display error message
+//                    else {
+//                        //errorMsg.setText(obj.getString("error_msg"));
+//                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//
+//                }
+//
+//            }
+//        });
+//    }
 
     @Override
     public void finish() {
         Intent data = new Intent();
-        data.putExtra("NewPosting", newPosting);
+        data.putExtra("NewPosting", needsUpdating);
 
+        System.out.println("===signal parent activity to refesh===");
         setResult(RESULT_OK, data);
 
         super.finish();

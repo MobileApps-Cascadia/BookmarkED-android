@@ -15,7 +15,13 @@ import static android.R.color.holo_green_light;
 
 public class MyPostingActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
+    private final int EDIT_REQUEST_CODE = 2;
     private String userID;
+
+    BookListFragment sellItemFragment;
+    BookListFragment wantedItemFragment;
+
+    private boolean needsUpdating = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +46,22 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     private void insertBookListFragments() {
 
         // insert book for sale list view
-        BookListFragment itemFragment = BookListFragment.newInstance("my-sell-list", userID);
-
+        if (sellItemFragment == null) {
+            sellItemFragment = BookListFragment.newInstance("my-sell-list", userID);
+        }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, itemFragment);
+        fragmentTransaction.replace(R.id.fragment_container, sellItemFragment);
         fragmentTransaction.commit();
 
         // insert book wanted list view
-        BookListFragment itemFragment2 = BookListFragment.newInstance("my-buy-list", userID);
+        if (wantedItemFragment == null ) {
+            wantedItemFragment = BookListFragment.newInstance("my-buy-list", userID);
+        }
 
         FragmentManager fm2 = getFragmentManager();
         FragmentTransaction fragmentTransaction2 = fm.beginTransaction();
-        fragmentTransaction2.replace(R.id.fragment_container2, itemFragment2);
+        fragmentTransaction2.replace(R.id.fragment_container2, wantedItemFragment);
         fragmentTransaction2.commit();
     }
 
@@ -61,7 +70,6 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         Intent bookIntent;
         if (listType.contains("sell")) {
             bookIntent = new Intent(this, BookDetailActivity.class);
-
         } else {
             // wanted book
             bookIntent = new Intent(this, BookWantedActivity.class);
@@ -71,6 +79,41 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         bookIntent.putExtra(getString(R.string.book_action_param), "AllowEdit");
         bookIntent.putExtra(getString(R.string.user_id_param), userID);
 
-        startActivity(bookIntent);
+        startActivityForResult(bookIntent, EDIT_REQUEST_CODE);
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == EDIT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                //System.out.println("***Received Edit Request Code with OK result");
+                System.out.println("===refreshing book list===");
+                if (intent.hasExtra("ListType")) {
+                    if (intent.getExtras().getString("ListType").equals("BookWanted")) {
+                        System.out.println("===refreshing wanted book list===");
+                        wantedItemFragment.refreshList();
+                    }
+                }else {
+                    System.out.println("===refreshing sell book list===");
+                    sellItemFragment.refreshList();
+                }
+
+                // there were changes, so let the
+                // previous activity know
+                needsUpdating = true;
+                //finish();
+            }
+        }
+    }
+
+    @Override
+    public void finish() {
+        if (needsUpdating) {
+            Intent data = new Intent();
+            data.putExtra("NewPosting", needsUpdating);
+
+            setResult(RESULT_OK, data);
+        }
+        super.finish();
+    }
+
 }

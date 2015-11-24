@@ -54,6 +54,7 @@ public class BookListFragment extends ListFragment {
 
 
     private BookListItem bookListItem;
+    private String serverURI;
 
     public static BookListFragment newInstance(String param1, String param2) {
         BookListFragment fragment = new BookListFragment();
@@ -86,8 +87,6 @@ public class BookListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        System.out.println("In BookListFragment.onCreate " + listType);
 
         if (savedInstanceState != null) return;
 
@@ -156,6 +155,7 @@ public class BookListFragment extends ListFragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            serverURI = Utility.getServerAddress(activity);
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -180,6 +180,7 @@ public class BookListFragment extends ListFragment {
      */
     public interface OnFragmentInteractionListener {
         void onMyPostingBookClicked(BookItem bookItem, String listType);
+        //void setRefreshRequest(String listType);
     }
 
     /**
@@ -190,8 +191,8 @@ public class BookListFragment extends ListFragment {
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
-
+        //String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
+        String hostAddress = "http://" + serverURI + "/";
         String wsURL;
         //wsURL = hostAddress + book4SaleURI;
         if (listType.equals("sell-view") || listType.equals("my-sell-list")) {
@@ -230,7 +231,7 @@ public class BookListFragment extends ListFragment {
                     // When the JSON response has status boolean value assigned with true
                     if (response.length() > 0) {
                         // Display successfully registered message using Toast
-                        Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_SHORT).show();
                     }
                     // Else display error message
 					/* else {
