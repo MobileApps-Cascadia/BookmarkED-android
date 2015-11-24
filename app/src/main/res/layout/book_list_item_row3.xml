@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/sample_book_cover" />
+        android:src="@drawable/no_book_cover" />
 
     <TextView
         android:id="@+id/bookTitleTextView"
@@ -42,9 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/bookCoverimageView"
         android:layout_alignRight="@+id/bookTitleTextView"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:text="Book Price"
         android:gravity="end|right"
         android:textAlignment="textEnd"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@color/accent"
+        android:foreground="@color/colorPrimary" />
 </RelativeLayout>
