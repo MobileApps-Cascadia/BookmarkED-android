@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private BookListFragment book4SaleListFragment;
     private BookListFragment bookWantedListFragment;
 
-    private String userID;
+    private static String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

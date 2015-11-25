@@ -471,7 +471,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (requestCode == EDIT_REQUEST_CODE) {
             if (resultCode == RESULT_OK)
             {
-                //System.out.println("***Received Edit Request Code with OK result");
+                System.out.println("***Received Edit Request Code with OK result");
                 // update current screen - just close for now
                 needsUpdating = true;
                 finish();
