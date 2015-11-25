@@ -313,10 +313,12 @@ public class BookWantedActivity extends AppCompatActivity {
                 try {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
+                    System.out.println("***Deletion successful");
                     // When the JSON response has status boolean value assigned with true
                     if (obj.getBoolean("status")) {
                         // Display book for sale successfully posted using Toast
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
+                        System.out.println("***setting up needsUpdating ****");
                         needsUpdating = true;
                         finish();
                     }
@@ -548,12 +550,12 @@ public class BookWantedActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Intent data = new Intent();
-        if (needsUpdating) {
-            data.putExtra("ListType", "BookWanted");
-        }
 
-        setResult(RESULT_OK, data);
+        if (needsUpdating) {
+            Intent data = new Intent();
+            data.putExtra("NewPosting", needsUpdating);
+            setResult(RESULT_OK, data);
+        }
 
         super.finish();
     }

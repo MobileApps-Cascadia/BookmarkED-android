@@ -22,6 +22,7 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     BookListFragment wantedItemFragment;
 
     private boolean needsUpdating = false;
+    private String lastSelectedPostType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     @Override
     public void onMyPostingBookClicked(BookItem bookItem, String listType) {
         Intent bookIntent;
+
+        lastSelectedPostType = listType;
         if (listType.contains("sell")) {
             bookIntent = new Intent(this, BookDetailActivity.class);
         } else {
@@ -87,14 +90,12 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
             if (resultCode == RESULT_OK) {
                 //System.out.println("***Received Edit Request Code with OK result");
                 System.out.println("===refreshing book list===");
-                if (intent.hasExtra("ListType")) {
-                    if (intent.getExtras().getString("ListType").equals("BookWanted")) {
-                        System.out.println("===refreshing wanted book list===");
-                        wantedItemFragment.refreshList();
-                    }
-                }else {
+                if (lastSelectedPostType.contains("sell")) {
                     System.out.println("===refreshing sell book list===");
                     sellItemFragment.refreshList();
+                } else {
+                    System.out.println("===refreshing wanted book list===");
+                    wantedItemFragment.refreshList();
                 }
 
                 // there were changes, so let the
