@@ -278,7 +278,7 @@ public class BookWantedActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                             // status in the table starts 1 as being active
-                            doDeleteBookWanted(selectedItem[0] + 2);
+                            requestDeleteBookWanted(selectedItem[0] + 2);
                         } else {
                             Utility.beep();
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.select_delete_reason), Toast.LENGTH_SHORT).show();
@@ -335,11 +335,6 @@ public class BookWantedActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void doDeleteBookWanted(int status) {
-        requestDeleteBookWanted(status);
-        finish();
     }
 
     private void requestAddBookWanted() {
@@ -536,16 +531,16 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == EDIT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                //System.out.println("***Received Edit Request Code with OK result");
-                // update current screen - just close for now, but
-                // pass info to update the list
-                needsUpdating = true;
-                finish();
-            }
-            return;
+        //if (requestCode == EDIT_REQUEST_CODE) {
+        //System.out.println("*** in onActivityResult ***");
+
+        if (resultCode == RESULT_OK) {
+            // update current screen - just close for now, but
+            // pass info to update the list
+            needsUpdating = true;
+            finish();
         }
+
     }
 
     @Override
@@ -559,5 +554,4 @@ public class BookWantedActivity extends AppCompatActivity {
 
         super.finish();
     }
-
 }

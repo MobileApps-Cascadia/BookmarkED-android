@@ -83,7 +83,7 @@ public class BookDetailActivity extends AppCompatActivity {
         //  EditExisting
         //  AddNew
         //  AllowEdit
-        bookAction = getIntent().getStringExtra("BookAction");
+        bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
 
         readOnlyMode = Utility.isNotNull(jsonString);
         //allowEdit = getIntent().getStringExtra("BookAction").equals("AllowEdit");
@@ -592,7 +592,7 @@ public class BookDetailActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                             // status in the table starts 1 as being active
-                            doDeleteBook4Sale(selectedItem[0] + 2);
+                            requestDeleteBook4Sale(selectedItem[0] + 2);
                         } else {
                             Utility.beep();
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.select_delete_reason), Toast.LENGTH_SHORT).show();
@@ -647,12 +647,6 @@ public class BookDetailActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void doDeleteBook4Sale(int status) {
-        //Toast.makeText(this, "To delete book - ID:" + book4SaleID, Toast.LENGTH_SHORT).show();
-        requestDeleteBook4Sale(status);
-        finish();
     }
 
     protected void requestUpdateBook4Sale() {
@@ -758,7 +752,7 @@ public class BookDetailActivity extends AppCompatActivity {
             Intent data = new Intent();
             data.putExtra("NewPosting", needsUpdating);
 
-            System.out.println("===signal parent activity to refesh===");
+            System.out.println("===signal parent activity to refesh book list===");
             setResult(RESULT_OK, data);
         }
         super.finish();

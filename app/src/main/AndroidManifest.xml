@@ -58,6 +58,10 @@
             android:name=".BookWantedActivity"
             android:label="@string/title_activity_book_wanted"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

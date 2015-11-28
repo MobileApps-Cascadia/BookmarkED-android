@@ -16,11 +16,9 @@ import org.json.JSONObject;
  */
 public class EditBook4SaleActivity extends BookDetailActivity {
 
-    private boolean newUpdate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("***in EditBook4SaleActivity.onCreate() ***");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
@@ -49,11 +47,6 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         if (item.getItemId() == R.id.action_save_post_book) {
             requestUpdateBook4Sale();
             //Toast.makeText(this, "To save changes", Toast.LENGTH_LONG).show();
-            // TODO: need to get the updated book_for_sale record and pass the
-            // result back to the previous activity so that we can just update one
-            // entry in the adapter.
-            newUpdate = true;   // temporary
-            finish();
             return true;
         } else if (item.getItemId() == R.id.action_cancel) {
             // To do: add confirmation to cancel and loose data
@@ -64,15 +57,15 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void finish() {
-        Intent data = new Intent();
-        data.putExtra("NewPosting", newUpdate);
-        data.putExtra("updateJson", jsonString);
-
-        setResult(RESULT_OK, data);
-
-        super.finish();
-    }
+//    @Override
+//    public void finish() {
+//        Intent data = new Intent();
+//        data.putExtra("NewPosting", newUpdate);
+//        data.putExtra("updateJson", jsonString);
+//
+//        setResult(RESULT_OK, data);
+//
+//        super.finish();
+//    }
 
 }
