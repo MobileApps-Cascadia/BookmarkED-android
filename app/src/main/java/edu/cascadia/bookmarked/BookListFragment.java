@@ -38,6 +38,8 @@ public class BookListFragment extends ListFragment {
     //private final static String bookURI = "bookmarked/book/getallbooks";
     private final static String book4SaleURI = "bookmarked/book/getbooksforsale";
     private final static String bookWantedURI = "bookmarked/book/getbookswanted";
+    private final static String book4SaleByUsernameURI = "bookmarked/book/getbooksforsalebyusername";
+    private final static String bookWantedbyusernameURI = "bookmarked/book/getbookswantedbyusername";
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "UserID";
@@ -180,7 +182,6 @@ public class BookListFragment extends ListFragment {
      */
     public interface OnFragmentInteractionListener {
         void onMyPostingBookClicked(BookItem bookItem, String listType);
-        //void setRefreshRequest(String listType);
     }
 
     /**
@@ -191,23 +192,32 @@ public class BookListFragment extends ListFragment {
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        //String hostAddress = "http://" + Utility.getServerAddress(getActivity()) + "/";
         String hostAddress = "http://" + serverURI + "/";
         String wsURL;
         //wsURL = hostAddress + book4SaleURI;
-        if (listType.equals("sell-view") || listType.equals("my-sell-list")) {
-            wsURL = hostAddress + book4SaleURI;
-        } else {
+        if (listType.equals("wanted-view")) {
             wsURL = hostAddress + bookWantedURI;
+        } else if (listType.equals("sell-view")) {
+            wsURL = hostAddress + book4SaleURI;
+        } else if (listType.equals("my-sell-list")){
+            wsURL = hostAddress + book4SaleByUsernameURI;
+        } else {
+            wsURL = hostAddress + bookWantedbyusernameURI;
         }
+
+        RequestParams requestParams = new RequestParams();
+        if (listType.startsWith("my")) {
+            requestParams.add("username", userID);
+        }
+
         System.out.println("Getting " + wsURL);
 
-        client.get(wsURL, new RequestParams(), new AsyncHttpResponseHandler() {
+        client.get(wsURL, requestParams, new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
             public void onSuccess(String response) {
                 String toastMsg;
-                if (listType.equals("sell-view")  || listType.equals("my-sell-list")) {
+                if (listType.contains("sell")) {
                     toastMsg = "Books for sale queried successfully";
                 } else {
                     toastMsg = "Books wanted queried successfully";
@@ -217,7 +227,7 @@ public class BookListFragment extends ListFragment {
                 try {
                     // JSON Object
                     JSONArray jsonArray = new JSONArray(response);
-                    //System.out.println("GetBooksForSale returned: " + jsonArray.length() + " books");
+
                     // reset the listAdapter
                     listAdapter.clear();
                     try {
@@ -292,15 +302,6 @@ public class BookListFragment extends ListFragment {
     private void addBookToAdapter(JSONObject jsonObject) throws ParseException {
 
         try {
-            // if list type starts with "my-" (for my-sell-list and my-buy-list), add
-            // only books with matching owner
-            if (listType.startsWith("my-") && Utility.isNotNull(userID)) {
-                // filter result. Only add book to adapter if the same name/id
-                if (jsonObject.getString("username").equals(userID) == false)
-                    return;
-            }
-
-
             String isbn = jsonObject.getString("isbn");
             String title = jsonObject.getString("title");
 

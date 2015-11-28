@@ -86,25 +86,19 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        System.out.println("=== Receive ActivityResult-ResultCode: " + resultCode + "===");
-        //if (requestCode == EDIT_REQUEST_CODE) {
-            //if (resultCode == RESULT_OK) {
-                //System.out.println("***Received Edit Request Code with OK result");
-                System.out.println("===refreshing book list===");
+        if (requestCode == EDIT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 if (lastSelectedPostType.contains("sell")) {
-                    System.out.println("===refreshing sell book list===");
                     sellItemFragment.refreshList();
                 } else {
-                    System.out.println("===refreshing wanted book list===");
                     wantedItemFragment.refreshList();
                 }
 
                 // there were changes, so let the
                 // previous activity know
                 needsUpdating = true;
-                //finish();
-            //}
-        //}
+            }
+        }
     }
 
     @Override

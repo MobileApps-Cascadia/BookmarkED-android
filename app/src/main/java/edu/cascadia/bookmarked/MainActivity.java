@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private final int POST_BOOK4SALE_REQUEST = 2;
     private final int POST_BOOK_WANTED_REQUEST = 3;
     private final int MY_POSTINGS_REQUEST = 4;
+    private final int CHANGE_PASSWORD_REQUEST = 5;
 
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
@@ -154,6 +155,14 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
             case R.id.action_share:
                 setShareIntent();
+                return true;
+
+            case R.id.action_change_password:
+                Intent changePwdIntent = new Intent(this, ChangePasswordActivity.class);
+                changePwdIntent.putExtra(getString(R.string.user_id_param), userID);
+                startActivityForResult(changePwdIntent, CHANGE_PASSWORD_REQUEST);
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -236,8 +245,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 break;
 
             case MY_POSTINGS_REQUEST:
-                System.out.println("===refreshing book list as a result of MY_POSTING_REQUEST===");
-
                 if (data.hasExtra("NewPosting")) {
                     if (data.getExtras().getBoolean("NewPosting")) {
                         book4SaleListFragment.refreshList();
@@ -251,8 +258,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     }
 
-
-
     @Override
     public void onMyPostingBookClicked(BookItem bookItem, String listType) {
         // pass the book for sale information to detail activity
@@ -261,9 +266,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
 
             if (listType.equals("sell-view")) {
-                bookIntent.putExtra("BookAction", "ViewExisting");
+                bookIntent.putExtra(getString(R.string.book_action_param), "ViewExisting");
             } else if (listType.equals("my-sell-list")) {
-                bookIntent.putExtra("BookAction", "AllowEdit");
+                bookIntent.putExtra(getString(R.string.book_action_param), "AllowEdit");
             }
 
             startActivity(bookIntent);
@@ -273,9 +278,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             bookIntent.putExtra(getString(R.string.book_info_param), bookItem.jsonString);
 
             if (listType.equals("wanted-view")) {
-                bookIntent.putExtra("BookAction", "ViewExisting");
+                bookIntent.putExtra(getString(R.string.book_action_param), "ViewExisting");
             } else if (listType.equals("my-wanted-list")) {
-                bookIntent.putExtra("BookAction", "AllowEdit");
+                bookIntent.putExtra(getString(R.string.book_action_param), "AllowEdit");
             }
 
             startActivity(bookIntent);
