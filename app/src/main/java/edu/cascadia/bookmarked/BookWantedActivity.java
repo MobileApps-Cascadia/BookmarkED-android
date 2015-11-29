@@ -10,14 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +32,7 @@ public class BookWantedActivity extends AppCompatActivity {
     private final static String addABookWantedURI = "bookmarked/book/addbookwanted";
     private final static String updateBookWantedURI = "bookmarked/book/updatebookwanted";
     private final static String deleteBookWantedURI = "bookmarked/book/deletebookwanted";
+    private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
     // Progress Dialog Object
     protected ProgressDialog prgDialog;
@@ -55,14 +59,7 @@ public class BookWantedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
 
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
@@ -142,7 +139,7 @@ public class BookWantedActivity extends AppCompatActivity {
 
         // hide the barcode button for now. Not sure if need it
         Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
-        barcodeButton.setVisibility(View.GONE);
+        //barcodeButton.setVisibility(View.GONE);
     }
 
     protected void populateFields(String jsonString, boolean readonly) {
@@ -293,6 +290,80 @@ public class BookWantedActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+
+    public void onBarcodeButtonClicked(View view) {
+        // Toast.makeText(this, "To read barcode with camera", Toast.LENGTH_SHORT).show();
+        // scan
+        IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+        scanIntegrator.initiateScan();
+    }
+
+
+    private void lookUpIsbnDB(String isbn) {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+
+
+        String hostAddress = ISBNDB_URI + isbn;
+        client.get(hostAddress, new RequestParams(), new AsyncHttpResponseHandler() {
+            // When the response returned by REST has Http response code '200'
+            @Override
+            public void onSuccess(String response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    JSONObject obj = new JSONObject(response);
+
+                    // When the JSON response has data, it has the book information
+                    if (obj.getString("data").length() > 0) {
+                        // Display book successfully added message using Toast
+                        Toast.makeText(getApplicationContext(), "Book found", Toast.LENGTH_SHORT).show();
+                        // System.out.println("data:" + obj.getString("data"));
+
+                        // get actual book info, which is stored as an array
+                        JSONArray jsonBook = obj.getJSONArray("data");
+                        // now populate the fields related to the book info
+                        populateBookFields(jsonBook.getJSONObject(0));
+                    }
+                    // Else display error message
+                    else {
+                        // error is found in the response
+                        Toast.makeText(getApplicationContext(), obj.getString("error"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+
+                }
+            }
+        });
+    }
+
+    private void populateBookFields(JSONObject jsonBook) {
+        try {
+            titleEditText.setText(jsonBook.getString("title"));
+            JSONArray jsonAuthors = jsonBook.getJSONArray("author_data");
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = 0; i < jsonAuthors.length(); i++) {
+                stringBuffer.append(((JSONObject) jsonAuthors.get(i)).getString("name") + ", ");
+            }
+            if (stringBuffer.length() > 2) {
+                // delete last 2 char (comma and space);
+                // it is possible that the book has no author, like dictionary
+                int lastComma = stringBuffer.lastIndexOf(", ");
+                stringBuffer.delete(lastComma, lastComma + 1);
+            }
+            authorEditText.setText(stringBuffer);
+            editionEditText.setText(jsonBook.getString("edition_info"));
+            descEditText.setText(jsonBook.getString("summary"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private void requestDeleteBookWanted(int status) {
         // Show Progress Dialog
         prgDialog.show();
@@ -335,6 +406,26 @@ public class BookWantedActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    protected void populateFields(String jsonString) {
+        try {
+            disableControls();
+
+            JSONObject jsonObject = new JSONObject(jsonString);
+            //book4SaleID = jsonObject.getString("id");
+
+            isbnEditText.setText(jsonObject.getString("isbn"));
+            titleEditText.setText(jsonObject.getString("title"));
+            authorEditText.setText(jsonObject.getString("author"));
+            editionEditText.setText(jsonObject.getString("edition"));
+            descEditText.setText(jsonObject.getString("description"));
+
+            commentEditText.setText(jsonObject.getString("comment"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void requestAddBookWanted() {
