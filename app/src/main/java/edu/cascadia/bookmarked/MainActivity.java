@@ -97,14 +97,17 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_login:
-                doLogin();
-                return true;
 
             case R.id.action_register:
                 Intent registerIntent = new Intent(this, RegisterActivity.class);
                 startActivity(registerIntent);
                 return true;
+
+            case R.id.action_login:
+                doLogin();
+                return true;
+
+
 
             case R.id.action_postABook:
                 if (userNotLoggedIn()) {
@@ -124,10 +127,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
                 return true;
 
-            case R.id.action_setting:
-                Intent settingIntent = new Intent(this, SettingActivity.class);
-                startActivity(settingIntent);
-                return true;
+
 
             case R.id.action_sync_book:
                 // currently only handle refresh for book for sale only
@@ -138,9 +138,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 }
                 return true;
 
-            case R.id.action_logout:
-                doLogout();
-                return true;
+
 
             case R.id.action_post_book_wanted:
                 if (userNotLoggedIn()) {
@@ -161,6 +159,15 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 Intent changePwdIntent = new Intent(this, ChangePasswordActivity.class);
                 changePwdIntent.putExtra(getString(R.string.user_id_param), userID);
                 startActivityForResult(changePwdIntent, CHANGE_PASSWORD_REQUEST);
+                return true;
+
+            case R.id.action_setting:
+                Intent settingIntent = new Intent(this, SettingActivity.class);
+                startActivity(settingIntent);
+                return true;
+
+            case R.id.action_logout:
+                doLogout();
                 return true;
 
             default:
