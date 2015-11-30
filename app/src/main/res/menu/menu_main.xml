@@ -2,10 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_login" android:title="@string/login"
-        android:orderInCategory="100" app:showAsAction="never" />
+
     <item android:id="@+id/action_register" android:title="@string/register"
         android:orderInCategory="100"  />
+    <item android:id="@+id/action_login" android:title="@string/login"
+        android:orderInCategory="100" app:showAsAction="never" />
+
     <item android:id="@+id/action_sync_book"
         android:title="@string/sync_books"
         android:icon="@drawable/sync"
@@ -18,20 +20,19 @@
         android:icon="@drawable/for_sale"
         android:orderInCategory="103"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_share"
-        android:title="Share"
-        android:icon="@android:drawable/ic_menu_share"
-        android:orderInCategory="98" />
+
     <item android:id="@+id/action_mypostings" android:title="@string/myPostings"
         android:orderInCategory="100"/>
+
+   <item android:id="@+id/action_post_book_wanted" android:title="Post book wanted"
+        android:orderInCategory="100" />
+    <item android:id="@+id/action_share" android:title="Share"
+        android:icon="@android:drawable/ic_menu_share" android:orderInCategory="100" />
+    <item android:id="@+id/action_change_password" android:title="Change password"
+        android:orderInCategory="100" />
     <item android:id="@+id/action_setting" android:title="@string/setting"
         android:orderInCategory="100"/>
     <item android:id="@+id/action_logout" android:title="Log out"
-        android:orderInCategory="100" />
-
-    <item android:id="@+id/action_post_book_wanted" android:title="Post book wanted"
-        android:orderInCategory="100" />
-    <item android:id="@+id/action_change_password" android:title="Change password"
         android:orderInCategory="100" />
 
 </menu>
