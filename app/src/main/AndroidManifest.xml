@@ -55,6 +55,14 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".MyProfileActivity"
+            android:label="@string/title_activity_myprofile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".BookWantedActivity"
             android:label="@string/title_activity_book_wanted"
             android:theme="@style/AppTheme.NoActionBar" />

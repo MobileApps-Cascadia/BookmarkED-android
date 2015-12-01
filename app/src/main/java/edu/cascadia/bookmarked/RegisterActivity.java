@@ -31,20 +31,20 @@ public class RegisterActivity extends AppCompatActivity {
     private final static String verificationURI = "bookmarked/user/verifyregistration";
 
     // Progress Dialog Object
-    private ProgressDialog prgDialog;
+    protected ProgressDialog prgDialog;
     // Error Msg TextView Object
     private TextView errorMsgTextView;
     // First name Edit View Object
-    private EditText firstnameEditText;
+    protected EditText firstnameEditText;
     // Last name Edit View Object
-    private EditText lastnameEditText;
+    protected EditText lastnameEditText;
     // Email Edit View Object
-    private EditText emailEditText;
+    protected EditText emailEditText;
     // Phone Edit View Object
-    private EditText phoneEditText;
+    protected EditText phoneEditText;
     // Passwprd Edit View Object
-    private EditText pwdEditText;
-    private EditText zipcodeEditText;
+    protected EditText pwdEditText;
+    protected EditText zipcodeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
