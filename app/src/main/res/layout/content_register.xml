@@ -24,7 +24,8 @@
             android:layout_marginBottom="10dip"
             android:text="@string/register"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/titleTextView" />
 
         <!-- First Name Label -->
         <TextView
@@ -120,6 +121,7 @@
 
         <!-- Password Label -->
         <TextView
+            android:id="@+id/passwordTextView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/pwd" />
@@ -153,6 +155,19 @@
             android:textAllCaps="false"
             android:text="@string/btn_register"
             android:textColor="#fff" />
+
+    <Button
+        android:id="@+id/btnChangePassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dip"
+        android:background="@null"
+        android:onClick="onChangePassword"
+        android:textAllCaps="false"
+        android:text="@string/change_password"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <!-- /LinearLayout-->
 </LinearLayout>

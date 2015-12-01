@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private final int POST_BOOK4SALE_REQUEST = 2;
     private final int POST_BOOK_WANTED_REQUEST = 3;
     private final int MY_POSTINGS_REQUEST = 4;
-    private final int CHANGE_PASSWORD_REQUEST = 5;
 
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
@@ -107,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 doLogin();
                 return true;
 
-
-
             case R.id.action_postABook:
                 if (userNotLoggedIn()) {
                     return true;
@@ -126,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 myPostingIntent.putExtra(getString(R.string.user_id_param), userID);
                 startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
                 return true;
-
-
 
             case R.id.action_sync_book:
                 // currently only handle refresh for book for sale only
@@ -155,16 +150,21 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 setShareIntent();
                 return true;
 
-            case R.id.action_change_password:
-                Intent changePwdIntent = new Intent(this, ChangePasswordActivity.class);
-                changePwdIntent.putExtra(getString(R.string.user_id_param), userID);
-                startActivityForResult(changePwdIntent, CHANGE_PASSWORD_REQUEST);
-                return true;
-
             case R.id.action_setting:
                 Intent settingIntent = new Intent(this, SettingActivity.class);
                 startActivity(settingIntent);
                 return true;
+
+            case R.id.action_myprofile:
+                if (userNotLoggedIn()) {
+                    return true;
+                }
+
+                Intent profileIntent = new Intent(this, MyProfileActivity.class);
+                profileIntent.putExtra("UserID", userID);
+                startActivity(profileIntent);
+                return true;
+
 
             case R.id.action_logout:
                 doLogout();
