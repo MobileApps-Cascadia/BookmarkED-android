@@ -119,4 +119,11 @@
             android:visibility="gone" />
 
     </LinearLayout>
+    <Button
+        android:id="@+id/contactBuyerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/scrollView"
+        android:layout_alignParentBottom="true"
+        android:text="Contact Buyer" />
 </android.support.v4.widget.NestedScrollView>
