@@ -83,7 +83,7 @@ public class BookWantedActivity extends AppCompatActivity {
         Button contactBuyerBtn = (Button) findViewById(R.id.contactBuyerButton);
         contactBuyerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //sendEmail(jsonStr);
+                sendEmail(jsonStr);
             }
         });
        /* if (!bookAction.equals("ViewExisting")) {
@@ -112,7 +112,7 @@ public class BookWantedActivity extends AppCompatActivity {
 
 
 
-   /* protected void sendEmail(String jsonStr) {
+   protected void sendEmail(String jsonStr) {
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -139,7 +139,7 @@ public class BookWantedActivity extends AppCompatActivity {
         catch (JSONException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
 
     @Override
