@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +65,7 @@ public class BookWantedActivity extends AppCompatActivity {
 
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-
+        final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
         userID = getIntent().getStringExtra(getString(R.string.user_id_param));
 
         initComponents();
@@ -76,6 +78,17 @@ public class BookWantedActivity extends AppCompatActivity {
             populateFields(jsonString, true);
             disableBookWantedControls();
         }
+
+
+        Button contactBuyerBtn = (Button) findViewById(R.id.contactBuyerButton);
+        contactBuyerBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendEmail(jsonStr);
+            }
+        });
+       /* if (!bookAction.equals("ViewExisting")) {
+            hideContactBuyerButton();
+        }*/
 
     }
 
@@ -91,6 +104,43 @@ public class BookWantedActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+
+    protected void hideContactBuyerButton() {
+        findViewById(R.id.contactBuyerButton).setVisibility(View.GONE);
+    }
+
+
+
+   protected void sendEmail(String jsonStr) {
+        try{
+            Log.i("Send email", "");
+            JSONObject jsonObj = new JSONObject(jsonStr);
+            // String TO = jsonObj.getString("username");
+            String[] TO = new String[] { jsonObj.getString("username") };
+
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "I have the book with ISBN: " + jsonObj.getString("isbn"));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Please let me know if you would like to make a deal");
+
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                finish();
+                Log.i("Finished sending email.", "");
+            }
+            catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(BookWantedActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -117,6 +117,14 @@
             android:layout_height="wrap_content"
             android:text="Search book by title"
             android:visibility="gone" />
+        <Button
+            android:id="@+id/contactBuyerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_alignParentBottom="true"
+            android:text="Contact Buyer"
+            android:layout_gravity="right" />
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>
