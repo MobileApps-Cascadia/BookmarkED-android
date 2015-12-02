@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import android.util.Base64;
+
 /**
  * Class which has Utility methods
  * 
@@ -57,4 +59,23 @@ public class Utility {
 		final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 		tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
+
+	/**
+	 * Encodes the byte array into base64 string
+	 * @param imageByteArray - byte array
+	 * @return String a {@link java.lang.String}
+	 */
+	public static String encodeImage(byte[] imageByteArray) {
+		return Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+	}
+
+	/**
+	 * Decodes the base64 string into byte array
+	 * @param imageDataString - a {@link java.lang.String}
+	 * @return byte array
+	 */
+	public static byte[] decodeImage(String imageDataString) {
+		return Base64.decode(imageDataString, Base64.DEFAULT);
+	}
+
 }

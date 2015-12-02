@@ -156,5 +156,6 @@
     <string name="title_delete_book_posting_reason">Are you sure to delete?\nSelect reason to delete posting.</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_change_password">Change Password</string>
+    <string name="title_activity_book_picture">BookPictureActivity</string>
 
 </resources>
