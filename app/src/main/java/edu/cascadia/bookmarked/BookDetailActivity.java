@@ -123,16 +123,16 @@ public class BookDetailActivity extends AppCompatActivity {
 
         //base64Picture = "";
 
-        Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
-        contactSellerBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                sendEmail(jsonStr);
-            }
-        });
+//        Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
+//        contactSellerBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                sendEmail(jsonStr);
+//            }
+//        });
 
-        if (!bookAction.equals("ViewExisting")) {
-            hideContactSellerButton();
-        }
+//        if (!bookAction.equals("ViewExisting")) {
+//            hideContactSellerButton();
+//        }
     }
 
     @Override
@@ -146,20 +146,22 @@ public class BookDetailActivity extends AppCompatActivity {
                 getMenuInflater().inflate(R.menu.menu_book_edit, menu);
             } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
+            } else if (bookAction.equals("ViewExisting")) {
+                getMenuInflater().inflate(R.menu.menu_book_view, menu);
             }
         }
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    protected void hideContactSellerButton() {
-        findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
-    }
+//    protected void hideContactSellerButton() {
+//        findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
+//    }
 
-    protected void sendEmail(String jsonStr) {
+    protected void sendEmail() {
         try {
             Log.i("Send email", "");
-            JSONObject jsonObj = new JSONObject(jsonStr);
+            JSONObject jsonObj = new JSONObject(jsonString);
             // String TO = jsonObj.getString("username");
             String[] TO = new String[]{jsonObj.getString("username")};
 
@@ -198,6 +200,8 @@ public class BookDetailActivity extends AppCompatActivity {
             super.onBackPressed();
         } else if (item.getItemId() == R.id.action_take_picture) {
             takePicture();
+        } else if (item.getItemId() == R.id.action_contact_email) {
+            sendEmail();
         }
         return super.onOptionsItemSelected(item);
     }
