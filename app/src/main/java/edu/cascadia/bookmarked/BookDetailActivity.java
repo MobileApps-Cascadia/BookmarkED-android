@@ -34,10 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 
 /*
     This activity can be called from the following:
@@ -51,7 +47,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
     private final static String deleteBook4SaleURI = "bookmarked/book/deletebookforsale";
     private final static String updateBook4SaleURI = "bookmarked/book/updatebookforsale";
-    private final static String getABook4SaleByIdURI = "bookmarked/book/getabookforsalebyid";
+    //private final static String getABook4SaleByIdURI = "bookmarked/book/getabookforsalebyid";
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
@@ -82,8 +78,6 @@ public class BookDetailActivity extends AppCompatActivity {
     private String userID;
     protected String jsonString;
     private String book4SaleID;
-
-    private String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,7 +289,7 @@ public class BookDetailActivity extends AppCompatActivity {
             editionEditText.setText(jsonObject.getString("edition"));
             descEditText.setText(jsonObject.getString("description"));
             askingPriceEditText.setText(jsonObject.getString("askingprice"));
-            //bookConditionEditText.setText(jsonObject.getString("bookcondition"));
+
             String bookCondStr = jsonObject.getString("bookcondition");
             if (Utility.isNotNull(bookCondStr)) {
                 ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) bookConditionSpinner.getAdapter();
@@ -357,9 +351,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
-    public void onCancelClicked(View view) {
-        super.onBackPressed();
-    }
+//    public void onCancelClicked(View view) {
+//        super.onBackPressed();
+//    }
 
     private void addABookForSale() {
 
@@ -399,10 +393,16 @@ public class BookDetailActivity extends AppCompatActivity {
         params.put("isbn", isbnEditText.getText().toString());
         params.put("username", userID);
         params.put("askingprice", askingPriceEditText.getText().toString());
-        //params.put("bookcondition", bookConditionEditText.getText().toString());
         params.put("bookcondition", getBookConditionFromSpinner());
         params.put("comment", commentEditText.getText().toString());
-        params.put("picture", base64Picture);
+
+        // there is a possibility that user does not take a picture
+        if (Utility.isNotNull(base64Picture)) {
+            params.put("picture", base64Picture);
+        } else {
+            params.put("picture", "");
+        }
+
 //        System.out.println("***base64Picture being assigned to param***");
 //        System.out.println("*****************************");
 //        System.out.println(base64Picture);
@@ -764,7 +764,7 @@ public class BookDetailActivity extends AppCompatActivity {
         return (String) bookConditionSpinner.getSelectedItem();
     }
 
-    // To be later to update the list adapter
+    // To be added later to update the list adapter
 //    private void reloadBook4Sale() {
 //        // Show Progress Dialog
 //        prgDialog.show();
