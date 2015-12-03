@@ -4,10 +4,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,6 +33,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+
 /*
     This activity can be called from the following:
     1. main screen in view only mode
@@ -40,11 +47,12 @@ public class BookDetailActivity extends AppCompatActivity {
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
     private final static String deleteBook4SaleURI = "bookmarked/book/deletebookforsale";
     private final static String updateBook4SaleURI = "bookmarked/book/updatebookforsale";
-    private final static String getABook4SaleByIdURI = "bookmarked/book/getabookforsalebyid";
+    //private final static String getABook4SaleByIdURI = "bookmarked/book/getabookforsalebyid";
 
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
     private final static int EDIT_REQUEST_CODE = 2;
+    static final int REQUEST_IMAGE_CAPTURE = 7;
 
     private EditText isbnEditText;
     private EditText titleEditText;
@@ -52,10 +60,12 @@ public class BookDetailActivity extends AppCompatActivity {
     private EditText editionEditText;
     private EditText descEditText;
     private EditText askingPriceEditText;
-    //private EditText bookConditionEditText;
     private EditText commentEditText;
 
     private Spinner bookConditionSpinner;
+    private ImageView bookImageView;
+
+    private String base64Picture;
 
     // Progress Dialog Object
     protected ProgressDialog prgDialog;
@@ -111,6 +121,8 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
+        //base64Picture = "";
+
         Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
         contactSellerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -145,36 +157,35 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     protected void sendEmail(String jsonStr) {
-        try{
+        try {
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
-           // String TO = jsonObj.getString("username");
-            String[] TO = new String[] { jsonObj.getString("username") };
+            // String TO = jsonObj.getString("username");
+            String[] TO = new String[]{jsonObj.getString("username")};
 
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-        emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "I am interested in buying the book with ISBN: " + jsonObj.getString("isbn"));
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "I am interested in buying the book with ISBN: " + jsonObj.getString("isbn"));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
 
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-            Log.i("Finished sending email.", "");
-        }
-        catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(BookDetailActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
-        }
-        catch (JSONException e) {
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                finish();
+                Log.i("Finished sending email.", "");
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(BookDetailActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == R.id.action_edit_posted_book) {
             editBook4Sale();
         } else if (item.getItemId() == R.id.action_delete_posted_book) {
@@ -185,6 +196,8 @@ public class BookDetailActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_cancel) {
             // To do: add confirmation to cancel and loose data
             super.onBackPressed();
+        } else if (item.getItemId() == R.id.action_take_picture) {
+            takePicture();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -199,8 +212,6 @@ public class BookDetailActivity extends AppCompatActivity {
         descEditText = (EditText) findViewById(R.id.bookDescription);
 
         askingPriceEditText = (EditText) findViewById(R.id.bookAskingPrice);
-        //bookConditionEditText = (EditText) findViewById(R.id.bookCondition);
-        //noteEditText = (EditText) findViewById(R.id.note)
 
         commentEditText = (EditText) findViewById(R.id.book4SaleComment);
 
@@ -212,6 +223,8 @@ public class BookDetailActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         bookConditionSpinner.setAdapter(adapter);
+
+        bookImageView = (ImageView) findViewById(R.id.bookPictureImageView);
 
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -244,7 +257,7 @@ public class BookDetailActivity extends AppCompatActivity {
         //bookConditionEditText.setFocusable(false);
 
         // hide the barcode button
-        Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
+        Button barcodeButton = (Button) findViewById(R.id.barcodeButton);
         barcodeButton.setVisibility(View.GONE);
     }
 
@@ -276,7 +289,7 @@ public class BookDetailActivity extends AppCompatActivity {
             editionEditText.setText(jsonObject.getString("edition"));
             descEditText.setText(jsonObject.getString("description"));
             askingPriceEditText.setText(jsonObject.getString("askingprice"));
-            //bookConditionEditText.setText(jsonObject.getString("bookcondition"));
+
             String bookCondStr = jsonObject.getString("bookcondition");
             if (Utility.isNotNull(bookCondStr)) {
                 ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) bookConditionSpinner.getAdapter();
@@ -287,6 +300,27 @@ public class BookDetailActivity extends AppCompatActivity {
             }
 
             commentEditText.setText(jsonObject.getString("comment"));
+
+            base64Picture = jsonObject.getString("picture");
+
+//            System.out.println("base64Picture from json object");
+//            System.out.println("=================================");
+//            System.out.println(base64Picture);
+//            System.out.println("=================================");
+//            System.out.println("base64Picture length:" + base64Picture.length());
+
+            if (base64Picture.trim().length() > 0) {
+                try {
+                    byte[] decodedString = Base64.decode(base64Picture, Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                    System.out.println("Bitmap width:" + bitmap.getWidth() + " height:" + bitmap.getHeight());
+
+                    bookImageView.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    System.out.println("Exception in getting image. " + e.getMessage());
+                }
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -317,16 +351,16 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
-    public void onCancelClicked(View view) {
-        super.onBackPressed();
-    }
+//    public void onCancelClicked(View view) {
+//        super.onBackPressed();
+//    }
 
     private void addABookForSale() {
 
         // verify that userID exist
         if (!Utility.isNotNull(userID)) {
             Utility.beep();
-            Toast.makeText(this,"User name is unknown. Cannot add book for sale", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User name is unknown. Cannot add book for sale", Toast.LENGTH_SHORT).show();
             return;
         }
         String isbn = isbnEditText.getText().toString();
@@ -359,12 +393,23 @@ public class BookDetailActivity extends AppCompatActivity {
         params.put("isbn", isbnEditText.getText().toString());
         params.put("username", userID);
         params.put("askingprice", askingPriceEditText.getText().toString());
-        //params.put("bookcondition", bookConditionEditText.getText().toString());
         params.put("bookcondition", getBookConditionFromSpinner());
         params.put("comment", commentEditText.getText().toString());
 
+        // there is a possibility that user does not take a picture
+        if (Utility.isNotNull(base64Picture)) {
+            params.put("picture", base64Picture);
+        } else {
+            params.put("picture", "");
+        }
+
+//        System.out.println("***base64Picture being assigned to param***");
+//        System.out.println("*****************************");
+//        System.out.println(base64Picture);
+//        System.out.println("*****************************");
+
         String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + addABookForSaleURI, params, new AsyncHttpResponseHandler() {
+        client.get(hostAddress + addABookForSaleURI + 2, params, new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
             public void onSuccess(String response) {
@@ -397,13 +442,13 @@ public class BookDetailActivity extends AppCompatActivity {
 
     /**
      * Method that performs RESTful webservice invocations
-     *
+     * <p/>
      * This is a 2-step process. First add the book to the table
      * then add the book for sale table
      *
      * @param params
      */
-    private void invokeWS(RequestParams params){
+    private void invokeWS(RequestParams params) {
         // Show Progress Dialog
         prgDialog.show();
         // Make RESTful webservice call using AsyncHttpClient object
@@ -469,8 +514,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == EDIT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK)
-            {
+            if (resultCode == RESULT_OK) {
                 System.out.println("***Received Edit Request Code with OK result");
                 // update current screen - just close for now
                 needsUpdating = true;
@@ -479,10 +523,29 @@ public class BookDetailActivity extends AppCompatActivity {
             return;
         }
 
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = intent.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            bookImageView.setImageBitmap(imageBitmap);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+            // compress to 50% to reduce the data length to pass to web service
+            // the images is not shart however. Have to live with it for now, unless
+            // we can upload the file separately.
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            byte[] byteArray = stream.toByteArray();
+            base64Picture = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            System.out.println("*** byteArray to store in table: " + byteArray.length + "  base64Picture:" + base64Picture.length());
+
+            return;
+        }
+
         //retrieve scan result
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
-        if (scanningResult != null ) {
+        if (scanningResult != null) {
             String scanContent = scanningResult.getContents();
             //String scanFormat = scanningResult.getFormatName();
             // display the info
@@ -569,13 +632,13 @@ public class BookDetailActivity extends AppCompatActivity {
         alertDialogBuilder.setCancelable(true);
         alertDialogBuilder.setPositiveButton("Yes", null);
 
-       alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-           public void onClick(DialogInterface dialog, int id) {
-               // if this button is clicked, just close
-               // the dialog box and do nothing
-               dialog.cancel();
-           }
-       });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // if this button is clicked, just close
+                // the dialog box and do nothing
+                dialog.cancel();
+            }
+        });
 
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
@@ -701,7 +764,7 @@ public class BookDetailActivity extends AppCompatActivity {
         return (String) bookConditionSpinner.getSelectedItem();
     }
 
-    // To be later to update the list adapter
+    // To be added later to update the list adapter
 //    private void reloadBook4Sale() {
 //        // Show Progress Dialog
 //        prgDialog.show();
@@ -745,6 +808,40 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    private void takePicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            // Create the File where the photo should go
+//            File photoFile = null;
+//            try {
+//                photoFile = createImageFile();
+//            } catch (IOException ex) {
+//                // Error occurred while creating the File
+//                System.out.println("Failed to create file for image. " + ex.getMessage());
+//                return;
+//            }
+//            // Continue only if the File was successfully created
+//            if (photoFile != null) {
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                        Uri.fromFile(photoFile));
+//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//            }
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private Bitmap getBookImage() {
+        byte[] decodedString = Base64.decode(base64Picture, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
+    public void onPictureClicked(View view) {
+        //Toast.makeText(this, "To display larger picture", Toast.LENGTH_SHORT).show();
+        Intent bookIntent = new Intent(this, BookPictureActivity.class);
+        bookIntent.putExtra("base64String", base64Picture);
+        startActivity(bookIntent);
+    }
 
     @Override
     public void finish() {

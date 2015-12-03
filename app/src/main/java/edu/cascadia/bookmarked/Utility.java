@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 /**
  * Class which has Utility methods
  * 
@@ -57,4 +58,5 @@ public class Utility {
 		final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
 		tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
+
 }
