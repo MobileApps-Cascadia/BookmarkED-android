@@ -87,6 +87,24 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+//        MenuItem menuItem = menu.findItem(R.id.action_myprofile);
+//        if (menuItem != null) {
+//            menuItem.setVisible(userLoggedIn);
+//        }
+//
+//        MenuItem logoutMenuItem = menu.findItem(R.id.action_logout);
+//        if (logoutMenuItem != null) {
+//            logoutMenuItem.setVisible(userLoggedIn);
+//        }
+//
+        MenuItem loginMenuItem = menu.findItem(R.id.action_login);
+        if (loginMenuItem != null) {
+            loginMenuItem.setVisible(!userLoggedIn);
+        }
+
+        menu.setGroupVisible(R.id.menu_group_login, userLoggedIn);
+
         return true;
     }
 
@@ -97,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
 
-            case R.id.action_register:
-                Intent registerIntent = new Intent(this, RegisterActivity.class);
-                startActivity(registerIntent);
-                return true;
+//            case R.id.action_register:
+//                Intent registerIntent = new Intent(this, RegisterActivity.class);
+//                startActivity(registerIntent);
+//                return true;
 
             case R.id.action_login:
                 doLogin();
@@ -124,14 +142,14 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
                 return true;
 
-            case R.id.action_sync_book:
-                // currently only handle refresh for book for sale only
-                if (!findViewById(R.id.forSaleButton).isEnabled()) {
-                    book4SaleListFragment.refreshList();
-                } else {
-                    bookWantedListFragment.refreshList();
-                }
-                return true;
+//            case R.id.action_sync_book:
+//                // currently only handle refresh for book for sale only
+//                if (!findViewById(R.id.forSaleButton).isEnabled()) {
+//                    book4SaleListFragment.refreshList();
+//                } else {
+//                    bookWantedListFragment.refreshList();
+//                }
+//                return true;
 
 
 
@@ -150,10 +168,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 setShareIntent();
                 return true;
 
-            case R.id.action_setting:
-                Intent settingIntent = new Intent(this, SettingActivity.class);
-                startActivity(settingIntent);
-                return true;
+//            case R.id.action_setting:
+//                Intent settingIntent = new Intent(this, SettingActivity.class);
+//                startActivity(settingIntent);
+//                return true;
 
             case R.id.action_myprofile:
                 if (userNotLoggedIn()) {
@@ -202,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         if (userLoggedIn) {
             userLoggedIn = !userLoggedIn;
             Toast.makeText(this, "You're logged out", Toast.LENGTH_SHORT).show();
+            invalidateOptionsMenu();
         }
     }
 
@@ -230,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 if (data.hasExtra("LoginResult")) {
                     userLoggedIn = data.getExtras().getBoolean("LoginResult");
                     userID = data.getExtras().getString("LoginUser");
+                    invalidateOptionsMenu();
                 }
                 break;
 
@@ -326,5 +346,14 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         showBookWantedListFragments();
     }
 
+    public void onRefreshButtonClicked(View view) {
+        // refresh the active/shown book list only
+        System.out.println("in onRefreshButtonClicked");
+        if (!findViewById(R.id.forSaleButton).isEnabled()) {
+            book4SaleListFragment.refreshList();
+        } else {
+            bookWantedListFragment.refreshList();
+        }
 
+    }
 }
