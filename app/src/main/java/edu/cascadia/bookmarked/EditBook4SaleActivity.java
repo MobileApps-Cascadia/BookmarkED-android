@@ -33,7 +33,7 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         setTitle("Edit book for sale");
         populateFields(jsonString);
         //findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
-        hideContactSellerButton();
+        //hideContactSellerButton();
     }
 
 //    @Override

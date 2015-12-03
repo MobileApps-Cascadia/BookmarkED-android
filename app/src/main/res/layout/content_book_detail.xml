@@ -154,12 +154,12 @@
 
     </ScrollView>
 
-    <Button
+    <!-- Button
         android:id="@+id/contactSellerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/scrollView"
         android:layout_alignParentBottom="true"
-        android:text="Contact Seller" />
+        android:text="Contact Seller" / -->
 
 </RelativeLayout>
