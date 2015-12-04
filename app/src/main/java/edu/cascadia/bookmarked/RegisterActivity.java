@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     // Passwprd Edit View Object
     protected EditText pwdEditText;
     protected EditText zipcodeEditText;
+
+    private boolean registerComplete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +128,17 @@ public class RegisterActivity extends AppCompatActivity {
             // Put Http parameter phone with value of phone Edit View control
             params.put("phone", phone);
             // Put Http parameter password with value of Password Edit View control
-            params.put("password", password);
+            try {
+                String encPwd = Utility.encryptPassword(password);
+                if (encPwd.length() > 100) {
+                    Toast.makeText(this, "Password too long", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                params.put("password", encPwd);
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
             // Put Http parameter zipcode with value of zip code View control
             params.put("zipcode", zipcode);
             // Invoke RESTful Web Service with Http parameters
@@ -212,7 +225,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(hostAddress + verificationURI, params ,new AsyncHttpResponseHandler() {
+        client.get(hostAddress + verificationURI, params, new AsyncHttpResponseHandler() {
             // When the response returned by REST has Http response code '200'
             @Override
             public void onSuccess(String response) {
@@ -222,11 +235,12 @@ public class RegisterActivity extends AppCompatActivity {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
                     // When the JSON response has status boolean value assigned with true
-                    if(obj.getBoolean("status")){
+                    if (obj.getBoolean("status")) {
                         // Set Default Values for Edit View controls
-                        setDefaultValues();
+                        //setDefaultValues();
                         // Display successfully registered message using Toast
                         Toast.makeText(getApplicationContext(), "You are successfully verified!", Toast.LENGTH_SHORT).show();
+                        registerComplete = true;
                         finish();
                     }
                     // Else display error message
@@ -239,6 +253,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
             }
+
             // When the response returned by REST has Http response code other than '200'
             @Override
             public void onFailure(int statusCode, Throwable error,
@@ -246,15 +261,15 @@ public class RegisterActivity extends AppCompatActivity {
                 // Hide Progress Dialog
                 prgDialog.hide();
                 // When Http response code is '404'
-                if(statusCode == 404){
+                if (statusCode == 404) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_LONG).show();
                 }
                 // When Http response code is '500'
-                else if(statusCode == 500){
+                else if (statusCode == 500) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_LONG).show();
                 }
                 // When Http response code other than 404, 500
-                else{
+                else {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_LONG).show();
                 }
             }
@@ -264,14 +279,14 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Set degault values for Edit View controls
      */
-    public void setDefaultValues(){
-        firstnameEditText.setText("");
-        lastnameEditText.setText("");
-        emailEditText.setText("");
-        phoneEditText.setText("");
-        pwdEditText.setText("");
-        zipcodeEditText.setText("");
-    }
+//    public void setDefaultValues(){
+//        firstnameEditText.setText("");
+//        lastnameEditText.setText("");
+//        emailEditText.setText("");
+//        phoneEditText.setText("");
+//        pwdEditText.setText("");
+//        zipcodeEditText.setText("");
+//    }
 
     private void validateRegistrationCode() {
 
@@ -326,7 +341,12 @@ public class RegisterActivity extends AppCompatActivity {
                             alertDialog.dismiss();
                             RequestParams requestParams = new RequestParams();
                             requestParams.add("username", emailEditText.getText().toString());
-                            requestParams.add("password", pwdEditText.getText().toString());
+                            try {
+                                requestParams.add("password", Utility.encryptPassword(pwdEditText.getText().toString()));
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             requestParams.add("verificationcode", codeEditText.getText().toString());
                             // send request to web service
                             sendVerificationRequest(requestParams);
@@ -344,4 +364,13 @@ public class RegisterActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    @Override
+    public void finish() {
+        if (registerComplete) {
+            Intent data = new Intent();
+            data.putExtra("RegisteredUser", emailEditText.getText().toString());
+            setResult(RESULT_OK, data);
+        }
+        super.finish();
+    }
 }

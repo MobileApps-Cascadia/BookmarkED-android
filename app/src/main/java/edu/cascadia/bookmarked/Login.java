@@ -23,6 +23,8 @@ public class Login extends AppCompatActivity {
 
     private final static String loginURI = "bookmarked/login/dologin";
 
+    private final static int REGISTER_USER_REQUEST = 11;
+
     // Progress Dialog Object
     private ProgressDialog prgDialog;
     // Email Edit View Object
@@ -76,6 +78,7 @@ public class Login extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         // Get Password Edit View Value
         String password = pwdEditText.getText().toString();
+
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         // When Email Edit View and Password Edit View have values other than Null
@@ -85,7 +88,16 @@ public class Login extends AppCompatActivity {
                 // Put Http parameter username with value of Email Edit View control
                 params.put("username", email);
                 // Put Http parameter password with value of Password Edit Value control
-                params.put("password", password);
+                try {
+                    params.put("password", Utility.encryptPassword(password));
+//                    String testString = Utility.encryptPassword(password);
+//                    System.out.println("Password:" + testString);
+//                    System.out.println("Decrypted string:"+ Utility.decryptPassword(testString));
+                } catch (Exception e) {
+                    Toast.makeText(this, "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // Invoke RESTful Web Service with Http parameters
                 invokeWS(params);
             }
@@ -106,7 +118,7 @@ public class Login extends AppCompatActivity {
     public void navigateToRegisterActivity(View view) {
         //Toast.makeText(getApplicationContext(), "To display register screen", Toast.LENGTH_SHORT).show();
         Intent registerIntent = new Intent(this, RegisterActivity.class);
-        startActivity(registerIntent);
+        startActivityForResult(registerIntent, REGISTER_USER_REQUEST);
     }
     /**
      * Method that performs RESTful webservice invocations
@@ -135,7 +147,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_SHORT).show();
 
                         // update preferred user if necessary
-                        if ( !lastUsername.equals(emailEditText.getText().toString()) ) {
+                        if (!lastUsername.equals(emailEditText.getText().toString())) {
                             updateUsernamePref();
                         }
 
@@ -183,12 +195,31 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        Intent data = new Intent();
-        data.putExtra("LoginResult", loginOK);
-        data.putExtra("LoginUser", emailEditText.getText().toString());
-        setResult(RESULT_OK, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == REGISTER_USER_REQUEST && resultCode == RESULT_OK) {
+            // login registered user automatically
+            emailEditText.setText(data.getExtras().getString("RegisteredUser"));
+            loginOK = true;
+            // update preferred user if necessary
+            if (!lastUsername.equals(emailEditText.getText().toString())) {
+                updateUsernamePref();
+            }
+
+            finish();
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void finish() {
+        if (loginOK) {
+            Intent data = new Intent();
+            data.putExtra("LoginUser", emailEditText.getText().toString());
+            setResult(RESULT_OK, data);
+        }
         super.finish();
     }
 }

@@ -14,6 +14,9 @@ import java.util.regex.Pattern;
  */
 public class Utility {
 	private final static String defServer = "mytomcatapp-bookmarked.rhcloud.com";
+
+	private final static String seedValue = "$-BookmarkEd_Falls_2015-$";
+
 	private static Pattern pattern;
 	private static Matcher matcher;
 	//Email Pattern
@@ -59,4 +62,11 @@ public class Utility {
 		tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
 
+	public static String encryptPassword(String pwd) throws Exception {
+		return AESHelper.encrypt(seedValue, pwd);
+	}
+
+	public static String decryptPassword(String pwd) throws Exception {
+		return AESHelper.decrypt(seedValue, pwd);
+	}
 }
