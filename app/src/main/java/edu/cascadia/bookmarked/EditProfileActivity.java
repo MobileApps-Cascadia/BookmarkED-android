@@ -41,17 +41,16 @@ public class EditProfileActivity extends MyProfileActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_book, menu);
+        getMenuInflater().inflate(R.menu.menu_profile_edit, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_save_post_book) {
+        if (item.getItemId() == R.id.action_save_profile) {
             saveProfile();
             return true;
         }  else if (item.getItemId() == R.id.action_cancel) {
-            // To do: add confirmation to cancel and loose data
             super.onBackPressed();
             return true;
         }
