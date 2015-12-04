@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BookmarkEd</string>
     <string name="setting">Setting</string>
-    <string name="post_a_book">Post A book</string>
-    <string name="post_a_book_wanted">Post A book</string>
+    <string name="post_book4sale">Post book for sale</string>
+    <string name="post_book_wanted">Post book wanted</string>
     <string name="sync_books">Sync</string>
     <string name="login">Log in</string>
     <string name="register">Register</string>

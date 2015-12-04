@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <Button
+            style="?android:attr/buttonStyleSmall"
             android:id="@+id/forSaleButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
             android:textStyle="bold" />
 
         <Button
+            style="?android:attr/buttonStyleSmall"
             android:id="@+id/wantedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -39,6 +41,23 @@
             android:text="Wanted"
             android:textAllCaps="false"
             android:textStyle="bold" />
+
+        <!-- Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:hint="Refresh book listing"
+            android:background="@drawable/sync" / -->
+
+        <ImageButton
+            android:id="@+id/refresImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:src="@drawable/sync"
+            android:onClick="onRefreshButtonClicked" />
     </LinearLayout>
 
     <TextView
