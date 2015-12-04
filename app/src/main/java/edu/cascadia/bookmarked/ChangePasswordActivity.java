@@ -54,7 +54,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
 
     public void changePassword(View view) {
-        //System.out.println("to change password");
+        // sanity check
         if (Utility.isNotNull(userID) == false) {
             Toast.makeText(this, "Username unknown. Cannot change password", Toast.LENGTH_SHORT).show();
             return;
@@ -82,7 +82,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
 
-        doChangePassword(currPwd, newPwd);
+        try {
+            String encNewPwd = Utility.encryptPassword(newPwd);
+            if (encNewPwd.length() > 100) {
+                Toast.makeText(this, "Password too long", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            doChangePassword(Utility.encryptPassword(currPwd), encNewPwd);
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     public void onCancelBtnClicked(View view) {

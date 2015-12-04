@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 registerOnSharedPreferenceChangeListener(
                         preferenceChangeListener);
 
-
     }
 
     private void showBook4SaleListFragments() {
@@ -219,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         // perform logout only if user was logged in
         if (userLoggedIn) {
             userLoggedIn = !userLoggedIn;
+            userID = "";
             Toast.makeText(this, "You're logged out", Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
         }
@@ -246,12 +246,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         switch (requestCode) {
             case LOG_IN_REQUEST:
-                if (data.hasExtra("LoginResult")) {
-                    userLoggedIn = data.getExtras().getBoolean("LoginResult");
-                    userID = data.getExtras().getString("LoginUser");
-                    invalidateOptionsMenu();
-                }
-                break;
+                // login successful. Get the userID
+                userID = data.getExtras().getString("LoginUser");
+                userLoggedIn = true;
+                invalidateOptionsMenu();
+            break;
 
             case POST_BOOK4SALE_REQUEST:
                 if (data.hasExtra("NewPosting")) {
