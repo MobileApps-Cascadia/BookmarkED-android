@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -671,18 +672,36 @@ public class BookWantedActivity extends AppCompatActivity {
         });
     }
 
+    
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //if (requestCode == EDIT_REQUEST_CODE) {
-        //System.out.println("*** in onActivityResult ***");
+        if (requestCode == EDIT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK)
+            {
+                System.out.println("***Received Edit Request Code with OK result");
+                // update current screen - just close for now
+                needsUpdating = true;
+                finish();
+            }
+            return;
+        }
 
-        if (resultCode == RESULT_OK) {
-            // update current screen - just close for now, but
-            // pass info to update the list
-            needsUpdating = true;
-            finish();
+        //retrieve scan result
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        if (scanningResult != null ) {
+            String scanContent = scanningResult.getContents();
+            //String scanFormat = scanningResult.getFormatName();
+            // display the info
+            isbnEditText.setText(scanContent);
+            // look up ISBN db for book info
+            lookUpIsbnDB(scanContent);
+        } else {
+            Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
         }
 
     }
+
+
 
     @Override
     public void finish() {
