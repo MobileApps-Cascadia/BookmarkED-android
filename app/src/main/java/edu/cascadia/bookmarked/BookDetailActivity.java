@@ -121,18 +121,6 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        //base64Picture = "";
-
-//        Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
-//        contactSellerBtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                sendEmail(jsonStr);
-//            }
-//        });
-
-//        if (!bookAction.equals("ViewExisting")) {
-//            hideContactSellerButton();
-//        }
     }
 
     @Override

@@ -30,6 +30,7 @@ import org.json.JSONObject;
 public class BookWantedActivity extends AppCompatActivity {
 
     private final static int EDIT_REQUEST_CODE = 2;
+    private final static int SEARCH_BOOK_REQUEST = 12;
 
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookWantedURI = "bookmarked/book/addbookwanted";
@@ -78,6 +79,7 @@ public class BookWantedActivity extends AppCompatActivity {
             setTitle(getString(R.string.title_detail_book_wanted));
             populateFields(jsonString, true);
             disableBookWantedControls();
+            hideSearchBookOnlineButton();
         }
 
 
@@ -98,10 +100,15 @@ public class BookWantedActivity extends AppCompatActivity {
         if (Utility.isNotNull(bookAction)) {
             if (bookAction.equals("AllowEdit")) {
                 getMenuInflater().inflate(R.menu.menu_book_edit, menu);
+                hideContactBuyerButton();
             } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
+                // hide camera menu
+                MenuItem cameraMenuItem = menu.findItem(R.id.action_take_picture);
+                cameraMenuItem.setVisible(false);
             }
         }
+
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -111,9 +118,12 @@ public class BookWantedActivity extends AppCompatActivity {
         findViewById(R.id.contactBuyerButton).setVisibility(View.GONE);
     }
 
+    private void hideSearchBookOnlineButton() {
+        findViewById(R.id.searchOnlineBookButton).setVisibility(View.GONE);
+    }
 
 
-   protected void sendEmail(String jsonStr) {
+    protected void sendEmail(String jsonStr) {
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -125,7 +135,7 @@ public class BookWantedActivity extends AppCompatActivity {
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT,  "I have the book with ISBN: " + jsonObj.getString("isbn"));
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "I have the book with ISBN: " + jsonObj.getString("isbn"));
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Please let me know if you would like to make a deal");
 
             try {
@@ -347,6 +357,11 @@ public class BookWantedActivity extends AppCompatActivity {
         // scan
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
+    }
+
+    public void onSearchOnlineBookButtonClicked(View view) {
+        Intent searchBookIntent = new Intent(this, SearchBookActivity.class);
+        startActivityForResult(searchBookIntent, SEARCH_BOOK_REQUEST);
     }
 
 
@@ -672,36 +687,56 @@ public class BookWantedActivity extends AppCompatActivity {
         });
     }
 
-    
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == EDIT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK)
-            {
-                System.out.println("***Received Edit Request Code with OK result");
-                // update current screen - just close for now
-                needsUpdating = true;
-                finish();
-            }
-            return;
+    private void getFoundBookInfo(Intent intent) {
+
+        // populate the fields with the found book data
+        isbnEditText.setText(getExtraInfo(intent, "isbn"));
+        titleEditText.setText(getExtraInfo(intent, "title"));
+        authorEditText.setText(getExtraInfo(intent, "author"));
+        editionEditText.setText(getExtraInfo(intent, "edition"));
+        descEditText.setText(getExtraInfo(intent, "summary"));
+    }
+
+    private String getExtraInfo(Intent intent, String key) {
+        if (intent.hasExtra(key)) {
+            return intent.getExtras().getString(key);
         }
 
-        //retrieve scan result
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        return "";
+    }
 
-        if (scanningResult != null ) {
-            String scanContent = scanningResult.getContents();
-            //String scanFormat = scanningResult.getFormatName();
-            // display the info
-            isbnEditText.setText(scanContent);
-            // look up ISBN db for book info
-            lookUpIsbnDB(scanContent);
-        } else {
-            Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //if (requestCode == EDIT_REQUEST_CODE) {
+        //System.out.println("*** in onActivityResult ***");
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == EDIT_REQUEST_CODE) {
+                // update current screen - just close for now, but
+                // pass info to update the list
+                needsUpdating = true;
+                finish();
+                return;
+            } else if (requestCode == SEARCH_BOOK_REQUEST) {
+                // user select a book from the search book activity
+                getFoundBookInfo(intent);
+            } else {
+                //retrieve scan result
+                IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+                if (scanningResult != null ) {
+                    String scanContent = scanningResult.getContents();
+                    //String scanFormat = scanningResult.getFormatName();
+                    // display the info
+                    isbnEditText.setText(scanContent);
+                    // look up ISBN db for book info
+                    lookUpIsbnDB(scanContent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
 
     }
-
-
 
     @Override
     public void finish() {

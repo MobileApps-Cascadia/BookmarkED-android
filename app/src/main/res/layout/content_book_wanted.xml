@@ -17,12 +17,37 @@
         android:paddingRight="5dip"
         >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="left">
         <!-- ISBN -->
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/isbn" />
+            android:text="@string/isbn"
+            android:layout_weight="0" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:text="Search online book database"
+            android:background="@null"
+            android:textAllCaps="false"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_gravity="right"
+            android:gravity="end"
+            android:id="@+id/searchOnlineBookButton"
+            android:textStyle="bold|italic"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:textAlignment="viewEnd"
+            android:onClick="onSearchOnlineBookButtonClicked" />
+
+        </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

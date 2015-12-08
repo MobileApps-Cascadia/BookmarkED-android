@@ -78,6 +78,10 @@
         <activity
             android:name=".BookPictureActivity"
             android:label="@string/title_activity_book_picture"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SearchBookActivity"
+            android:label="@string/title_activity_search_book"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
