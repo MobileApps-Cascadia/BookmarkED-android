@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private final int POST_BOOK_WANTED_REQUEST = 3;
     private final int MY_POSTINGS_REQUEST = 4;
 
+    private final int POST_BOOK4SALE_PENDING_LOGIN_REQUEST = 21;
+    private final int POST_BOOKWANTED_PENDING_LOGIN_REQUEST = 22;
+    private final int MY_POSTINGS_PENDING_LOGIN_REQUEST = 23;
+
     private static boolean userLoggedIn = false;
     private boolean preferencesChanged = false; // did preferences change?
 
@@ -120,11 +124,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 //                return true;
 
             case R.id.action_login:
-                doLogin();
+                doLogin(LOG_IN_REQUEST);
                 return true;
 
             case R.id.action_postABook:
-                if (userNotLoggedIn()) {
+                if (userNotLoggedIn(POST_BOOK4SALE_PENDING_LOGIN_REQUEST)) {
                     return true;
                 }
 
@@ -132,35 +136,19 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_mypostings:
-                if (userNotLoggedIn()) {
+                if (userNotLoggedIn(MY_POSTINGS_PENDING_LOGIN_REQUEST)) {
                     return true;
                 }
 
-                Intent myPostingIntent = new Intent(this, MyPostingActivity.class);
-                myPostingIntent.putExtra(getString(R.string.user_id_param), userID);
-                startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
+                doMyPostings();
                 return true;
 
-//            case R.id.action_sync_book:
-//                // currently only handle refresh for book for sale only
-//                if (!findViewById(R.id.forSaleButton).isEnabled()) {
-//                    book4SaleListFragment.refreshList();
-//                } else {
-//                    bookWantedListFragment.refreshList();
-//                }
-//                return true;
-
-
-
             case R.id.action_post_book_wanted:
-                if (userNotLoggedIn()) {
+                if (userNotLoggedIn(POST_BOOKWANTED_PENDING_LOGIN_REQUEST)) {
                     return true;
                 }
 
-                Intent bookWantedIntent = new Intent(this, BookWantedActivity.class);
-                bookWantedIntent.putExtra(getString(R.string.book_action_param), "AddNew");
-                bookWantedIntent.putExtra(getString(R.string.user_id_param), userID);
-                startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
+                doPostBookWanted();
                 return true;
 
             case R.id.action_share:
@@ -173,10 +161,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 //                return true;
 
             case R.id.action_myprofile:
-                if (userNotLoggedIn()) {
-                    return true;
-                }
-
+                // menu is only available when user logged in
                 Intent profileIntent = new Intent(this, MyProfileActivity.class);
                 profileIntent.putExtra("UserID", userID);
                 startActivity(profileIntent);
@@ -203,11 +188,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
-    private boolean userNotLoggedIn() {
+    private boolean userNotLoggedIn(int requestType) {
         if (!userLoggedIn) {
             Utility.beep();
             Toast.makeText(this, getString(R.string.must_login), Toast.LENGTH_SHORT).show();
-            doLogin();
+            doLogin(requestType);
             return true;
         }
 
@@ -225,9 +210,9 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     }
 
 
-    private void doLogin() {
+    private void doLogin(int requestType) {
         Intent intent = new Intent(this, Login.class);
-        startActivityForResult(intent, LOG_IN_REQUEST);
+        startActivityForResult(intent, requestType);
     }
 
     private void postABookForSale() {
@@ -239,6 +224,26 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         startActivityForResult(bookIntent, POST_BOOK4SALE_REQUEST);
     }
 
+    private void doMyPostings() {
+        Intent myPostingIntent = new Intent(this, MyPostingActivity.class);
+        myPostingIntent.putExtra(getString(R.string.user_id_param), userID);
+        startActivityForResult(myPostingIntent, MY_POSTINGS_REQUEST);
+    }
+
+    private void doPostBookWanted() {
+        Intent bookWantedIntent = new Intent(this, BookWantedActivity.class);
+        bookWantedIntent.putExtra(getString(R.string.book_action_param), "AddNew");
+        bookWantedIntent.putExtra(getString(R.string.user_id_param), userID);
+        startActivityForResult(bookWantedIntent, POST_BOOK_WANTED_REQUEST);
+    }
+
+    private void updateLoginUser(Intent data) {
+        // login successful. Get the userID
+        userID = data.getExtras().getString("LoginUser");
+        userLoggedIn = true;
+        invalidateOptionsMenu();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -246,10 +251,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
         switch (requestCode) {
             case LOG_IN_REQUEST:
-                // login successful. Get the userID
-                userID = data.getExtras().getString("LoginUser");
-                userLoggedIn = true;
-                invalidateOptionsMenu();
+                updateLoginUser(data);
             break;
 
             case POST_BOOK4SALE_REQUEST:
@@ -279,6 +281,21 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                         }
                     }
                 }
+                break;
+
+            case POST_BOOK4SALE_PENDING_LOGIN_REQUEST:
+                updateLoginUser(data);
+                postABookForSale();
+                break;
+
+            case POST_BOOKWANTED_PENDING_LOGIN_REQUEST:
+                updateLoginUser(data);
+                doPostBookWanted();
+                break;
+
+            case MY_POSTINGS_PENDING_LOGIN_REQUEST:
+                updateLoginUser(data);
+                doMyPostings();
                 break;
         }
 

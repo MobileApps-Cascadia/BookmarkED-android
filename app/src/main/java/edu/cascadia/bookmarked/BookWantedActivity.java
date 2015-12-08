@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -79,6 +78,7 @@ public class BookWantedActivity extends AppCompatActivity {
             setTitle(getString(R.string.title_detail_book_wanted));
             populateFields(jsonString, true);
             disableBookWantedControls();
+            hideBarcodeScanningButton();
             hideSearchBookOnlineButton();
         }
 
@@ -122,6 +122,11 @@ public class BookWantedActivity extends AppCompatActivity {
         findViewById(R.id.searchOnlineBookButton).setVisibility(View.GONE);
     }
 
+    private void hideBarcodeScanningButton() {
+        // hide the barcode button for now.
+        Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
+        barcodeButton.setVisibility(View.GONE);
+    }
 
     protected void sendEmail(String jsonStr) {
         try{
@@ -198,9 +203,7 @@ public class BookWantedActivity extends AppCompatActivity {
         // Set Cancelable as False
         prgDialog.setCancelable(false);
 
-        // hide the barcode button for now. Not sure if need it
-        Button barcodeButton = (Button)findViewById(R.id.barcodeButton);
-        //barcodeButton.setVisibility(View.GONE);
+
     }
 
     protected void populateFields(String jsonString, boolean readonly) {
