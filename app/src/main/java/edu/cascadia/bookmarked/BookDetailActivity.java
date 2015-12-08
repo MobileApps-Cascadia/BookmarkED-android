@@ -226,7 +226,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
         shareIntent.setType("image/*");
         shareIntent.putExtra(Intent.EXTRA_TEXT, title);
-
+        String downloadURL = "https://play.google.com/store/apps/details?id=edu.cascadia.bookmarked";
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Download BookmarkEd\n" + downloadURL);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Book For Sale");
         shareIntent.setAction(Intent.ACTION_SEND);
         startActivity(Intent.createChooser(shareIntent, "Share Book"));
     }
