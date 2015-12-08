@@ -64,6 +64,7 @@ public class BookDetailActivity extends AppCompatActivity {
 
     private Spinner bookConditionSpinner;
     private ImageView bookImageView;
+    private Bitmap bitmap;
 
     private String base64Picture;
 
@@ -202,8 +203,32 @@ public class BookDetailActivity extends AppCompatActivity {
             takePicture();
         } else if (item.getItemId() == R.id.action_contact_email) {
             sendEmail();
+        } else if  (item.getItemId() == R.id.action_share) {
+            setShareIntent();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //share specific book to social networks
+    private void setShareIntent() {
+        //we'll share: bookImageView, titleEditText
+        String title = titleEditText.getText().toString();
+        Intent shareIntent = new Intent();
+
+        //get URI of the bitmap and put it into shareIntent if not null
+        if (bitmap != null){
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(),
+                    bitmap, "Image Description", null);
+            Uri uri = Uri.parse(path);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+
+        shareIntent.setAction(Intent.ACTION_SEND);
+        startActivity(Intent.createChooser(shareIntent, "Share Book"));
     }
 
     protected void initComponents() {
@@ -316,7 +341,7 @@ public class BookDetailActivity extends AppCompatActivity {
             if (base64Picture != null && base64Picture.trim().length() > 0) {
                 try {
                     byte[] decodedString = Base64.decode(base64Picture, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     System.out.println("Bitmap width:" + bitmap.getWidth() + " height:" + bitmap.getHeight());
                     bookImageView.setImageBitmap(bitmap);
                 } catch (Exception e) {
