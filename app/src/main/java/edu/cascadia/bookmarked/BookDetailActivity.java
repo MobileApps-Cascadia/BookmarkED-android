@@ -313,13 +313,11 @@ public class BookDetailActivity extends AppCompatActivity {
 //            System.out.println("=================================");
 //            System.out.println("base64Picture length:" + base64Picture.length());
 
-            if (base64Picture.trim().length() > 0) {
+            if (base64Picture != null && base64Picture.trim().length() > 0) {
                 try {
                     byte[] decodedString = Base64.decode(base64Picture, Base64.DEFAULT);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
                     System.out.println("Bitmap width:" + bitmap.getWidth() + " height:" + bitmap.getHeight());
-
                     bookImageView.setImageBitmap(bitmap);
                 } catch (Exception e) {
                     System.out.println("Exception in getting image. " + e.getMessage());
