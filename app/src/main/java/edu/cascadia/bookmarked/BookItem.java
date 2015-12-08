@@ -1,5 +1,9 @@
 package edu.cascadia.bookmarked;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +20,7 @@ public class BookItem {
     protected String jsonString;
     protected String author;
     protected String askingPrice;
+    protected String base64Picture;
 
     public BookItem(String isbn, String title) {
         this.isbn = isbn;
@@ -36,6 +41,8 @@ public class BookItem {
             } else {
                 askingPrice = "";
             }
+            base64Picture = jsonObject.getString("picture");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
