@@ -1,10 +1,14 @@
 package edu.cascadia.bookmarked;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ public class BooksAdapter extends ArrayAdapter<BookItem> {
         // Lookup view for data population
         TextView bookTitle = (TextView) convertView.findViewById(R.id.bookTitleTextView);
         TextView bookPrice = (TextView) convertView.findViewById(R.id.bookPriceTextView);
+        ImageView bookImageView = (ImageView) convertView.findViewById(R.id.bookCoverimageView);
         // Populate the data into the template view using the data object
         bookTitle.setText(bookItem.title);
         TextView bookAuthor = (TextView) convertView.findViewById(R.id.bookAuthorTextView);
@@ -37,6 +42,18 @@ public class BooksAdapter extends ArrayAdapter<BookItem> {
 
         if (Utility.isNotNull(bookItem.askingPrice)) {
             bookPrice.setText(bookItem.askingPrice);
+        }
+        if (bookItem.base64Picture != null && bookItem.base64Picture.trim().length() > 0) {
+            try {
+                byte[] decodedString = Base64.decode(bookItem.base64Picture, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                System.out.println("Bitmap width:" + bitmap.getWidth() + " height:" + bitmap.getHeight());
+
+                bookImageView.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                System.out.println("Exception in getting image. " + e.getMessage());
+            }
         }
 
         //tvHome.setText(user.hometown);

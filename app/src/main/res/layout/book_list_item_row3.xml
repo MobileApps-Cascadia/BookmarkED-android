@@ -9,7 +9,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/no_book_cover" />
+        android:src="@drawable/no_book_cover"
+        android:maxWidth="60dp"
+        android:maxHeight="70dp"
+        android:adjustViewBounds="true"/>
 
     <TextView
         android:id="@+id/bookTitleTextView"
