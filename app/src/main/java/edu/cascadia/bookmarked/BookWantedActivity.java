@@ -4,16 +4,20 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -52,8 +56,10 @@ public class BookWantedActivity extends AppCompatActivity {
     protected String jsonString;
     private String bookID;
     private String bookWantedID;
+    private Bitmap bitmap;
 
     private boolean needsUpdating = false;
+    private String jsonStr; //hold string info about book
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +68,11 @@ public class BookWantedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-        final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
+        jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
         userID = getIntent().getStringExtra(getString(R.string.user_id_param));
 
         initComponents();
@@ -142,7 +150,7 @@ public class BookWantedActivity extends AppCompatActivity {
         barcodeButton.setVisibility(View.GONE);
     }
 
-    protected void sendEmail(String jsonStr) {
+   protected void sendEmail(String jsonStr) {
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -191,20 +199,40 @@ public class BookWantedActivity extends AppCompatActivity {
                 editABookWanted();
                 return true;
 
+            case R.id.action_share:
+                setShareIntent();
+                return true;
             case R.id.action_delete_posted_book:
                 deleteABookWanted();
-                return true;
-
-            case R.id.action_contact_email:
-                sendEmail(jsonString);
-                return true;
-
-            case android.R.id.home:
-                finish();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //share
+    //share specific book to social networks
+    private void setShareIntent() {
+        //we'll share: bookImageView, titleEditText
+        String title = titleEditText.getText().toString();
+        Intent shareIntent = new Intent();
+
+        //get URI of the bitmap and put it into shareIntent if not null
+        if (bitmap != null){
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(),
+                    bitmap, "Image Description", null);
+            Uri uri = Uri.parse(path);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        }
+
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, title);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Book Wanted");
+        String downloadURL = "https://play.google.com/store/apps/details?id=edu.cascadia.bookmarked";
+        //shareIntent.putExtra(Intent.EXTRA_TEXT, "Download BookmarkEd\n");  //override from line below
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Download BookmarkEd\n" + downloadURL);
+        shareIntent.setAction(Intent.ACTION_SEND);
+        startActivity(Intent.createChooser(shareIntent, "Share Book"));
     }
 
     protected void initComponents() {
@@ -382,11 +410,6 @@ public class BookWantedActivity extends AppCompatActivity {
         // scan
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
-    }
-
-    public void onSearchOnlineBookButtonClicked(View view) {
-        Intent searchBookIntent = new Intent(this, SearchBookActivity.class);
-        startActivityForResult(searchBookIntent, SEARCH_BOOK_REQUEST);
     }
 
 
