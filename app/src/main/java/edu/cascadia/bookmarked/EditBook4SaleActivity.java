@@ -34,6 +34,11 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         populateFields(jsonString);
         //findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
         //hideContactSellerButton();
+
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
+
     }
 
 //    @Override
@@ -51,6 +56,9 @@ public class EditBook4SaleActivity extends BookDetailActivity {
         } else if (item.getItemId() == R.id.action_cancel) {
             // To do: add confirmation to cancel and loose data
             super.onBackPressed();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
 

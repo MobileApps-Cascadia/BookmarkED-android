@@ -36,6 +36,10 @@ public class EditProfileActivity extends MyProfileActivity {
 
         // enableControls();
         setEditMode(true);
+
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
     }
 
     @Override
@@ -52,6 +56,9 @@ public class EditProfileActivity extends MyProfileActivity {
             return true;
         }  else if (item.getItemId() == R.id.action_cancel) {
             super.onBackPressed();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
 

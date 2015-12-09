@@ -33,6 +33,10 @@ public class MyProfileActivity extends RegisterActivity{
         super.onCreate(savedInstanceState);
         userID = getIntent().getStringExtra("UserID");
 
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
+
         // set title to my profile
         ((TextView) findViewById(R.id.titleTextView)).setText(getString(R.string.title_activity_myprofile));
 
@@ -57,6 +61,9 @@ public class MyProfileActivity extends RegisterActivity{
             return true;
         }  else if (item.getItemId() == R.id.action_cancel) {
             super.onBackPressed();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
 

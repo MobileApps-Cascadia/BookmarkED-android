@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -61,6 +62,10 @@ public class SearchBookActivity extends AppCompatActivity {
         titleRadioButton = (RadioButton) findViewById(R.id.titleRadioButton);
         //isbnRadioButton = (RadioButton) findViewById(R.id.isbnRadioButton);
         bookListView = (ListView) findViewById(R.id.bookListView);
+
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
 
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -294,6 +299,16 @@ public class SearchBookActivity extends AppCompatActivity {
     public void onBookSelected(SearchBookItem searchBookItem) {
         selectedBook = searchBookItem;
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

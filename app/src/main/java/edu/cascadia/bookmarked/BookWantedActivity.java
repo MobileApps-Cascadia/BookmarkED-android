@@ -62,8 +62,6 @@ public class BookWantedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
         final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
@@ -83,15 +81,20 @@ public class BookWantedActivity extends AppCompatActivity {
         }
 
 
-        Button contactBuyerBtn = (Button) findViewById(R.id.contactBuyerButton);
-        contactBuyerBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                sendEmail(jsonStr);
-            }
-        });
-       /* if (!bookAction.equals("ViewExisting")) {
-            hideContactBuyerButton();
-        }*/
+//        Button contactBuyerBtn = (Button) findViewById(R.id.contactBuyerButton);
+//        contactBuyerBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                sendEmail(jsonStr);
+//            }
+//        });
+
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
+
+//       if (bookAction.equals("AddNew")) {
+//            hideContactBuyerButton();
+//        }
 
     }
 
@@ -100,13 +103,20 @@ public class BookWantedActivity extends AppCompatActivity {
         if (Utility.isNotNull(bookAction)) {
             if (bookAction.equals("AllowEdit")) {
                 getMenuInflater().inflate(R.menu.menu_book_edit, menu);
-                hideContactBuyerButton();
+                hideContactBuyerButton(menu);
             } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
                 // hide camera menu
                 MenuItem cameraMenuItem = menu.findItem(R.id.action_take_picture);
                 cameraMenuItem.setVisible(false);
+            } else if (bookAction.equals("ViewExisting")) {
+                getMenuInflater().inflate(R.menu.menu_book_view, menu);
             }
+
+            if (bookAction.equals("AddNew")) {
+                hideContactBuyerButton(menu);
+            }
+
         }
 
 
@@ -114,8 +124,12 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
 
-    protected void hideContactBuyerButton() {
-        findViewById(R.id.contactBuyerButton).setVisibility(View.GONE);
+    protected void hideContactBuyerButton(Menu menu) {
+        //findViewById(R.id.contactBuyerButton).setVisibility(View.GONE);
+        MenuItem emailMenuItem = menu.findItem(R.id.action_login);
+        if (emailMenuItem != null) {
+            emailMenuItem.setVisible(false);
+        }
     }
 
     private void hideSearchBookOnlineButton() {
@@ -179,6 +193,14 @@ public class BookWantedActivity extends AppCompatActivity {
 
             case R.id.action_delete_posted_book:
                 deleteABookWanted();
+                return true;
+
+            case R.id.action_contact_email:
+                sendEmail(jsonString);
+                return true;
+
+            case android.R.id.home:
+                finish();
                 return true;
         }
 
