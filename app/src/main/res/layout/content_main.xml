@@ -62,26 +62,29 @@
         android:id="@+id/bookForSaleTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_green_light"
+        android:background="@drawable/book4sale_gradient"
         android:clickable="false"
         android:focusable="false"
         android:text="@string/title_bookforsale"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#0e0808" />
 
     <TextView
         android:id="@+id/bookWantedTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light"
+        android:background="@drawable/book_wanted_gradient"
         android:clickable="false"
         android:focusable="false"
         android:text="Book wanted"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:autoText="false"
+        android:textColor="@android:color/background_light" />
 
     <FrameLayout
         android:id="@+id/list_fragment_container"
