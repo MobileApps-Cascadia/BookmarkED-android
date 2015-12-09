@@ -87,7 +87,7 @@ public class BookDetailActivity extends AppCompatActivity {
         //System.out.println("***in BookDetailActivity.onCreate() ***");
 
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-        final String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
+        // String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
 
         // possible value for bookAction:
         //  ViewExisting
@@ -122,18 +122,14 @@ public class BookDetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        //base64Picture = "";
-
-//        Button contactSellerBtn = (Button) findViewById(R.id.contactSellerButton);
-//        contactSellerBtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                sendEmail(jsonStr);
-//            }
-//        });
-
 //        if (!bookAction.equals("ViewExisting")) {
 //            hideContactSellerButton();
 //        }
+
+        // setup action to return to previous screen
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(null);
+
     }
 
     @Override
@@ -203,11 +199,13 @@ public class BookDetailActivity extends AppCompatActivity {
             takePicture();
         } else if (item.getItemId() == R.id.action_contact_email) {
             sendEmail();
+            return true;
         } else if  (item.getItemId() == R.id.action_share) {
             setShareIntent();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

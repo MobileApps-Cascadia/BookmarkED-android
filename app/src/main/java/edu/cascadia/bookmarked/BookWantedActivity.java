@@ -59,7 +59,6 @@ public class BookWantedActivity extends AppCompatActivity {
     private Bitmap bitmap;
 
     private boolean needsUpdating = false;
-    private String jsonStr; //hold string info about book
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,6 @@ public class BookWantedActivity extends AppCompatActivity {
 
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-        jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
         userID = getIntent().getStringExtra(getString(R.string.user_id_param));
 
         initComponents();
@@ -88,13 +86,6 @@ public class BookWantedActivity extends AppCompatActivity {
             hideSearchBookOnlineButton();
         }
 
-
-//        Button contactBuyerBtn = (Button) findViewById(R.id.contactBuyerButton);
-//        contactBuyerBtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                sendEmail(jsonStr);
-//            }
-//        });
 
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -202,8 +193,17 @@ public class BookWantedActivity extends AppCompatActivity {
             case R.id.action_share:
                 setShareIntent();
                 return true;
+
             case R.id.action_delete_posted_book:
                 deleteABookWanted();
+                return true;
+
+            case R.id.action_contact_email:
+                sendEmail(jsonString);
+                return true;
+
+            case android.R.id.home:
+                finish();
                 return true;
         }
 
@@ -410,6 +410,11 @@ public class BookWantedActivity extends AppCompatActivity {
         // scan
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
+    }
+
+    public void onSearchOnlineBookButtonClicked(View view) {
+        Intent searchBookIntent = new Intent(this, SearchBookActivity.class);
+        startActivityForResult(searchBookIntent, SEARCH_BOOK_REQUEST);
     }
 
 
