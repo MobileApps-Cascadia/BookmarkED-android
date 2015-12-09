@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
 /**
@@ -114,6 +112,8 @@ public class BookListFragment extends ListFragment {
             bookListItem = new BookListItem();
 
             listAdapter = new BooksAdapter(getActivity(), (ArrayList<BookItem>) bookListItem.ITEMS);
+
+            listAdapter.setForSaleListItem(listType.contains("sell"));
 
             setListAdapter(listAdapter);
             invokeWS();
