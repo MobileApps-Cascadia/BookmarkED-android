@@ -20,9 +20,10 @@
         android:text="@string/title_bookforsale"
         android:id="@+id/bookForSaleTextView"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#0e0808"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:background="@android:color/holo_green_light" />
+        android:background="@drawable/book4sale_gradient" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -34,11 +35,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_bookwanted"
+        android:textColor="@android:color/background_light"
         android:id="@+id/bookWantedTextView"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:background="@android:color/holo_orange_light" />
+        android:background="@drawable/book_wanted_gradient" />
 
     <FrameLayout
         android:id="@+id/fragment_container2"
