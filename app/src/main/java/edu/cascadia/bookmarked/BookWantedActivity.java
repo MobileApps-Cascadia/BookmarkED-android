@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpClient;
@@ -57,6 +59,7 @@ public class BookWantedActivity extends AppCompatActivity {
     private String bookID;
     private String bookWantedID;
     private Bitmap bitmap;
+    private Tracker mTracker;
 
     private boolean needsUpdating = false;
 
@@ -95,6 +98,11 @@ public class BookWantedActivity extends AppCompatActivity {
 //            hideContactBuyerButton();
 //        }
 
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        sendAnalytics();
     }
 
     @Override
@@ -788,6 +796,13 @@ public class BookWantedActivity extends AppCompatActivity {
                 }
             }
         }
+
+    }
+
+
+    private void sendAnalytics() {
+        mTracker.setScreenName("Book Wanted Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
     }
 

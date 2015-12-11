@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -79,6 +81,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private String userID;
     protected String jsonString;
     private String book4SaleID;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +132,10 @@ public class BookDetailActivity extends AppCompatActivity {
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
-
+// Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        sendAnalytics();
     }
 
     @Override
@@ -144,6 +150,10 @@ public class BookDetailActivity extends AppCompatActivity {
             } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
             } else if (bookAction.equals("ViewExisting")) {
+               /* mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Share")
+                        .build());*/
                 getMenuInflater().inflate(R.menu.menu_book_view, menu);
             }
         }
@@ -209,6 +219,16 @@ public class BookDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void sendAnalytics() {
+        mTracker.setScreenName("Book Detail Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
+
+
 
     //share specific book to social networks
     private void setShareIntent() {

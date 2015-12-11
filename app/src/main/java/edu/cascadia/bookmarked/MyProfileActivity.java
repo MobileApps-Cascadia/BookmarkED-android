@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -25,7 +27,7 @@ public class MyProfileActivity extends RegisterActivity{
     private final static String getUserInfoURI = "bookmarked/user/getuserinfo";
 
     private String userID;
-
+    private Tracker mTracker;
     private boolean editMode = false;
 
     @Override
@@ -41,8 +43,19 @@ public class MyProfileActivity extends RegisterActivity{
         ((TextView) findViewById(R.id.titleTextView)).setText(getString(R.string.title_activity_myprofile));
 
         getUserProfile();
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        sendAnalytics();
     }
 
+
+    private void sendAnalytics() {
+        mTracker.setScreenName("My Profile Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
     protected void setEditMode(boolean editMode) {
         this.editMode = editMode;
     }
