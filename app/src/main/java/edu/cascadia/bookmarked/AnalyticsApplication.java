@@ -98,7 +98,7 @@ public class AnalyticsApplication extends Application {
                 mTrackers.put(trackerId, t);
             }
             else if (trackerId == TrackerName.GLOBAL_TRACKER) {
-                Tracker t = analytics.newTracker(PROPERTY_ID);
+                Tracker t = analytics.newTracker(R.xml.global_tracker1);
                 mTrackers.put(trackerId, t);
             }
             else {
