@@ -85,28 +85,15 @@
             android:label="@string/title_activity_search_book"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <!-- ANALYTICS -->
-        <receiver
-            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
-            </intent-filter>
-        </receiver>
-        <service
-            android:name="com.google.android.gms.analytics.AnalyticsService"
-            android:enabled="true"
-            android:exported="false" />
 
-        <receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService"
-            android:enabled="true"
-            android:exported="false"/>
+
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+
+        <meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
+
+        android:resource="@xml/global_tracker1" />
+
+
     </application>
 
 
