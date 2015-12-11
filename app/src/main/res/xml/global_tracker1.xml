@@ -9,7 +9,7 @@
 
     <!-- how often the dispatcher should fire -->
 
-<integer name="ga_dispatchPeriod">30</integer>
+<integer name="ga_dispatchPeriod">1</integer>
 
     <!-- Treat events as test events and don't send to google -->
 

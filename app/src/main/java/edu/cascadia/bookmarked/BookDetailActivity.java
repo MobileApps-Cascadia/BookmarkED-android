@@ -225,11 +225,11 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
 
-    private void sendAnalytics() {
+   /* private void sendAnalytics() {
         mTracker.setScreenName("Book Detail Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-    }
+    }*/
 
 
 

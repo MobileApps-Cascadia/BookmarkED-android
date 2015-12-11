@@ -55,11 +55,11 @@ public class MyProfileActivity extends RegisterActivity{
     }
 
 
-    private void sendAnalytics() {
+   /* private void sendAnalytics() {
         mTracker.setScreenName("My Profile Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-    }
+    }*/
     protected void setEditMode(boolean editMode) {
         this.editMode = editMode;
     }

@@ -62,11 +62,11 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
          ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
 
     }
-    private void sendAnalytics() {
+    /*private void sendAnalytics() {
         mTracker.setScreenName("My Postings Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-    }
+    }*/
     private void insertBookListFragments() {
 
         // insert book for sale list view

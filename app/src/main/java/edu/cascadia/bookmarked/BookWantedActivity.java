@@ -803,11 +803,11 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
 
-    private void sendAnalytics() {
+    /*private void sendAnalytics() {
         mTracker.setScreenName("Book Wanted Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-    }
+    }*/
 
     @Override
     public void finish() {
