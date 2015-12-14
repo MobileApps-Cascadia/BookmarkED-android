@@ -228,6 +228,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     }
 
     private void doLogout() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Logout")
+                .build());
+
         // perform logout only if user was logged in
         if (userLoggedIn) {
             userLoggedIn = !userLoggedIn;
@@ -396,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 .setCategory("Action")
                 .setAction("Refresh book listing")
                 .build());
-        setShareIntent();
 
         System.out.println("in onRefreshButtonClicked");
         if (!findViewById(R.id.forSaleButton).isEnabled()) {
