@@ -84,7 +84,7 @@
         android:textStyle="bold"
         android:visibility="gone"
         android:autoText="false"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/black" />
 
     <FrameLayout
         android:id="@+id/list_fragment_container"
