@@ -33,10 +33,10 @@
     specifying the canonical name, and the value the alias to use instead. -->
 
 
-    <screenName name="edu.cascadia.bookmarked.BookDetailActivity">Book Detail Activity</screenName>
+    <screenName name="edu.cascadia.bookmarked.BookDetailActivity">Screen Book Detail Activity</screenName>
 
-    <screenName name="edu.cascadia.bookmarked.BookWantedActivity">Book Wanted Activity</screenName>
-    <screenName name="edu.cascadia.bookmarked.MyPostingActivity">My Postings Activity</screenName>
-    <screenName name="edu.cascadia.bookmarked.MyProfileActivity">My Profile Activity</screenName>
+    <screenName name="edu.cascadia.bookmarked.BookWantedActivity">Screen Book Wanted Activity</screenName>
+    <screenName name="edu.cascadia.bookmarked.MyPostingActivity">Screen My Postings Activity</screenName>
+    <screenName name="edu.cascadia.bookmarked.MyProfileActivity">Screen My Profile Activity</screenName>
 
     </resources>

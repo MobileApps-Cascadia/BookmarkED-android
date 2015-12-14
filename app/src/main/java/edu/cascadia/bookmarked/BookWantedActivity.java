@@ -101,9 +101,9 @@ public class BookWantedActivity extends AppCompatActivity {
 
 
         // Obtain the shared Tracker instance.
-        /*AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
-        sendAnalytics();*/
+        sendAnalytics();
         //Get a Tracker (should auto-report)
         ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
     }
@@ -803,11 +803,11 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
 
-    /*private void sendAnalytics() {
-        mTracker.setScreenName("Book Wanted Activity");
+    private void sendAnalytics() {
+        mTracker.setScreenName("Screen Book Wanted Activity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-    }*/
+    }
 
     @Override
     public void finish() {
@@ -825,12 +825,12 @@ public class BookWantedActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        //GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        //GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

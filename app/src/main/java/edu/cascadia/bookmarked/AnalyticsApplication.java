@@ -67,6 +67,7 @@ public class AnalyticsApplication extends Application {
     private static final String TAG = "MyApp";
 
     public static int GENERAL_TRACKER = 0;
+    private Tracker mTracker;
 
     public enum TrackerName {
 
@@ -85,6 +86,17 @@ public class AnalyticsApplication extends Application {
 
         super();
 
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker1);
+            mTracker.enableAutoActivityTracking(true);
+            mTracker.enableExceptionReporting(true);
+        }
+        return mTracker;
     }
 
     synchronized Tracker getTracker(TrackerName trackerId) {
