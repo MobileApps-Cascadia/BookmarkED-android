@@ -9,12 +9,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
+
+    private final String TAG = "Main Activity";
 
     private final int LOG_IN_REQUEST = 1;
     private final int POST_BOOK4SALE_REQUEST = 2;
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     private static String userID;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             return;
         }
         setContentView(R.layout.activity_main);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 registerOnSharedPreferenceChangeListener(
                         preferenceChangeListener);
 
+        sendScreenImageName();
+    }
+
+    private void sendScreenImageName() {
+        Log.i(TAG, "Setting screen name:" + getTitle());
+        mTracker.setScreenName("Screen:" + getTitle());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void showBook4SaleListFragments() {
@@ -152,6 +171,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                 return true;
 
             case R.id.action_share:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Share")
+                        .build());
                 setShareIntent();
                 return true;
 
@@ -169,6 +192,11 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
 
             case R.id.action_logout:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Logout")
+                        .build());
+                setShareIntent();
                 doLogout();
                 return true;
 
@@ -364,6 +392,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
     public void onRefreshButtonClicked(View view) {
         // refresh the active/shown book list only
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Refresh book listing")
+                .build());
+        setShareIntent();
+
         System.out.println("in onRefreshButtonClicked");
         if (!findViewById(R.id.forSaleButton).isEnabled()) {
             book4SaleListFragment.refreshList();
