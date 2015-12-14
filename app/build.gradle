@@ -16,7 +16,7 @@ android {
         applicationId "edu.cascadia.bookmarked"
         minSdkVersion 18
         targetSdkVersion 23
-        versionCode 3
+        versionCode 4
         versionName "1.2"
     }
     buildTypes {
