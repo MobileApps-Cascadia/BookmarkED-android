@@ -171,7 +171,12 @@ public class BookDetailActivity extends AppCompatActivity {
 //    }
 
     protected void sendEmail() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Send Email to Seller")
+                .build());
         try {
+
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonString);
             // String TO = jsonObj.getString("username");
