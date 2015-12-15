@@ -5,23 +5,23 @@
 
     <!-- the Local LogLevel for Analytics -->
 
-<string name="ga_logLevel">verbose</string>
+<!--<string name="ga_logLevel">verbose</string>
 
-    <!-- how often the dispatcher should fire -->
+     how often the dispatcher should fire -->
 
-<integer name="ga_dispatchPeriod">1</integer>
+<!--<integer name="ga_dispatchPeriod">1</integer>
 
-    <!-- Treat events as test events and don't send to google -->
+     Treat events as test events and don't send to google -->
 
-<bool name="ga_dryRun">false</bool>
+<!--<bool name="ga_dryRun">false</bool>
 
-    <!-- The screen names that will appear in reports -->
+     The screen names that will appear in reports -->
 
-<string name="edu.cascadia.bookmarked.BookDetailActivity">Screen Book Detail Activity</string>
+<!--<string name="edu.cascadia.bookmarked.BookDetailActivity">Screen Book Detail Activity</string>
 
     <string name="edu.cascadia.bookmarked.BookWantedActivity">Screen Book Wanted Activity</string>
     <string name="edu.cascadia.bookmarked.MyPostingActivity">Screen My Postings Activity</string>
-    <string name="edu.cascadia.bookmarked.MyProfileActivity">Screen My Profile Activity</string>
+    <string name="edu.cascadia.bookmarked.MyProfileActivity">Screen My Profile Activity</string>-->
 
 
 
