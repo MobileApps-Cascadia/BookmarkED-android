@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpClient;
@@ -57,6 +60,7 @@ public class BookWantedActivity extends AppCompatActivity {
     private String bookID;
     private String bookWantedID;
     private Bitmap bitmap;
+    private Tracker mTracker;
 
     private boolean needsUpdating = false;
 
@@ -95,6 +99,14 @@ public class BookWantedActivity extends AppCompatActivity {
 //            hideContactBuyerButton();
 //        }
 
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Get a Tracker (should auto-report)
+        ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+        sendAnalytics();
     }
 
     @Override
@@ -142,6 +154,10 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
    protected void sendEmail(String jsonStr) {
+       mTracker.send(new HitBuilders.EventBuilder()
+               .setCategory("Action")
+               .setAction("Send Email to Buyer")
+               .build());
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -224,6 +240,11 @@ public class BookWantedActivity extends AppCompatActivity {
             Uri uri = Uri.parse(path);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         }
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share Book Wanted")
+                .build());
 
         shareIntent.setType("image/*");
         shareIntent.putExtra(Intent.EXTRA_TEXT, title);
@@ -791,6 +812,13 @@ public class BookWantedActivity extends AppCompatActivity {
 
     }
 
+
+    private void sendAnalytics() {
+        mTracker.setScreenName("Screen Book Wanted Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
     @Override
     public void finish() {
 
@@ -801,5 +829,18 @@ public class BookWantedActivity extends AppCompatActivity {
         }
 
         super.finish();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }

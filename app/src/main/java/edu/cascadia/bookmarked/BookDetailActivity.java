@@ -23,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -79,6 +82,7 @@ public class BookDetailActivity extends AppCompatActivity {
     private String userID;
     protected String jsonString;
     private String book4SaleID;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +133,14 @@ public class BookDetailActivity extends AppCompatActivity {
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
+// Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
+
+        //Get a Tracker (should auto-report)
+        ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+        sendAnalytics();
     }
 
     @Override
@@ -144,6 +155,10 @@ public class BookDetailActivity extends AppCompatActivity {
             } else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book, menu);
             } else if (bookAction.equals("ViewExisting")) {
+               /* mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("Share")
+                        .build());*/
                 getMenuInflater().inflate(R.menu.menu_book_view, menu);
             }
         }
@@ -155,8 +170,13 @@ public class BookDetailActivity extends AppCompatActivity {
 //        findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
 //    }
 
-    protected void sendEmail() {
+    public void sendEmail() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Send Email to Seller")
+                .build());
         try {
+
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonString);
             // String TO = jsonObj.getString("username");
@@ -210,8 +230,23 @@ public class BookDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void sendAnalytics() {
+        mTracker.setScreenName("Screen Book Detail Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
+
+
+
     //share specific book to social networks
     private void setShareIntent() {
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
         //we'll share: bookImageView, titleEditText
         String title = titleEditText.getText().toString();
         Intent shareIntent = new Intent();
@@ -630,6 +665,10 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void editBook4Sale() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Edit book for sale")
+                .build());
         Intent editIntent = new Intent(this, EditBook4SaleActivity.class);
         editIntent.putExtra(getString(R.string.book_action_param), "EditExisting");
         editIntent.putExtra(getString(R.string.book_info_param), jsonString);
@@ -639,6 +678,10 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
     private void deleteABook4Sale() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Delete a book for sale")
+                .build());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
@@ -883,4 +926,18 @@ public class BookDetailActivity extends AppCompatActivity {
         }
         super.finish();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+
 }

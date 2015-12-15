@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "edu.cascadia.bookmarked"
@@ -26,4 +27,5 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'com.android.support:support-v4:23.1.0'
     compile files('libs/android-async-http-1.4.4.jar')
+    compile 'com.google.android.gms:play-services-analytics:8.3.0'
 }

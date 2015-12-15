@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
     private final int LOG_IN_REQUEST = 1;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     private BookListFragment bookWantedListFragment;
 
     private static String userID;
+    private Tracker mTracker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 //            logoutMenuItem.setVisible(userLoggedIn);
 //        }
 //
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        //Get a Tracker (should auto-report)
+        ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+
         MenuItem loginMenuItem = menu.findItem(R.id.action_login);
         if (loginMenuItem != null) {
             loginMenuItem.setVisible(!userLoggedIn);
@@ -109,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         menu.setGroupVisible(R.id.menu_group_login, userLoggedIn);
 
         return true;
+
+
     }
 
     @Override
@@ -169,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
 
             case R.id.action_logout:
+
                 doLogout();
                 return true;
 
@@ -200,6 +214,10 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     }
 
     private void doLogout() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Log Out")
+                .build());
         // perform logout only if user was logged in
         if (userLoggedIn) {
             userLoggedIn = !userLoggedIn;
@@ -207,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             Toast.makeText(this, "You're logged out", Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
         }
+
     }
 
 

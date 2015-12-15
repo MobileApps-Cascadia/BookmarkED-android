@@ -12,12 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import static android.R.color.holo_green_light;
 
 public class MyPostingActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
 
     private final int EDIT_REQUEST_CODE = 2;
     private String userID;
+    private Tracker mTracker;
 
     BookListFragment sellItemFragment;
     BookListFragment wantedItemFragment;
@@ -47,8 +52,21 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
-    }
 
+        // Obtain the shared Tracker instance.
+        /*AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        sendAnalytics();*/
+
+        //Get a Tracker (should auto-report)
+         ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+
+    }
+    /*private void sendAnalytics() {
+        mTracker.setScreenName("My Postings Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }*/
     private void insertBookListFragments() {
 
         // insert book for sale list view
@@ -126,6 +144,18 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
             setResult(RESULT_OK, data);
         }
         super.finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
 }
