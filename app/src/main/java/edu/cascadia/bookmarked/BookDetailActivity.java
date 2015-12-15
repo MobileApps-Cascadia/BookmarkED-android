@@ -170,7 +170,7 @@ public class BookDetailActivity extends AppCompatActivity {
 //        findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
 //    }
 
-    protected void sendEmail() {
+    public void sendEmail() {
         mTracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Action")
                 .setAction("Send Email to Seller")

@@ -103,9 +103,10 @@ public class BookWantedActivity extends AppCompatActivity {
         // Obtain the shared Tracker instance.
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
-        sendAnalytics();
+
         //Get a Tracker (should auto-report)
         ((AnalyticsApplication) getApplication()).getTracker(AnalyticsApplication.TrackerName.APP_TRACKER);
+        sendAnalytics();
     }
 
     @Override
@@ -825,12 +826,12 @@ public class BookWantedActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 }
