@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -42,6 +44,8 @@ import java.io.ByteArrayOutputStream;
     3. My posting where user can initially view and then edit or delete the posting
  */
 public class BookDetailActivity extends AppCompatActivity {
+
+    private final static String TAG = "BookDetailActivity";
 
     private final static String addABookURI = "bookmarked/book/addbook";
     private final static String addABookForSaleURI = "bookmarked/book/addbookforsale";
@@ -80,11 +84,18 @@ public class BookDetailActivity extends AppCompatActivity {
     protected String jsonString;
     private String book4SaleID;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         //System.out.println("***in BookDetailActivity.onCreate() ***");
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
 
         jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
         // String jsonStr = getIntent().getStringExtra(getString(R.string.book_info_param));
@@ -130,6 +141,7 @@ public class BookDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
 
+        sendScreenImageName();
     }
 
     @Override
@@ -882,5 +894,12 @@ public class BookDetailActivity extends AppCompatActivity {
             setResult(RESULT_OK, data);
         }
         super.finish();
+    }
+
+    private void sendScreenImageName() {
+        Log.i(TAG, "Setting screen name:" + getTitle());
+        System.out.println("Setting screen name:" + getTitle());
+        mTracker.setScreenName("Screen:" + getTitle());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

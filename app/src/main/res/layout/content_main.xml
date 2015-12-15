@@ -84,12 +84,13 @@
         android:textStyle="bold"
         android:visibility="gone"
         android:autoText="false"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@android:color/black" />
 
     <FrameLayout
         android:id="@+id/list_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginTop="4dp" />
 
 </LinearLayout>
