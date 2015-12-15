@@ -385,6 +385,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         findViewById(R.id.bookWantedTextView).setVisibility(View.GONE);
         findViewById(R.id.bookForSaleTextView).setVisibility(View.VISIBLE);
         showBook4SaleListFragments();
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Displaying book for sale listing")
+                .build());
+
     }
 
     public void onWantedButtonClicked(View view) {
@@ -393,6 +399,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         findViewById(R.id.bookForSaleTextView).setVisibility(View.GONE);
         findViewById(R.id.bookWantedTextView).setVisibility(View.VISIBLE);
         showBookWantedListFragments();
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Displaying book wanted listing")
+                .build());
+
     }
 
     public void onRefreshButtonClicked(View view) {

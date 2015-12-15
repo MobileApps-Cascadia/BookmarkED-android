@@ -8,13 +8,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import static android.R.color.holo_green_light;
 
 public class MyPostingActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
+
+    private final String TAG = "MyPostingActivity";
 
     private final int EDIT_REQUEST_CODE = 2;
     private String userID;
@@ -24,6 +30,8 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
 
     private boolean needsUpdating = false;
     private String lastSelectedPostType = "";
+
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,13 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        sendScreenImageName();
+
     }
 
     private void insertBookListFragments() {
@@ -126,6 +141,13 @@ public class MyPostingActivity extends AppCompatActivity implements BookListFrag
             setResult(RESULT_OK, data);
         }
         super.finish();
+    }
+
+    private void sendScreenImageName() {
+        Log.i(TAG, "Setting screen name:" + getTitle());
+        System.out.println("Setting screen name:" + getTitle());
+        mTracker.setScreenName("Screen:" + getTitle());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 }

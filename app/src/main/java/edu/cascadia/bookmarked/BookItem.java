@@ -41,8 +41,11 @@ public class BookItem {
             } else {
                 askingPrice = "";
             }
-            base64Picture = jsonObject.getString("picture");
-
+            if (jsonObject.has("picture")) {
+                base64Picture = jsonObject.getString("picture");
+            } else {
+                base64Picture = "";
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

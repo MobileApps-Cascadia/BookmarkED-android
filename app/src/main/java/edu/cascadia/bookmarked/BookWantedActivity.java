@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpClient;
@@ -31,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class BookWantedActivity extends AppCompatActivity {
+
+    private final String TAG = "BookWantedActivity";
 
     private final static int EDIT_REQUEST_CODE = 2;
     private final static int SEARCH_BOOK_REQUEST = 12;
@@ -59,6 +63,8 @@ public class BookWantedActivity extends AppCompatActivity {
     private Bitmap bitmap;
 
     private boolean needsUpdating = false;
+
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,12 @@ public class BookWantedActivity extends AppCompatActivity {
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        sendScreenImageName();
 
 //       if (bookAction.equals("AddNew")) {
 //            hideContactBuyerButton();
@@ -802,4 +814,11 @@ public class BookWantedActivity extends AppCompatActivity {
 
         super.finish();
     }
+
+    private void sendScreenImageName() {
+        Log.i(TAG, "Setting screen name:" + getTitle());
+        mTracker.setScreenName("Screen:" + getTitle());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
 }
