@@ -242,6 +242,11 @@ public class BookDetailActivity extends AppCompatActivity {
 
     //share specific book to social networks
     private void setShareIntent() {
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
         //we'll share: bookImageView, titleEditText
         String title = titleEditText.getText().toString();
         Intent shareIntent = new Intent();
@@ -660,6 +665,10 @@ public class BookDetailActivity extends AppCompatActivity {
     }
 
     private void editBook4Sale() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Edit book for sale")
+                .build());
         Intent editIntent = new Intent(this, EditBook4SaleActivity.class);
         editIntent.putExtra(getString(R.string.book_action_param), "EditExisting");
         editIntent.putExtra(getString(R.string.book_info_param), jsonString);
@@ -669,6 +678,10 @@ public class BookDetailActivity extends AppCompatActivity {
 
 
     private void deleteABook4Sale() {
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Delete a book for sale")
+                .build());
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);

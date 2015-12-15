@@ -154,6 +154,10 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
    protected void sendEmail(String jsonStr) {
+       mTracker.send(new HitBuilders.EventBuilder()
+               .setCategory("Action")
+               .setAction("Send Email to Buyer")
+               .build());
         try{
             Log.i("Send email", "");
             JSONObject jsonObj = new JSONObject(jsonStr);
@@ -236,6 +240,11 @@ public class BookWantedActivity extends AppCompatActivity {
             Uri uri = Uri.parse(path);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         }
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share Book Wanted")
+                .build());
 
         shareIntent.setType("image/*");
         shareIntent.putExtra(Intent.EXTRA_TEXT, title);
