@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
                         .setCategory("Action")
                         .setAction("Logout")
                         .build());
-                setShareIntent();
                 doLogout();
                 return true;
 
