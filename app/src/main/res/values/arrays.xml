@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="colleges_list">
+        <item>Cascadia Community College</item>
+        <item>Everett Community College</item>
+        <item>Bellevue College</item>
+        <item>University of Washington (Seattle)</item>
+    </string-array>
+    <string-array name="delete_book4sale_reasons">
+        <item>Sold via BookmarkEd</item>
+        <item>Sold elsewhere</item>
+        <item>Nobody interested</item>
+        <item>Too many annoying inquiries</item>
+        <item>Decided to keep</item>
+        <item>Other reason</item>
+    </string-array>
+    <string-array name="delete_book_wanted_reasons">
+        <item>Bought via BookmarkEd</item>
+        <item>Bought elsewhere</item>
+        <item>No response</item>
+        <item>Too many annoying inquiries</item>
+        <item>Decided to go without</item>
+        <item>Other reason</item>
+    </string-array>
+    <string-array name="book_conditions">
+        <item>Unknown</item>
+        <item>Excellent</item>
+        <item>Good</item>
+        <item>Fair</item>
+        <item>Poor</item>
+    </string-array>
+
+</resources>

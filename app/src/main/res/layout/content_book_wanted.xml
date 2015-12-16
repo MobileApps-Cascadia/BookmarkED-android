@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="edu.cascadia.bookmarked.BookWantedActivity"
+    tools:showIn="@layout/activity_book_wanted"
+    >
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="left">
+        <!-- ISBN -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/isbn"
+            android:layout_weight="0" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:text="Search online book database"
+            android:background="@null"
+            android:textAllCaps="false"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_gravity="right"
+            android:gravity="end"
+            android:id="@+id/searchOnlineBookButton"
+            android:textStyle="bold|italic"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:textAlignment="viewEnd"
+            android:onClick="onSearchOnlineBookButtonClicked" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/bookIsbn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/isbn_hint"
+                android:inputType="number"
+                android:maxLength="15" />
+
+            <Button
+                android:id="@+id/barcodeButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/barcode_icon"
+                android:onClick="onBarcodeButtonClicked" />
+
+        </LinearLayout>
+        <!-- Book title -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_title" />
+
+        <EditText
+            android:id="@+id/bookTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/book_title_hint"
+            android:maxLength="50" />
+
+        <!-- Book author -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_author" />
+
+        <EditText
+            android:id="@+id/bookAuthor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/book_author_hint"
+            android:maxLength="50" />
+
+        <!-- Book edition -->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_edition" />
+
+        <EditText
+            android:id="@+id/bookEdition"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/book_edition_hint"
+            android:maxLength="50" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_description" />
+
+        <EditText
+            android:id="@+id/bookDescription"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/book_description_hint"
+            android:maxLength="500" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/comment" />
+
+        <EditText
+            android:id="@+id/bookWantedComment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_comment_hint"
+            android:maxLength="250"
+            android:minLines="3" />
+
+        <!-- Button
+            android:id="@+id/searchBookButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search book by title"
+            android:visibility="gone" / -->
+        <!--Button
+            android:id="@+id/contactBuyerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+            android:text="Contact Buyer"
+            android:layout_gravity="right" / -->
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

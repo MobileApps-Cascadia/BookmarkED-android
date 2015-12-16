@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layered_shadow_drawable"
+    >
+
+    <!-- ImageView
+        android:id="@+id/bookCoverimageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/no_book_cover"
+        android:maxWidth="60dp"
+        android:maxHeight="70dp"
+        android:adjustViewBounds="true"
+        android:visibility="gone" / -->
+
+    <TextView
+        android:id="@+id/bookTitleTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/bookCoverimageView"
+        android:text="Book Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_blue_dark"
+        android:singleLine="true" />
+    <TextView
+        android:id="@+id/bookAuthorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="42dp"
+        android:textSize="14sp"
+        android:text="Author"
+        android:singleLine="false"
+        android:maxLength="50"
+        android:maxWidth="210dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/bookTitleTextView" />
+
+    <TextView
+        android:id="@+id/isbnTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:textSize="12sp"
+        android:text=""
+        android:gravity="end|right"
+        android:textAlignment="textEnd"
+        android:layout_alignStart="@+id/bookTitleTextView" />
+
+
+</RelativeLayout>

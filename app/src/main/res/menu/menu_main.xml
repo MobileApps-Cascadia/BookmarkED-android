@@ -1,0 +1,62 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+
+    <!--item android:id="@+id/action_register" android:title="@string/register"
+        android:orderInCategory="100"  / -->
+    <item
+        android:id="@+id/action_login"
+        android:orderInCategory="100"
+        android:title="@string/login"
+        app:showAsAction="never" />
+
+    <!-- item
+        android:id="@+id/action_sync_book"
+        android:icon="@drawable/sync"
+        android:orderInCategory="102"
+        android:title="@string/sync_books"
+        app:showAsAction="never" / -->
+    <!--item android:id="@+id/action_postBookWanted" android:title="@string/post_a_book"
+        android:icon="@drawable/book_wanted_icon"
+        android:orderInCategory="101" app:showAsAction="ifRoom" / -->
+    <item
+        android:id="@+id/action_postABook"
+        android:icon="@drawable/for_sale"
+        android:orderInCategory="103"
+        android:title="@string/post_book4sale"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_mypostings"
+        android:orderInCategory="100"
+        android:title="@string/myPostings" />
+
+    <item
+        android:id="@+id/action_post_book_wanted"
+        android:icon="@drawable/wanted_book2"
+        android:orderInCategory="100"
+        android:title="@string/post_book_wanted"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:orderInCategory="100"
+        android:title="Share" />
+    <!-- item android:id="@+id/action_change_password" android:title="Change password"
+        android:orderInCategory="100" / -->
+    <!-- item android:id="@+id/action_setting" android:title="@string/setting"
+        android:orderInCategory="100"/ -->
+    <group android:id="@+id/menu_group_login">
+        <item
+            android:id="@+id/action_myprofile"
+            android:orderInCategory="100"
+            android:title="@string/title_activity_myprofile" />
+        <item
+            android:id="@+id/action_logout"
+            android:orderInCategory="100"
+            android:title="Log out" />
+    </group>
+</menu>

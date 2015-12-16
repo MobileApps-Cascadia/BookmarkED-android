@@ -1,49 +1,166 @@
 <resources>
-    <string name="app_name">BookMarked</string>
-   <!--Strings for CollegeSearch-->
-    <string name="college_prompt">Choose a college</string>
-    <string name="edit_message">Enter the barcode number</string>
-    <string name="button_scanbarcode">Send</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">BookmarkEd</string>
+    <string name="setting">Setting</string>
+    <string name="post_book4sale">Post book for sale</string>
+    <string name="post_book_wanted">Post book wanted</string>
+    <string name="sync_books">Sync</string>
+    <string name="login">Log in</string>
+    <string name="register">Register</string>
+    <string name="change_password">Change password</string>
+    <string name="scanBarcode">Scan a barcode</string>
+    <string name="myPostings">My Postings</string>
+    <string name="logout">Logout</string>
+    <string name="pwd">Password</string>
+    <string name="current_pwd">Current password</string>
+    <string name="new_pwd">New password</string>
+    <string name="retype_new_pwd">Retype new password</string>
+    <string name="zipcode">Zipcode</string>
+    <string name="title_activity_login">Log in</string>
 
-    <!--Strings for BuySearchBook-->
-    <string name="search_book_title">Enter the title of the book you want</string>
-    <string name="search_book_author">Enter the name of the author</string>
-    <string name="search_book_isbn">Enter the ISBN number</string>
-    <string name="search_book_keyword">Enter keyword(s) here</string>
+    <string name="text_book_title">Text Book</string>
+    <string name="isbn">ISBN</string>
+    <string name="book_title">Title</string>
+    <string name="book_author">Author</string>
+    <string name="book_edition">Edition</string>
+    <string name="book_description">Description</string>
+    <string name="asking_price">Asking price</string>
+    <string name="book_condition">Book condition</string>
+    <string name="comment">Comment</string>
+    <string name="isbn_hint">Enter book ISBN</string>
+    <string name="book_title_hint">Enter book title</string>
+    <string name="book_author_hint">Enter book author</string>
+    <string name="book_edition_hint">Enter book edition</string>
+    <string name="book_description_hint">Enter book description</string>
+    <string name="book_asking_price_hint">Enter book asking price</string>
+    <string name="user_comment_hint">Enter additional user comment</string>
+    <string name="contact_seller">Contact seller</string>
 
-    <!--Strings for PostedWantedAd-->
-    <string name="post_ad">Post Textbook Wanted Ad</string>
-    <string name="booktitle">Enter textbook title...</string>
-    <string name="bookauthor">Enter textbook author...</string>
-    <string name="bookdetails">Textbook Details...</string>
-    <string name="post_ad_button">Post Textbook Wanted Ad</string>
+    <string name="wanted">Wanted</string>
+    <string name="for_sale">For sale</string>
 
-    <!--Strings for BookDetails-->
-    <string name="book_details">Textbook Wanted</string>
-    <string name="book_details_title">Title: Mobile Application Development</string>
-    <string name="book_details_author">Author: John Doe</string>
-    <string name="book_details_desc">Textbook Details: I need this textbook for my BIT 271 class. Older versions will be fine, too.</string>
-    <string name="book_edit_button">Edit</string>
-    <string name="book_delete_button">Delete</string>
+    <!-- Strings related to key for passing data between activities/fragments -->
+    <string name="book_info_param">BookInfo</string>
+    <string name="book_action_param">BookAction</string>
+    <string name="user_id_param">UserID</string>
 
-    <string-array name="college_arrays">
-        <item>Cascadia College</item>
-        <item>University of Washington - Bothell</item>
-        <item>University of Washington - Seattle</item>
-        <item>Western Washington University</item>
-        <item>Edmonds Community College</item>
-        <item>Everett Community College</item>
-        <item>Washington State University</item>
-        <item>Gonzaga University</item>
-        <item>Evergreen State University</item>
-        <item>Eastern Washington University</item>
-        <item>Central Washington University</item>
-        <item>Bellevue College</item>
-        <item>Seattle Pacific University</item>
-        <item>Seattle Central College</item>
-        <item>University of Puget Sound</item>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone">Phone</string>
+    <string name="first_name_hint">Enter first name</string>
+    <string name="last_name_hint">Enter last name</string>
+    <string name="email_hint">Enter email address</string>
+    <string name="phone_hint">Enter phone #</string>
+    <string name="btn_register">Register</string>
+    <string name="must_login">Please login or register before doing this function</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="user_profile_updated">User profile updated successfully</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
 
+    <string name="title_bookforsale">Book for sale</string>
+    <string name="title_bookwanted">Book wanted to buy</string>
+
+    <string name="select_delete_reason">Please select a reason</string>
+    <string name="posted_book_deleted">Posted book was successfully removed</string>
+    <string name="posted_book_updated">Posted book was successfully updated</string>
+
+    <string name="title_activity_book">Book</string>
+    <string name="title_activity_my_posting">My Postings</string>
+    <string name="title_activity_register">Register</string>
+    <!-- Strings related to Settings -->
+    <string name="preferred_college">Preferred college</string>
+    <string name="default_college">Cascadia Community College</string>
+    <string name="preferred_college_desc">Choose a college that you want to filter or post a book at</string>
+
+    <!-- String related to network/web service error -->
+    <string name="unexpected_network_error">Unexpected error occurred! [Most common error: Device might not be connected to Internet or remote server is down]</string>
+    <string name="http_500_error">Something went wrong at server end</string>
+    <string name="http_404_error">Requested resource not found</string>
+
+    <string name="json_exception">Error Occurred [Server\'s JSON response might be invalid]!</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
     </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="pref_username">pref_username</string>
+    <string name="title_detail_book_for_sale">Detail book for sale</string>
+    <string name="title_post_book_for_sale">Post book for sale</string>
+    <string name="title_activity_book_wanted">Book wanted</string>
+    <string name="title_detail_book_wanted">Detail book wanted</string>
+    <string name="title_post_book_wanted">Post book wanted</string>
+    <string name="title_activity_myprofile">My Profile</string>
+    <string name="title_activity_edit_profile">Edit Profile</string>
+    <string name="title_delete_book_posting_reason">Are you sure to delete?\nSelect reason to delete posting.</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_change_password">Change Password</string>
+    <string name="title_activity_book_picture">Book Picture</string>
+    <string name="title_activity_search_book">Search Book</string>
+
 </resources>
