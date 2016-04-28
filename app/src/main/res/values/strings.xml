@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BookmarkEd</string>
+    <string name="app_id">1001672176593917</string>
     <string name="setting">Setting</string>
     <string name="post_book4sale">Post book for sale</string>
     <string name="post_book_wanted">Post book wanted</string>
@@ -7,6 +8,7 @@
     <string name="login">Log in</string>
     <string name="register">Register</string>
     <string name="change_password">Change password</string>
+    <string name="hint_password">Password</string>
     <string name="scanBarcode">Scan a barcode</string>
     <string name="myPostings">My Postings</string>
     <string name="logout">Logout</string>
@@ -162,5 +164,6 @@
     <string name="title_activity_change_password">Change Password</string>
     <string name="title_activity_book_picture">Book Picture</string>
     <string name="title_activity_search_book">Search Book</string>
+    <string name="login_with_google">Login with Google+</string>
 
 </resources>

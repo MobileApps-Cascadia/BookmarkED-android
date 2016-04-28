@@ -2,34 +2,29 @@ package edu.cascadia.bookmarked;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Date;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private final static String registerURI = "bookmarked/user/doregister";
-    private final static String verificationURI = "bookmarked/user/verifyregistration";
+    private final static String SECRET = "$-BookmarkEd_Falls_2015-$";
+    private final static int CHANGE_PWD_REQUEST = 25;
 
     // Progress Dialog Object
     protected ProgressDialog prgDialog;
@@ -43,11 +38,23 @@ public class RegisterActivity extends AppCompatActivity {
     protected EditText emailEditText;
     // Phone Edit View Object
     protected EditText phoneEditText;
-    // Passwprd Edit View Object
-    protected EditText pwdEditText;
     protected EditText zipcodeEditText;
 
     private boolean registerComplete = false;
+    private boolean accountCreated = false;
+
+    private int wrongPwdCount = 0;
+
+    // flow of the registration steps:
+    // 1. validate user enters required fields
+    // 2. create a new firebase account based on email and secret password
+    // 3. once account created, request a reset so that user will get
+    //    a temporary password from the email (a way to validate email)
+    // 4. user login using temporary password and force to put new password.
+    //    user has 3 attempts to enter correct temp password before the app
+    //    abort the registration
+    // 5. when new password is set, app creates a new user profile to complete
+    //    the registration process
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +63,15 @@ public class RegisterActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         initComponents();
+
+        // Instantiate Progress Dialog object
+        prgDialog = new ProgressDialog(this);
+        // Set Progress Dialog Text
+        prgDialog.setMessage("Please wait...");
+        // Set Cancelable as False
+        prgDialog.setCancelable(false);
+
     }
 
     private void initComponents() {
@@ -79,8 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailEditText = (EditText)findViewById(R.id.registerEmail);
         // Find phone Edit View control by ID
         phoneEditText = (EditText)findViewById(R.id.registerPhone);
-        // Find Password Edit View control by ID
-        pwdEditText = (EditText)findViewById(R.id.registerPassword);
+        // Find zipcode Edit View control by ID
         zipcodeEditText = (EditText) findViewById(R.id.registerZipcode);
         // Instantiate Progress Dialog object
         prgDialog = new ProgressDialog(this);
@@ -94,8 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
         String firstname = firstnameEditText.getText().toString();
         String lastname = lastnameEditText.getText().toString();
         String email = emailEditText.getText().toString();
-        String phone = phoneEditText.getText().toString();
-        String password = pwdEditText.getText().toString();
+        //String phone = phoneEditText.getText().toString();
         String zipcode = zipcodeEditText.getText().toString();
         if (!Utility.validateEmail(email)) {
             Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
@@ -112,37 +116,12 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Instantiate Http Request Param Object
-        RequestParams params = new RequestParams();
         // When Name Edit View, Email Edit View and Password Edit View have values other than Null
         if (Utility.isNotNull(firstname) && Utility.isNotNull(lastname) &&
-                Utility.isNotNull(email) && Utility.isNotNull(password)) {
+                Utility.isNotNull(email) ) {
             // clear error message, in case there was a message previously
             errorMsgTextView.setText("");
-            // Put Http parameter firstname with value of First Name Edit View control
-            params.put("firstname", firstname);
-            // Put Http parameter lastname with value of Last Name Edit View control
-            params.put("lastname", lastname);
-            // Put Http parameter email with value of Email Edit View control
-            params.put("username", email);
-            // Put Http parameter phone with value of phone Edit View control
-            params.put("phone", phone);
-            // Put Http parameter password with value of Password Edit View control
-            try {
-                String encPwd = Utility.encryptPassword(password);
-                if (encPwd.length() > 100) {
-                    Toast.makeText(this, "Password too long", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                params.put("password", encPwd);
-            } catch (Exception e) {
-                Toast.makeText(this, "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
-                return;
-            }
-            // Put Http parameter zipcode with value of zip code View control
-            params.put("zipcode", zipcode);
-            // Invoke RESTful Web Service with Http parameters
-            sendRegistrationRequest(params);
+            createNewAccount(email);
         }
         // When Email is invalid
         else {
@@ -151,179 +130,104 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     * @param params
-     */
-    private void sendRegistrationRequest(RequestParams params){
-        // Show Progress Dialog
-        prgDialog.show();
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(hostAddress + registerURI, params ,new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
+    private void requestForTempPassword(final String email) {
+        FBUtility.getInstance().getFirebaseRef().resetPassword(email, new Firebase.ResultHandler() {
             @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if(obj.getBoolean("status")){
-                        // Display successfully registered message using Toast
-                        Toast.makeText(getApplicationContext(), "You are successfully registered!", Toast.LENGTH_SHORT).show();
-
-                        // now validate the registration by entering the code sent
-                        // from the web service.
-                        validateRegistrationCode();
-                    }
-                    // Else display error message
-                    else {
-                        errorMsgTextView.setText(obj.getString("error_msg"));
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
+            public void onSuccess() {
+                validateTempPassword(email);
             }
-            // When the response returned by REST has Http response code other than '200'
+
             @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if(statusCode == 404){
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if(statusCode == 500){
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_LONG).show();
+            public void onError(FirebaseError firebaseError) {
+                Toast.makeText(getApplicationContext(),
+                        "Failed to send email for the temporary password", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void createNewAccount(final String email) {
+        prgDialog.show();
+
+        FBUtility.getInstance().createAccount(email, SECRET,
+                new Firebase.ValueResultHandler<Map<String, Object>>() {
+                    @Override
+                    public void onSuccess(Map<String, Object> result) {
+                        System.out.println("Successfully created user account with uid: " + result.get("uid"));
+                        accountCreated = true;
+                        prgDialog.hide();
+
+                        // request to send temporary password
+                        requestForTempPassword(email);
+
+                    }
+
+                    @Override
+                    public void onError(FirebaseError firebaseError) {
+                        // there was an error
+                        Utility.beep();
+                        prgDialog.hide();
+
+                        Toast.makeText(getApplicationContext(), "Failed to create user:" + firebaseError.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void createUserProfile(String uid) {
+        prgDialog.show();
+        String firstname = firstnameEditText.getText().toString();
+        String lastname = lastnameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String phone = phoneEditText.getText().toString();
+        String zipcode = zipcodeEditText.getText().toString();
+
+        final User userProfile = new User(firstname, lastname, email, phone, zipcode, new Date());
+
+        System.out.println("*** Saving email: " + email);
+
+        Firebase userProfileRef = FBUtility.getInstance().getFirebaseRef().child("users/" + uid);
+        userProfileRef.setValue(userProfile, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    prgDialog.hide();
+                    //Utility.showErrorDialog(getApplicationContext(), firebaseError.getMessage());
+                    Toast.makeText(getApplicationContext(), "Error: " + firebaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    prgDialog.hide();
+                    Toast.makeText(getApplicationContext(), "User profile was successfully created!", Toast.LENGTH_SHORT).show();
+                    FBUtility.getInstance().setCurrentUserProfile(userProfile);
+
+                    registerComplete = true;
+                    finish();
                 }
             }
         });
     }
 
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     * @param params
-     */
-    private void sendVerificationRequest(RequestParams params){
-        // Show Progress Dialog
-        prgDialog.show();
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(hostAddress + verificationURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
-                        // Set Default Values for Edit View controls
-                        //setDefaultValues();
-                        // Display successfully registered message using Toast
-                        Toast.makeText(getApplicationContext(), "You are successfully verified!", Toast.LENGTH_SHORT).show();
-                        registerComplete = true;
-                        finish();
-                    }
-                    // Else display error message
-                    else {
-                        errorMsgTextView.setText(obj.getString("error_msg"));
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Error Occurred [Server's JSON response might be invalid]!", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-            }
-
-            // When the response returned by REST has Http response code other than '200'
-            @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    /**
-     * Set degault values for Edit View controls
-     */
-//    public void setDefaultValues(){
-//        firstnameEditText.setText("");
-//        lastnameEditText.setText("");
-//        emailEditText.setText("");
-//        phoneEditText.setText("");
-//        pwdEditText.setText("");
-//        zipcodeEditText.setText("");
-//    }
-
-    private void validateRegistrationCode() {
+    private void validateTempPassword(final String email) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
         // set title
-        alertDialogBuilder.setTitle("Verification code");
+        alertDialogBuilder.setTitle("Password");
 
         alertDialogBuilder.setIcon(R.drawable.ic_lock_open_black_24dp);
 
-        alertDialogBuilder.setMessage("Please check your email for the registration confirmation and enter the verification code");
+        alertDialogBuilder.setMessage("Please check your email for the registration confirmation and enter the temporary password");
         // Set an EditText view to get user input
-        final EditText codeEditText = new EditText(getApplicationContext());
+        final EditText tmpPwdEditText = new EditText(getApplicationContext());
 
-        codeEditText.setTextColor(Color.BLACK);
-        codeEditText.setPadding(20,0,20,0);
-        codeEditText.requestFocus();
+        tmpPwdEditText.setTextColor(Color.BLACK);
 
-        alertDialogBuilder.setView(codeEditText);
+        tmpPwdEditText.setPadding(20, 0, 20, 0);
+        tmpPwdEditText.requestFocus();
+
+        alertDialogBuilder.setView(tmpPwdEditText);
         alertDialogBuilder.setCancelable(false);
-        alertDialogBuilder.setPositiveButton("Verify", null);
-
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        // if this button is clicked, perform actual delete
-//                        doDeleteBook4Sale();
-//                    }
-//                })
-//
-//        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                // if this button is clicked, just close
-//                // the dialog box and do nothing
-//                dialog.cancel();
-//            }
-//        });
+        alertDialogBuilder.setPositiveButton("Login", null);
 
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
@@ -336,23 +240,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view) {
-                        if (codeEditText.getText().length() > 0) {
+                        if (tmpPwdEditText.getText().length() > 0) {
                             //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
-                            RequestParams requestParams = new RequestParams();
-                            requestParams.add("username", emailEditText.getText().toString());
-                            try {
-                                requestParams.add("password", Utility.encryptPassword(pwdEditText.getText().toString()));
-                            } catch (Exception e) {
-                                Toast.makeText(getApplicationContext(), "Failed to encrypt password." + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            requestParams.add("verificationcode", codeEditText.getText().toString());
-                            // send request to web service
-                            sendVerificationRequest(requestParams);
+                            loginWithTempPwd(email, tmpPwdEditText.getText().toString());
                         } else {
                             Utility.beep();
-                            Toast.makeText(getApplicationContext(), "Please enter verification code", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Please enter the correct password", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -364,12 +258,80 @@ public class RegisterActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void loginWithTempPwd(final String email, final String tmpPwd) {
+        prgDialog.show();
+
+        FBUtility.getInstance().authWithPassword(email, tmpPwd,
+                new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        prgDialog.hide();
+
+                        //getNewPassword(email, tmpPwd);
+                        changePassword(email, tmpPwd);
+                    }
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        prgDialog.hide();
+                        Toast.makeText(getApplicationContext(), "Error: " + firebaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        wrongPwdCount++;
+                        if (wrongPwdCount > 2) {
+                            // abort registration
+                            finish();
+                        }
+                        // try validating temp password again
+                        validateTempPassword(email);
+                    }
+                });
+    }
+
+    private void changePassword(final String email, final String tmpPwd) {
+        Intent changePwdIntent = new Intent(this, ChangePasswordActivity.class);
+        changePwdIntent.putExtra("email", email);
+        changePwdIntent.putExtra("pwd", tmpPwd);
+        startActivityForResult(changePwdIntent, CHANGE_PWD_REQUEST);
+    }
+
+    private void removeAccount() {
+        FBUtility.getInstance().getFirebaseRef().removeUser(emailEditText.getText().toString(), SECRET, new Firebase.ResultHandler() {
+            @Override
+            public void onSuccess() {
+                System.out.println("Account with email:" + emailEditText.getText().toString() + " was successfully removed");
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                System.out.println("Failed to remove account with email:" + emailEditText.getText().toString() + " " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CHANGE_PWD_REQUEST) {
+            // password successfully changed
+            if  (resultCode == RESULT_OK) {
+                createUserProfile(FBUtility.getInstance().getUserUid());
+            } else {
+                Toast.makeText(getApplicationContext(),"You must change your password before continuing", Toast.LENGTH_SHORT).show();
+                changePassword(data.getExtras().getString("email"), data.getExtras().getString("tmpPwd"));
+            }
+        }
+    }
+
     @Override
     public void finish() {
         if (registerComplete) {
             Intent data = new Intent();
             data.putExtra("RegisteredUser", emailEditText.getText().toString());
             setResult(RESULT_OK, data);
+        } else {
+            if (accountCreated) {
+                System.out.println("Removing account...");
+                removeAccount();
+            }
         }
         super.finish();
     }

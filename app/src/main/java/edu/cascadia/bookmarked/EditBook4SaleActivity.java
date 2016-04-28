@@ -20,38 +20,18 @@ public class EditBook4SaleActivity extends BookDetailActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_detail);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
-        jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-
-        initComponents();
-
-        setTitle("Edit book for sale");
-        populateFields(jsonString);
-        //findViewById(R.id.contactSellerButton).setVisibility(View.GONE);
-        //hideContactSellerButton();
-
-        // setup action to return to previous screen
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(null);
-
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_book, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_book, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save_post_book) {
-            requestUpdateBook4Sale();
-            //Toast.makeText(this, "To save changes", Toast.LENGTH_LONG).show();
+            saveBoo4SaleChanges();
             return true;
         } else if (item.getItemId() == R.id.action_cancel) {
             // To do: add confirmation to cancel and loose data
@@ -64,16 +44,5 @@ public class EditBook4SaleActivity extends BookDetailActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void finish() {
-//        Intent data = new Intent();
-//        data.putExtra("NewPosting", newUpdate);
-//        data.putExtra("updateJson", jsonString);
-//
-//        setResult(RESULT_OK, data);
-//
-//        super.finish();
-//    }
 
 }

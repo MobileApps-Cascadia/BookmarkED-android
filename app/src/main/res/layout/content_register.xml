@@ -18,16 +18,8 @@
         android:padding="@dimen/activity_vertical_margin"-->
 
         <!-- View Title Label -->
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:text="@string/register"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:id="@+id/titleTextView" />
 
-        <!-- First Name Label -->
+    <!-- First Name Label -->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -120,22 +112,10 @@
         </LinearLayout>
 
         <!-- Password Label -->
-        <TextView
-            android:id="@+id/passwordTextView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pwd" />
-        <!-- Password TextField -->
-
-        <EditText
-            android:id="@+id/registerPassword"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter Password"
-            android:inputType="textPassword" />
+    <!-- Password TextField -->
 
 
-        <!-- Error message -->
+    <!-- Error message -->
         <TextView
             android:id="@+id/register_error"
             android:layout_width="fill_parent"
@@ -150,11 +130,13 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dip"
-            android:background="@color/primary_dark"
+            android:background="@color/primary"
             android:onClick="registerUser"
             android:textAllCaps="false"
             android:text="@string/btn_register"
-            android:textColor="#fff" />
+            android:textColor="#fff"
+            android:textStyle="bold"
+            style="@android:style/Widget.Button" />
 
     <Button
         android:id="@+id/btnChangePassword"

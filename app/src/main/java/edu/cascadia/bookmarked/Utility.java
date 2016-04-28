@@ -1,6 +1,10 @@
 package edu.cascadia.bookmarked;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.preference.PreferenceManager;
@@ -10,7 +14,7 @@ import java.util.regex.Pattern;
 
 /**
  * Class which has Utility methods
- * 
+ *
  */
 public class Utility {
 	private final static String defServer = "mytomcatapp-bookmarked.rhcloud.com";
@@ -20,13 +24,13 @@ public class Utility {
 	private static Pattern pattern;
 	private static Matcher matcher;
 	//Email Pattern
-	private static final String EMAIL_PATTERN = 
+	private static final String EMAIL_PATTERN =
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	
+					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 	/**
 	 * Validate Email with regular expression
-	 * 
+	 *
 	 * @param email
 	 * @return true for Valid Email and false for Invalid Email
 	 */
@@ -34,7 +38,7 @@ public class Utility {
 		pattern = Pattern.compile(EMAIL_PATTERN);
 		matcher = pattern.matcher(email);
 		return matcher.matches();
- 
+
 	}
 
 	// user can enter a 5-digit zipcode
@@ -44,7 +48,7 @@ public class Utility {
 	}
 	/**
 	 * Checks for Null String object
-	 * 
+	 *
 	 * @param txt
 	 * @return true for not null and false for null String object
 	 */
@@ -62,11 +66,16 @@ public class Utility {
 		tg.startTone(ToneGenerator.TONE_PROP_BEEP);
 	}
 
-	public static String encryptPassword(String pwd) throws Exception {
-		return AESHelper.encrypt(seedValue, pwd);
+	/**
+	 * Show errors to users
+	 */
+	public static void showErrorDialog(Context context, String message) {
+		new AlertDialog.Builder(context)
+				.setTitle("Error")
+				.setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.show();
 	}
 
-	public static String decryptPassword(String pwd) throws Exception {
-		return AESHelper.decrypt(seedValue, pwd);
-	}
 }

@@ -8,13 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by seanchung on 11/30/15.
  */
@@ -22,25 +15,36 @@ public class MyProfileActivity extends RegisterActivity{
 
     private final int EDIT_PROFILE_REQUEST = 10;
 
-    private final static String getUserInfoURI = "bookmarked/user/getuserinfo";
-
-    private String userID;
-
     private boolean editMode = false;
+    private boolean oAuthUser = false;
+
+    private String authProvider;
+
+    protected User userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userID = getIntent().getStringExtra("UserID");
 
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(null);
 
         // set title to my profile
-        ((TextView) findViewById(R.id.titleTextView)).setText(getString(R.string.title_activity_myprofile));
+        //((TextView) findViewById(R.id.titleTextView)).setText(getString(R.string.title_activity_myprofile));
 
-        getUserProfile();
+        userProfile = FBUtility.getInstance().getCurrentUserProfile();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        authProvider = FBUtility.getInstance().getAuthenticatedData().getProvider();
+
+        oAuthUser = (authProvider.equals("facebook") || authProvider.equals("google"));
+
+        populateFields();
     }
 
     protected void setEditMode(boolean editMode) {
@@ -50,7 +54,9 @@ public class MyProfileActivity extends RegisterActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_profile, menu);
+        if (!oAuthUser) {
+            getMenuInflater().inflate(R.menu.menu_my_profile, menu);
+        }
         return true;
     }
 
@@ -70,32 +76,35 @@ public class MyProfileActivity extends RegisterActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private void populateFields(String jsonString) {
-        try {
-            adjustControls();
+    protected void populateFields() {
+        adjustControls();
 
-            JSONObject jsonObject = new JSONObject(jsonString);
+        if (userProfile != null) {
+            firstnameEditText.setText(userProfile.getFirstName());
+            lastnameEditText.setText(userProfile.getLastName());
+            emailEditText.setText(userProfile.getEmail());
+            phoneEditText.setText(userProfile.getPhone());
+            zipcodeEditText.setText(userProfile.getZipcode());
 
-            firstnameEditText.setText(jsonObject.getString("firstname"));
-            lastnameEditText.setText(jsonObject.getString("lastname"));
-            emailEditText.setText(jsonObject.getString("username"));
-            phoneEditText.setText(jsonObject.getString("phone"));
-            zipcodeEditText.setText(jsonObject.getString("zipcode"));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            if (oAuthUser) {
+                Utility.beep();
+                oAuthUserNotice();
+            }
         }
     }
 
     // set controls for viewing mode
     private void adjustControls() {
         // hide password fields and buttons
-        findViewById(R.id.passwordTextView).setVisibility(View.GONE);
-        pwdEditText.setVisibility(View.GONE);
+        //findViewById(R.id.passwordTextView).setVisibility(View.GONE);
+        //pwdEditText.setVisibility(View.GONE);
         findViewById(R.id.btnRegister).setVisibility(View.GONE);
 
-        // display menu to change password
-        findViewById(R.id.btnChangePassword).setVisibility(View.VISIBLE);
+        // display menu to change password, if
+        // not a facebook user
+        if (!oAuthUser) {
+            findViewById(R.id.btnChangePassword).setVisibility(View.VISIBLE);
+        }
 
         if (editMode) return;  // don't disable controls
 
@@ -115,76 +124,24 @@ public class MyProfileActivity extends RegisterActivity{
         zipcodeEditText.setFocusable(false);
     }
 
-    private void getUserProfile() {
-
-        // Show Progress Dialog
-        prgDialog.show();
-
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        RequestParams params = new RequestParams();
-        params.put("username", userID);
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + getUserInfoURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-
-                prgDialog.hide();
-
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has no error message, populate the fields
-                    if (obj.has("error_msg") == false) {
-                        populateFields(response);
-                    }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-
-            }
-
-            // When the response returned by REST has Http response code other than '200'
-            @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code is '500'
-                else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_LONG).show();
-                }
-                // When Http response code other than 404, 500
-                else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    private void oAuthUserNotice() {
+        Toast.makeText(getApplicationContext(), authProvider + " profile is read-only mode", Toast.LENGTH_SHORT).show();
     }
 
     private void editProfile() {
+        if (oAuthUser) {
+            oAuthUserNotice();
+            return;
+        }
+
         Intent editProfileIntent = new Intent(this, EditProfileActivity.class);
-        editProfileIntent.putExtra("UserID", userID);
+        //editProfileIntent.putExtra("UserID", userID);
         startActivityForResult(editProfileIntent, EDIT_PROFILE_REQUEST);
     }
 
     public void onChangePassword(View view) {
         Intent changePwdIntent = new Intent(this, ChangePasswordActivity.class);
-        changePwdIntent.putExtra(getString(R.string.user_id_param), userID);
+        changePwdIntent.putExtra("email", userProfile.getEmail());
         startActivity(changePwdIntent);
 
     }
@@ -193,10 +150,10 @@ public class MyProfileActivity extends RegisterActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == EDIT_PROFILE_REQUEST) {
-                if (data.hasExtra("NewUsername")) {
-                    userID = data.getExtras().getString("NewUsername");
+                if (data.hasExtra("ProfileUpdated")) {
+                    userProfile = FBUtility.getInstance().getCurrentUserProfile();
                     // refresh the screen with new data
-                    getUserProfile();
+                    populateFields();
                 }
             }
         }

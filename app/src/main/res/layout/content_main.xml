@@ -48,14 +48,6 @@
             android:hint="Refresh book listing"
             android:background="@drawable/sync" / -->
 
-        <ImageButton
-            android:id="@+id/refresImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:src="@drawable/sync"
-            android:onClick="onRefreshButtonClicked" />
     </LinearLayout>
 
     <TextView

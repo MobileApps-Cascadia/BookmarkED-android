@@ -1,12 +1,21 @@
 package edu.cascadia.bookmarked;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -14,28 +23,31 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Created by seanchung on 11/30/15.
  */
-public class EditProfileActivity extends MyProfileActivity {
-
-    private final static String updateUserInfoURI = "bookmarked/user/updateuserinfo";
-
-    private String userID;
+public class EditProfileActivity extends MyProfileActivity implements PasswordInputDialog.PasswordInputDialogListener {
 
     private boolean profileUpdated = false;
-
+    private String previousEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userID = getIntent().getStringExtra("UserID");
-
         // set title to my profile
-        ((TextView) findViewById(R.id.titleTextView)).setText("Edit Profile");
+        //((TextView) findViewById(R.id.titleTextView)).setText("Edit Profile");
 
-        // enableControls();
+        //enableControls();
         setEditMode(true);
+
+        // save previous email
+        previousEmail = userProfile.getEmail();
+
+//        populateFields();
+//        enableControls();
+//        firstnameEditText.requestFocus();
 
         // setup action to return to previous screen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,66 +77,10 @@ public class EditProfileActivity extends MyProfileActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void enableControls() {
-        // enable edit texts
-        firstnameEditText.setEnabled(true);
-        lastnameEditText.setEnabled(true);
-        emailEditText.setEnabled(true);
-        phoneEditText.setEnabled(true);
-        zipcodeEditText.setEnabled(true);
-
-        // enable focusable
-        firstnameEditText.setFocusable(true);
-        lastnameEditText.setFocusable(true);
-        emailEditText.setFocusable(true);
-        phoneEditText.setFocusable(true);
-        zipcodeEditText.setFocusable(true);
-    }
-
-    private void requestUpdateProfile() {
-
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        RequestParams params = new RequestParams();
-        params.put("username", userID);
-        params.put("firstname", firstnameEditText.getText().toString());
-        params.put("lastname", lastnameEditText.getText().toString());
-        params.put("newusername", emailEditText.getText().toString());
-        params.put("phone", phoneEditText.getText().toString());
-        params.put("zipcode", zipcodeEditText.getText().toString());
-
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + updateUserInfoURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-
-
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
-                        // Display book for sale successfully posted using Toast
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.user_profile_updated), Toast.LENGTH_SHORT).show();
-                        profileUpdated = true;
-                        finish();
-                    }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-
-            }
-        });
+    private void changeEmail() {
+        FragmentManager fm = getSupportFragmentManager();
+        PasswordInputDialog pwdInputDialog = new PasswordInputDialog();
+        pwdInputDialog.show(fm, "fragment_edit_name");
     }
 
     private void saveProfile() {
@@ -134,21 +90,64 @@ public class EditProfileActivity extends MyProfileActivity {
         String newEmail = emailEditText.getText().toString();
 
         if (Utility.isNotNull(firstname) && Utility.isNotNull(lastname) && Utility.isNotNull(newEmail)) {
-            requestUpdateProfile();
+            if (!previousEmail.equals(newEmail)) {
+                changeEmail();
+            } else {
+                updateUserProfile();
+                profileUpdated = true;
+                finish();
+            }
         } else {
             Utility.beep();
             Toast.makeText(this, "First, last names and email address are required", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void updateUserProfile() {
+        userProfile.setFirstName(firstnameEditText.getText().toString());
+        userProfile.setLastName(lastnameEditText.getText().toString());
+        userProfile.setEmail(emailEditText.getText().toString());
+        userProfile.setPhone(phoneEditText.getText().toString());
+        userProfile.setZipcode(zipcodeEditText.getText().toString());
+        // also update the last updatedDate
+        userProfile.setUpdatedDate(new Date());
+
+        FBUtility.getInstance().updateCurrentUserProfile(userProfile);
+
+    }
+
     @Override
     public void finish() {
         if (profileUpdated) {
             Intent data = new Intent();
-            data.putExtra("NewUsername", emailEditText.getText().toString());
+            data.putExtra("ProfileUpdated", true);
             setResult(RESULT_OK, data);
         }
         super.finish();
     }
 
+    @Override
+    public void onFinishEditDialog(String pwd) {
+        if (pwd.length() > 0) {
+            FBUtility.getInstance().getFirebaseRef().changeEmail(previousEmail, pwd, emailEditText.getText().toString(),
+                    new Firebase.ResultHandler() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getApplicationContext(), "Email was successfully changed", Toast.LENGTH_SHORT).show();
+                            updateUserProfile();
+                            profileUpdated = true;
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(FirebaseError firebaseError) {
+                            Toast.makeText(getApplicationContext(), "Failed to change the email", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+        } else {
+            profileUpdated = false;
+            finish();
+        }
+    }
 }

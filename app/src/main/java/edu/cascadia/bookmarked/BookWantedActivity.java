@@ -20,8 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.loopj.android.http.AsyncHttpClient;
@@ -32,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 public class BookWantedActivity extends AppCompatActivity {
 
     private final String TAG = "BookWantedActivity";
@@ -39,14 +47,12 @@ public class BookWantedActivity extends AppCompatActivity {
     private final static int EDIT_REQUEST_CODE = 2;
     private final static int SEARCH_BOOK_REQUEST = 12;
 
-    private final static String addABookURI = "bookmarked/book/addbook";
-    private final static String addABookWantedURI = "bookmarked/book/addbookwanted";
-    private final static String updateBookWantedURI = "bookmarked/book/updatebookwanted";
-    private final static String deleteBookWantedURI = "bookmarked/book/deletebookwanted";
     private final static String ISBNDB_URI = "http://isbndb.com/api/v2/json/WQ3AZBWL/book/";
 
     // Progress Dialog Object
     protected ProgressDialog prgDialog;
+
+    private BookWanted bookWanted;
 
     private EditText isbnEditText;
     private EditText titleEditText;
@@ -56,10 +62,6 @@ public class BookWantedActivity extends AppCompatActivity {
     private EditText commentEditText;
 
     protected String bookAction;
-    private String userID;
-    protected String jsonString;
-    private String bookID;
-    private String bookWantedID;
     private Bitmap bitmap;
 
     private boolean needsUpdating = false;
@@ -76,17 +78,24 @@ public class BookWantedActivity extends AppCompatActivity {
 
 
         bookAction = getIntent().getStringExtra(getString(R.string.book_action_param));
-        jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
-        userID = getIntent().getStringExtra(getString(R.string.user_id_param));
+        String jsonString = getIntent().getStringExtra(getString(R.string.book_info_param));
+        //userID = getIntent().getStringExtra(getString(R.string.user_id_param));
 
         initComponents();
 
+        // now initialize the bookForSale object
+        // if not adding a new book for sale
+        if (!bookAction.equals("AddNew")) {
+            Gson gson = new GsonBuilder().create();
+            bookWanted = gson.fromJson(jsonString, BookWanted.class);
+        }
+
         if (bookAction.equals("EditExisting")) {
             setTitle(getString(R.string.title_detail_book_wanted));
-            populateFields(jsonString, false);
+            populateFields(false);
         } else if (bookAction.equals("ViewExisting") || bookAction.equals("AllowEdit")) {
             setTitle(getString(R.string.title_detail_book_wanted));
-            populateFields(jsonString, true);
+            populateFields(true);
             disableBookWantedControls();
             hideBarcodeScanningButton();
             hideSearchBookOnlineButton();
@@ -102,10 +111,6 @@ public class BookWantedActivity extends AppCompatActivity {
         mTracker = application.getDefaultTracker();
 
         sendScreenImageName();
-
-//       if (bookAction.equals("AddNew")) {
-//            hideContactBuyerButton();
-//        }
 
     }
 
@@ -130,7 +135,6 @@ public class BookWantedActivity extends AppCompatActivity {
 
         }
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -153,35 +157,56 @@ public class BookWantedActivity extends AppCompatActivity {
         barcodeButton.setVisibility(View.GONE);
     }
 
-   protected void sendEmail(String jsonStr) {
-        try{
-            Log.i("Send email", "");
-            JSONObject jsonObj = new JSONObject(jsonStr);
-            // String TO = jsonObj.getString("username");
-            String[] TO = new String[] { jsonObj.getString("username") };
+    private void composeAndSendEmail(String eMail) {
+        Log.i("Send email to ", eMail);
+        String[] TO = new String[]{eMail};
 
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
-            emailIntent.setData(Uri.parse("mailto:"));
-            emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "I have the book with ISBN: " + jsonObj.getString("isbn"));
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Please let me know if you would like to make a deal");
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "I have the book with ISBN: " + bookWanted.getIsbn());
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Please let me know if you would like to make a deal");
 
-            try {
-                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-                finish();
-                Log.i("Finished sending email.", "");
-            }
-            catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(BookWantedActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email.", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(BookWantedActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
+    protected void sendEmail() {
+        Log.i("Send email", "");
+        String buyerID = bookWanted.getUserId();
+
+        if (buyerID.length() > 0 ) {
+            prgDialog.show();
+
+            FBUtility.getInstance().getUserProfileByID(buyerID, new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        User buyerProfile = dataSnapshot.getValue(User.class);
+                        System.out.println("*** User:" + buyerProfile.getFirstName() + " " + buyerProfile.getLastName() + " email:" + buyerProfile.getEmail());
+                        composeAndSendEmail(buyerProfile.getEmail());
+                        prgDialog.hide();
+                    } else {
+                        prgDialog.hide();
+                        Utility.showErrorDialog(getApplicationContext(), "Could not find buyer's email");
+                    }
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                    prgDialog.hide();
+                    Toast.makeText(getApplicationContext(), "User cancelled operation", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -211,7 +236,7 @@ public class BookWantedActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_contact_email:
-                sendEmail(jsonString);
+                sendEmail();
                 return true;
 
             case android.R.id.home:
@@ -268,25 +293,17 @@ public class BookWantedActivity extends AppCompatActivity {
 
     }
 
-    protected void populateFields(String jsonString, boolean readonly) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            bookWantedID = jsonObject.getString("id");
-            bookID = jsonObject.getString("book_id");
+    protected void populateFields(boolean readonly) {
+        isbnEditText.setText(bookWanted.getIsbn());
+        titleEditText.setText(bookWanted.getTitle());
+        authorEditText.setText(bookWanted.getAuthor());
+        editionEditText.setText(bookWanted.getEdition());
+        descEditText.setText(bookWanted.getDescription());
 
-            isbnEditText.setText(jsonObject.getString("isbn"));
-            titleEditText.setText(jsonObject.getString("title"));
-            authorEditText.setText(jsonObject.getString("author"));
-            editionEditText.setText(jsonObject.getString("edition"));
-            descEditText.setText(jsonObject.getString("description"));
+        commentEditText.setText(bookWanted.getComment());
 
-            commentEditText.setText(jsonObject.getString("comment"));
+        if (readonly) disableControls();
 
-            if (readonly) disableControls();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     // set controls for viewing mode
@@ -315,41 +332,47 @@ public class BookWantedActivity extends AppCompatActivity {
 
     private void addABookWanted() {
 
-        // verify that userID exist
-        if (!Utility.isNotNull(userID)) {
-            Utility.beep();
-            Toast.makeText(this, "User name is unknown. Cannot add book wanted", Toast.LENGTH_SHORT).show();
-            return;
-        }
         String isbn = isbnEditText.getText().toString();
         String title = titleEditText.getText().toString();
         String author = authorEditText.getText().toString();
         String edition = editionEditText.getText().toString();
         String description = descEditText.getText().toString();
+        String comment = commentEditText.getText().toString();
 
-        RequestParams params = new RequestParams();
-
-        // at the minimum book title cannot be empty
-        if (Utility.isNotNull(title)) {
-            params.put("isbn", isbn);
-            params.put("title", title);
-            params.put("author", author);
-            params.put("edition", edition);
-            params.put("description", description);
-            // Invoke RESTful Web Service with Http parameters
-            requestAddBook(params);
-        } else {
+        // perform minimal validation
+        if (title.length() == 0) {
             Utility.beep();
-            Toast.makeText(this, "Book title cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Title is required", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        String userID = FBUtility.getInstance().getUserUid();
+        bookWanted = new BookWanted(userID, isbn, title, author,edition, description,comment);
+        Firebase bookWantedRef = FBUtility.getInstance().getFirebaseRef().child("bookWanted/");
+        Firebase newBookWantedRef = bookWantedRef.push();
+
+        bookWanted.setKey(newBookWantedRef.getKey());
+        newBookWantedRef.setValue(bookWanted, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Utility.showErrorDialog(getApplicationContext(), firebaseError.getMessage());
+                } else {
+                    Toast.makeText(getApplicationContext(), "Book wanted was successfully posted!", Toast.LENGTH_SHORT).show();
+                    needsUpdating = true;
+                    finish();
+                }
+            }
+        });
+
     }
 
     private void editABookWanted() {
 
         Intent editIntent = new Intent(this, BookWantedActivity.class);
         editIntent.putExtra(getString(R.string.book_action_param), "EditExisting");
-        editIntent.putExtra(getString(R.string.book_info_param), jsonString);
-        editIntent.putExtra(getString(R.string.user_id_param), userID);
+        Gson gson = new GsonBuilder().create();
+        editIntent.putExtra(getString(R.string.book_info_param), gson.toJson(bookWanted));
 
         startActivityForResult(editIntent, EDIT_REQUEST_CODE);
 
@@ -401,7 +424,7 @@ public class BookWantedActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), "Item selected", Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                             // status in the table starts 1 as being active
-                            requestDeleteBookWanted(selectedItem[0] + 2);
+                            deleteBookWanted(reasons[selectedItem[0]]);
                         } else {
                             Utility.beep();
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.select_delete_reason), Toast.LENGTH_SHORT).show();
@@ -416,6 +439,41 @@ public class BookWantedActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void archiveBookWanted() {
+        // set the last updateDate
+        bookWanted.setUpdatedDate(new Date());
+        Firebase delBookWantedRef = FBUtility.getInstance().getFirebaseRef().child("deleted/bookWanted/" + bookWanted.getKey());
+        delBookWantedRef.setValue(bookWanted, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Utility.showErrorDialog(getApplicationContext(), firebaseError.getMessage());
+                } else {
+                    Toast.makeText(getApplicationContext(), "Book wanted was successfully removed!", Toast.LENGTH_SHORT).show();
+                    needsUpdating = true;
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void deleteBookWanted(String status) {
+        bookWanted.setStatus(status);
+
+
+        // remove the old record first
+        Firebase bookWantedRef = FBUtility.getInstance().getFirebaseRef().child("bookWanted/" + bookWanted.getKey());
+        bookWantedRef.setValue(null, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Utility.showErrorDialog(getApplicationContext(), firebaseError.getMessage());
+                } else {
+                    archiveBookWanted();
+                }
+            }
+        });
+    }
 
     public void onBarcodeButtonClicked(View view) {
         // Toast.makeText(this, "To read barcode with camera", Toast.LENGTH_SHORT).show();
@@ -495,173 +553,17 @@ public class BookWantedActivity extends AppCompatActivity {
 
     }
 
-    private void requestDeleteBookWanted(int status) {
-        // Show Progress Dialog
-        prgDialog.show();
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
+    protected void populateFields() {
+        disableControls();
 
-        RequestParams params = new RequestParams();
-        params.put("id", bookWantedID);
-        params.put("status", status + "");
+        isbnEditText.setText(bookWanted.getIsbn());
+        titleEditText.setText(bookWanted.getTitle());
+        authorEditText.setText(bookWanted.getAuthor());
+        editionEditText.setText(bookWanted.getEdition());
+        descEditText.setText(bookWanted.getDescription());
 
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + deleteBookWantedURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    System.out.println("***Deletion successful");
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
-                        // Display book for sale successfully posted using Toast
-                        //Toast.makeText(getApplicationContext(), getResources().getString(R.string.posted_book_deleted), Toast.LENGTH_SHORT).show();
-                        System.out.println("***setting up needsUpdating ****");
-                        needsUpdating = true;
-                        finish();
-                    }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
+        commentEditText.setText(bookWanted.getComment());
 
-                }
-
-            }
-        });
-    }
-
-    protected void populateFields(String jsonString) {
-        try {
-            disableControls();
-
-            JSONObject jsonObject = new JSONObject(jsonString);
-            //book4SaleID = jsonObject.getString("id");
-
-            isbnEditText.setText(jsonObject.getString("isbn"));
-            titleEditText.setText(jsonObject.getString("title"));
-            authorEditText.setText(jsonObject.getString("author"));
-            editionEditText.setText(jsonObject.getString("edition"));
-            descEditText.setText(jsonObject.getString("description"));
-
-            commentEditText.setText(jsonObject.getString("comment"));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void requestAddBookWanted() {
-        // Show Progress Dialog
-        prgDialog.show();
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        RequestParams params = new RequestParams();
-        params.put("isbn", isbnEditText.getText().toString());
-        params.put("username", userID);
-        params.put("comment", commentEditText.getText().toString());
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + addABookWantedURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
-                        // Display book wanted successfully posted using Toast
-                        Toast.makeText(getApplicationContext(), "Book wanted was successfully posted!", Toast.LENGTH_SHORT).show();
-                        needsUpdating = true;
-                        finish();
-                    }
-                    // Else display error message
-                    else {
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-
-            }
-        });
-    }
-
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     * This is a 2-step process. First add the book to the table
-     * then add the book wanted to the table
-     *
-     * @param params
-     */
-    private void requestAddBook(RequestParams params){
-        // Show Progress Dialog
-        prgDialog.show();
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + addABookURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
-                        // now add the entry to the book wanted table
-                        requestAddBookWanted();
-                    }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
-                }
-            }
-
-            // When the response returned by REST has Http response code other than '200'
-            @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_SHORT).show();
-                }
-                // When Http response code is '500'
-                else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_SHORT).show();
-                }
-                // When Http response code other than 404, 500
-                else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     private void saveBookWantedChanges() {
@@ -672,84 +574,35 @@ public class BookWantedActivity extends AppCompatActivity {
         String description = descEditText.getText().toString();
         String comment = commentEditText.getText().toString();
 
-        RequestParams params = new RequestParams();
-
         // at the minimum book title cannot be empty
         if (Utility.isNotNull(title)) {
-            params.put("bookid", bookID);
-            params.put("isbn", isbn);
-            params.put("title", title);
-            params.put("author", author);
-            params.put("edition", edition);
-            params.put("description", description);
-            params.put("id", bookWantedID);
-            params.put("comment", comment);
-            // Invoke RESTful Web Service with Http parameters
-            requestUpdateBookWanted(params);
-        } else {
-            Utility.beep();
-            Toast.makeText(this, "Book title cannot be empty", Toast.LENGTH_SHORT).show();
-        }
-    }
+            bookWanted.setIsbn(isbn);
+            bookWanted.setTitle(title);
+            bookWanted.setAuthor(author);
+            bookWanted.setEdition(edition);
+            bookWanted.setDescription(description);
+            bookWanted.setComment(comment);
 
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     * @param params
-     */
-    private void requestUpdateBookWanted(RequestParams params){
-        // Show Progress Dialog
-        prgDialog.show();
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        String hostAddress = "http://" + Utility.getServerAddress(getApplicationContext()) + "/";
-        client.get(hostAddress + updateBookWantedURI, params, new AsyncHttpResponseHandler() {
-            // When the response returned by REST has Http response code '200'
-            @Override
-            public void onSuccess(String response) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    // When the JSON response has status boolean value assigned with true
-                    if (obj.getBoolean("status")) {
+            // update the last update date
+            bookWanted.setUpdatedDate(new Date());
+            Firebase bookWantedRef = FBUtility.getInstance().getFirebaseRef().child("bookWanted/" + bookWanted.getKey());
+            bookWantedRef.setValue(bookWanted, new Firebase.CompletionListener() {
+                @Override
+                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                    if (firebaseError != null) {
+                        Utility.showErrorDialog(getApplicationContext(), firebaseError.getMessage());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Book wanted was successfully updated!", Toast.LENGTH_SHORT).show();
                         needsUpdating = true;
                         finish();
                     }
-                    // Else display error message
-                    else {
-                        //errorMsg.setText(obj.getString("error_msg"));
-                        Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-
                 }
-            }
-
-            // When the response returned by REST has Http response code other than '200'
-            @Override
-            public void onFailure(int statusCode, Throwable error,
-                                  String content) {
-                // Hide Progress Dialog
-                prgDialog.hide();
-                // When Http response code is '404'
-                if (statusCode == 404) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_404_error), Toast.LENGTH_SHORT).show();
-                }
-                // When Http response code is '500'
-                else if (statusCode == 500) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.http_500_error), Toast.LENGTH_SHORT).show();
-                }
-                // When Http response code other than 404, 500
-                else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        } else {
+            Utility.beep();
+            Toast.makeText(this, "Book title cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     private void getFoundBookInfo(Intent intent) {
@@ -771,9 +624,6 @@ public class BookWantedActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //if (requestCode == EDIT_REQUEST_CODE) {
-        //System.out.println("*** in onActivityResult ***");
-
         if (resultCode == RESULT_OK) {
             if (requestCode == EDIT_REQUEST_CODE) {
                 // update current screen - just close for now, but
