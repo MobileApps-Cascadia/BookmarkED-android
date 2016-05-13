@@ -140,9 +140,9 @@ public class BookDetailActivity extends AppCompatActivity {
         if (Utility.isNotNull(bookAction)) {
             if (bookAction.equals("AllowEdit")) {
                 getMenuInflater().inflate(R.menu.menu_book_edit, menu);
-//            }
-//            else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
-//                getMenuInflater().inflate(R.menu.menu_book, menu);
+            }
+            else if (bookAction.equals("AddNew") || bookAction.equals("EditExisting")) {
+                getMenuInflater().inflate(R.menu.menu_book, menu);
             } else if (bookAction.equals("ViewExisting")) {
                 getMenuInflater().inflate(R.menu.menu_book_view, menu);
             }

@@ -99,9 +99,9 @@
             android:onClick="navigateToRegisterActivity"
             android:text="@string/btn_register"
             android:textAllCaps="false"
-            android:textColor="@color/primary"
+            android:textColor="@android:color/holo_orange_dark"
             android:textStyle="bold"
-            style="?android:attr/borderlessButtonStyle" />
+            style="@style/Widget.AppCompat.Button.Borderless" />
     </LinearLayout>
 
 </ScrollView>

@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         sendScreenImageName();
         FBUtility fbUtility = FBUtility.getInstance();
 
-        myFirebaseRef = fbUtility. getFirebaseRef();  //new Firebase("https://fbbookmarked.firebaseio.com/");
+        myFirebaseRef = fbUtility.getFirebaseRef();  //new Firebase("https://fbbookmarked.firebaseio.com/");
 
         // instantiate a firebase authentication listener. We
         // need the reference so we can use it to remove it later

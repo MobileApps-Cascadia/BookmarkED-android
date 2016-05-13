@@ -48,18 +48,10 @@ import java.util.List;
  */
 public class BookListFragment extends ListFragment {
 
-    //private final static String bookURI = "bookmarked/book/getallbooks";
-//    private final static String book4SaleURI = "bookmarked/book/getbooksforsale";
-//    private final static String bookWantedURI = "bookmarked/book/getbookswanted";
-//    private final static String book4SaleByUsernameURI = "bookmarked/book/getbooksforsalebyusername";
-//    private final static String bookWantedbyusernameURI = "bookmarked/book/getbookswantedbyusername";
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "UserID";
 
     private String listType;
-
-    //private String userID="";
 
     private BooksAdapter listAdapter;
 
@@ -401,121 +393,6 @@ public class BookListFragment extends ListFragment {
             getMyBooksForSale();
         }
     }
-
-    /**
-     * Method that performs RESTful webservice invocations
-     *
-     */
-//    private void invokeWS(){
-//        prgDialog.show();
-//        // Make RESTful webservice call using AsyncHttpClient object
-//        AsyncHttpClient client = new AsyncHttpClient();
-//        String hostAddress = "http://" + serverURI + "/";
-//        String wsURL;
-//        //wsURL = hostAddress + book4SaleURI;
-//        if (listType.equals("wanted-view")) {
-//            wsURL = hostAddress + bookWantedURI;
-//        } else if (listType.equals("sell-view")) {
-//            wsURL = hostAddress + book4SaleURI;
-//        } else if (listType.equals("my-sell-list")){
-//            wsURL = hostAddress + book4SaleByUsernameURI;
-//        } else {
-//            wsURL = hostAddress + bookWantedbyusernameURI;
-//        }
-//
-//        RequestParams requestParams = new RequestParams();
-//        if (listType.startsWith("my")) {
-//            requestParams.add("username", userID);
-//        }
-//
-//        System.out.println("Getting " + wsURL);
-//
-//        client.get(wsURL, requestParams, new AsyncHttpResponseHandler() {
-//            // When the response returned by REST has Http response code '200'
-//            @Override
-//            public void onSuccess(String response) {
-//                String toastMsg;
-//                if (listType.contains("sell")) {
-//                    toastMsg = "Books for sale queried successfully";
-//                } else {
-//                    toastMsg = "Books wanted queried successfully";
-//                }
-//                // Hide Progress Dialog
-//                prgDialog.hide();
-//                try {
-//                    // JSON Object
-//                    JSONArray jsonArray = new JSONArray(response);
-//
-//                    // reset the listAdapter
-//                    listAdapter.clear();
-//                    try {
-//                        getArray(jsonArray);
-//                        listAdapter.notifyDataSetChanged();
-//                    } catch (ParseException e) {
-//                        System.out.println("Exception e:" + e.getMessage());
-//                        e.printStackTrace();
-//                    }
-//
-//                    // When the JSON response has status boolean value assigned with true
-//                    if (response.length() > 0) {
-//                        // Display successfully registered message using Toast
-//                        //Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_SHORT).show();
-//                    }
-//                    // Else display error message
-//					/* else {
-//						System.out.println(obj.getString("error_msg"));
-//						Toast.makeText(getApplicationContext(), obj.getString("error_msg"), Toast.LENGTH_SHORT).show();
-//					} */
-//                } catch (JSONException e) {
-//                    Toast.makeText(getActivity(), getResources().getString(R.string.json_exception), Toast.LENGTH_SHORT).show();
-//                    e.printStackTrace();
-//
-//                }
-//            }
-//
-//            // When the response returned by REST has Http response code other than '200'
-//            @Override
-//            public void onFailure(int statusCode, Throwable error,
-//                                  String content) {
-//                // Hide Progress Dialog
-//                prgDialog.hide();
-//                // When Http response code is '404'
-//                if (statusCode == 404) {
-//                    Toast.makeText(getActivity(), getResources().getString(R.string.http_404_error), Toast.LENGTH_SHORT).show();
-//                }
-//                // When Http response code is '500'
-//                else if (statusCode == 500) {
-//                    Toast.makeText(getActivity(), getResources().getString(R.string.http_500_error), Toast.LENGTH_SHORT).show();
-//                }
-//                // When Http response code other than 404, 500
-//                else {
-//                    System.out.println("error:" + error.getMessage());
-//                    Toast.makeText(getActivity(), getResources().getString(R.string.unexpected_network_error), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
-
-//    private void getArray(JSONArray jsonArr) throws ParseException {
-//
-//        try {
-//            for (int k = 0; k < jsonArr.length(); k++) {
-//
-//                try {
-//                    if (jsonArr.getJSONObject(k) instanceof JSONObject) {
-//                        //System.out.println("BOOK " + k + ":");
-//                        addBookToAdapter(jsonArr.getJSONObject(k));
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        } catch (Exception ex) {
-//            System.out.println("Exception in getArray:" + ex.getMessage());
-//            ex.printStackTrace();
-//        }
-//    }
 
     private void addBookToAdapter(JSONObject jsonObject) throws ParseException {
 
